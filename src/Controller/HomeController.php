@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
 
     public function executeShow(){
-        echo "Render twig template";
+        $this->template = $this->twig->load('index.html');
+        $this->template->display();
     }
 
     public function executeError404(){

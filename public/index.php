@@ -1,9 +1,13 @@
 <?php
-require_once ('../src/Core/Router.php');
-require_once ('../src/Core/Route.php');
-require_once ('../src/Core/Controller.php');
-require_once ('../src/Controller/HomeController.php');
-require_once('../src/Controller/BlogController.php');
+define('ROOT_DIR', __DIR__.'/..');
+define('TEMPLATES_DIR', ROOT_DIR.'/templates');
+
+require_once (ROOT_DIR.'/src/vendor/autoload.php');
+require_once (ROOT_DIR.'/src/Core/Router.php');
+require_once (ROOT_DIR.'/src/Core/Route.php');
+require_once (ROOT_DIR.'/src/Core/Controller.php');
+require_once (ROOT_DIR.'/src/Controller/HomeController.php');
+require_once (ROOT_DIR.'/src/Controller/BlogController.php');
 
 $router = new Core\Router();
 

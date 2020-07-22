@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="38efcbf1-0361-4981-bd62-20cf11fa589e" name="VPS - LAMP" url="http://p5-oc-blog.o-pa.fr">
+        <fileTransfer host="54.37.13.94" port="22" rootFolder="/var/www/html/parcours/P5_Blog" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -8,11 +8,17 @@ class Controller
 {
     protected $action;
     protected $params;
+    protected $twig;
+    protected $template;
+    protected $templateVars;
 
     public function __construct($action, $params)
     {
         $this->setAction($action);
         $this->setParams($params);
+
+        $loader = new \Twig\Loader\FilesystemLoader(TEMPLATES_DIR);
+        $this->twig = new \Twig\Environment($loader);
     }
 
     public function execute()
