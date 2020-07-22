@@ -4,7 +4,7 @@ namespace Core;
 
 class Router
 {
-    const DEFAULT_MODULE = 'home';
+    const DEFAULT_MODULE = 'Home';
     const NO_ROUTE = 1;
     protected $routes = array();
     public $module, $action, $currentUrl;
@@ -14,7 +14,7 @@ class Router
     {
         $this->setModule();
         $this->setAction();
-        $this->currentUrl = $this->getRequestUrl();
+        $this->setCurrentUrl();
     }
 
 
@@ -56,23 +56,33 @@ class Router
     public function getRoute()
     {
         foreach ($this->routes as $route) {
-            if ($route->match($this->currentUrl) ){
+            if (($routeVars = $route->match($this->currentUrl)) !== false) {
+                if ($route->hasParams()) {
+                    $listParams = array();
+                    $paramsName = $route->getParamsName();
+                    foreach ($routeVars as $key => $value) {
+                        if ($key !== 0) {
+                            $listParams[$paramsName[$key - 1]] = $value;
+                        }
+                    }
+                    $route->setParams($listParams);
+                }
                 return $route;
             }
         }
 
-        throw new RuntimeException('Aucune route ne correspond à l\'URL', self::NO_ROUTE);
+        return new Route(null, 'Home', 'error404');
     }
 
-    public function getRequestUrl(){
-        $url = $_SERVER['REQUEST_URI'];
-        return $url;
+    public function setCurrentUrl()
+    {
+        $this->currentUrl = $_SERVER['REQUEST_URI'];
     }
 
     public function getController()
     {
         $route = $this->getRoute();
-        $controllerClass = "Controller\\".$route->getModule()."Controller";
+        $controllerClass = "Controller\\" . $route->getModule() . "Controller";
         return new $controllerClass($route->getAction(), $route->getParams());
     }
 

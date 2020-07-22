@@ -12,4 +12,7 @@ class HomeController extends Controller
         echo "Render twig template";
     }
 
+    public function executeError404(){
+        echo "Render Error 404 template";
+    }
 }
