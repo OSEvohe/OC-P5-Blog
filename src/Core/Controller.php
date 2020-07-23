@@ -4,22 +4,23 @@
 namespace Core;
 
 
-class Controller
+use Twig\TemplateWrapper;
+
+abstract  class Controller
 {
     protected $action;
     protected $params;
-    protected $twig;
-    protected $template;
-    protected $templateVars;
+    protected $page;
 
     public function __construct($action, $params)
     {
         $this->setAction($action);
         $this->setParams($params);
-
-        $loader = new \Twig\Loader\FilesystemLoader(TEMPLATES_DIR);
-        $this->twig = new \Twig\Environment($loader);
+        $this->page = new Page();
     }
+
+    abstract function addContent($contentName, $templateFile, $templateVars);
+    abstract function loadLayout();
 
     public function execute()
     {
