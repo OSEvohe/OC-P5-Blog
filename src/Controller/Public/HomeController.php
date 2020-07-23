@@ -10,7 +10,9 @@ class HomeController extends PublicController
 {
 
     public function executeShow(){
-        $this->addContent("content", 'index.html');
+
+        $vars = ["accroche" => "Super phrase de présentation"];
+        $this->addContent("content", 'index.html', $vars);
         $this->page->display();
     }
 

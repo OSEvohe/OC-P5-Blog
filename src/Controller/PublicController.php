@@ -20,6 +20,6 @@ abstract class PublicController extends Controller{
 
     public function addContent($contentName, $templateFile, $templateVars = array()){
         $contentTemplate  = $this->page->twig->load('public/'.$templateFile);
-        $this->page->addContent($contentName,$contentTemplate);
+        $this->page->addContent($contentName,$contentTemplate, $templateVars);
     }
 }
