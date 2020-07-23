@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Controller;
+namespace Controller\PublicController;
 
-use Core\Controller;
+use Controller\PublicController;
 
 
-class BlogController extends Controller
+class BlogController extends PublicController
 {
 
     public function executeShow(){

@@ -2,49 +2,37 @@
 
 namespace Core;
 
+
 class Router
 {
     const DEFAULT_MODULE = 'Home';
+    const DEFAULT_ZONE = 'Public';
     const NO_ROUTE = 1;
     protected $routes = array();
-    public $module, $action, $currentUrl;
+    protected $zone;
+    protected $currentUrl;
 
 
     public function __construct()
     {
-        $this->setModule();
-        $this->setAction();
+        $this->setZone();
         $this->setCurrentUrl();
     }
 
-
-    public function setModule()
+    public function setZone()
     {
-        if (isset($_GET['module'])) {
-            $this->module = $_GET['module'];
+        if (isset($_GET['zone'])) {
+            $this->zone = $_GET['zone'];
         } else {
-            $this->module = self::DEFAULT_MODULE;
+            $this->zone = self::DEFAULT_ZONE;
         }
+
     }
 
-    public function getModule()
-    {
-        return $this->module;
+    public function getZone(){
+        return $this->zone;
     }
 
-    public function setAction()
-    {
-        if (isset($_GET['action'])) {
-            $this->action = $_GET['action'];
-        } else {
-            $this->action = '';
-        }
-    }
-
-    public function getAction()
-    {
-        return $this->action;
-    }
 
     public function addRoute(Route $route)
     {
@@ -82,9 +70,7 @@ class Router
     public function getController()
     {
         $route = $this->getRoute();
-        $controllerClass = "Controller\\" . $route->getModule() . "Controller";
+        $controllerClass = 'Controller\\'.$this->getZone() . 'Controller\\' . $route->getModule() . 'Controller';
         return new $controllerClass($route->getAction(), $route->getParams());
     }
-
-
 }

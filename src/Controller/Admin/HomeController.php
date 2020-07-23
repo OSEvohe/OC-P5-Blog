@@ -1,12 +1,11 @@
 <?php
 
 
-namespace Controller\PublicController;
+namespace Controller\AdminController;
 
+use Controller\AdminController;
 
-use Controller\PublicController;
-
-class HomeController extends PublicController
+class HomeController extends AdminController
 {
 
     public function executeShow(){
