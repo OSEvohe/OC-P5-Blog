@@ -12,6 +12,7 @@ require_once(ROOT_DIR . '/src/Controller/Public/HomeController.php');
 require_once(ROOT_DIR . '/src/Controller/Public/BlogController.php');
 require_once(ROOT_DIR . '/src/Controller/Admin/HomeController.php');
 require_once(ROOT_DIR . '/src/Controller/Admin/BlogController.php');
+require_once(ROOT_DIR . '/src/Core/Page.php');
 
 $router = new Core\Router();
 

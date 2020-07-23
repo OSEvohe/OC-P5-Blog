@@ -10,8 +10,8 @@ class HomeController extends PublicController
 {
 
     public function executeShow(){
-        $this->template = $this->twig->load('index.html');
-        $this->template->display();
+        $this->addContent("content", 'index.html');
+        $this->page->display();
     }
 
     public function executeError404(){
