@@ -10,7 +10,8 @@ class BlogController extends PublicController
 {
 
     public function executeShow(){
-        echo "Render Blog template";
+        $this->addContent("content", 'blog.html');
+        $this->page->display();
     }
 
     public function executeShowPost(){
