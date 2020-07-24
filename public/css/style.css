@@ -1067,7 +1067,7 @@ ol {
 	padding-bottom: 70px;
 }
 
-.racipe-cata {
+.post-date {
 	display: inline-block;
 	background: #f4511e;
 	color: #fff;
@@ -1077,12 +1077,12 @@ ol {
 	margin-bottom: 10px;
 }
 
-.racipe-cata span {
+.post-date span {
 	position: relative;
 	z-index: 1;
 }
 
-.racipe-cata:after {
+.post-date:after {
 	position: absolute;
 	content: "";
 	right: -30px;
@@ -1094,21 +1094,21 @@ ol {
 	z-index: 0;
 }
 
-.recipe-meta h2 {
+.post-date h2 {
 	font-weight: 600;
 }
 
-.recipe-meta .recipe-date {
+.post-date .recipe-date {
 	font-size: 14px;
 	color: #a4a4a4;
 	margin-bottom: 30px;
 }
 
-.recipe-meta .rating {
+.post-date .rating {
 	margin-bottom: 55px;
 }
 
-.recipe-meta .rating i {
+.post-date .rating i {
 	margin-right: 2px;
 }
 
