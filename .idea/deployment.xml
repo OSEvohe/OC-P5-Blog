@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="VPS - LAMP" uploadOnCheckin="38efcbf1-0361-4981-bd62-20cf11fa589e" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="VPS - LAMP" autoUploadExternalChanges="true">
     <serverData>
       <paths name="LAMP">
         <serverdata>
@@ -24,7 +24,6 @@
         </serverdata>
       </paths>
     </serverData>
-    <option name="myUploadOnCheckinName" value="VPS - LAMP" />
     <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

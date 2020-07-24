@@ -1,13 +1,6 @@
-/* =================================
-------------------------------------
-  Food Blog - Web Template
-  Version: 1.0
- ------------------------------------ 
- ====================================*/
-
-/*----------------------------------------*/
-/* Template default CSS
-/*----------------------------------------*/
+html {
+	scroll-behavior: smooth;
+}
 
 html,
 body {
@@ -275,7 +268,7 @@ ol {
 .footer-menu {
 	list-style: none;
 	float: right;
-	margin-right: 160px;
+	margin-right: 30px;
 }
 
 .main-menu li,
@@ -286,7 +279,7 @@ ol {
 .main-menu li a,
 .footer-menu li a {
 	display: inline-block;
-	font-size: 15px;
+	font-size: 17px;
 	font-weight: 500;
 	color: #474747;
 	padding: 25px 20px;
@@ -323,7 +316,7 @@ ol {
 }
 
 .hero-slide-item {
-	height: 694px;
+	height: 400px;
 	display: table;
 	width: 100%;
 	overflow: hidden;
@@ -819,6 +812,7 @@ ol {
 
 .footer-section {
 	padding: 60px 70px 50px;
+	background-color: #eff3f7;
 }
 
 .footer-social {
