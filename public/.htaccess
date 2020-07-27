@@ -4,4 +4,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^admin/(.*)$ index.php?zone=Admin [QSA,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php?zone=Public [QSA,L]
+# RewriteRule ^(.*)$ index.php?zone=Public [QSA,L]
+RewriteRule ^/?$ index.php?zone=Public&action=home [QSA,L]
+RewriteRule ^blog$ index.php?zone=Public&action=blog [QSA,L]
+RewriteRule ^blog/([0-9]+)$ index.php?zone=Public&action=showPost&id=$1 [QSA,L]

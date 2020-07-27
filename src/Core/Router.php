@@ -5,72 +5,53 @@ namespace Core;
 
 class Router
 {
-    const DEFAULT_MODULE = 'Home';
-    const DEFAULT_ZONE = 'Public';
-    const NO_ROUTE = 1;
-    protected $routes = array();
     protected $zone;
-    protected $currentUrl;
+    protected $controller;
 
 
     public function __construct()
     {
         $this->setZone();
-        $this->setCurrentUrl();
+        $this->setController();
     }
 
-    public function setZone()
+    private function setZone()
     {
-        if (isset($_GET['zone'])) {
-            $this->zone = $_GET['zone'];
+        if (isset($_GET['zone']) && $_GET['zone'] == 'Admin') {
+            $this->zone = "Admin";
+        }  else
+            $this->zone = "Public";
+    }
+
+    private function setController(){
+        if ($this->zone == "Public") {
+            $this->setPublicController();
         } else {
-            $this->zone = self::DEFAULT_ZONE;
-        }
-
-    }
-
-    public function getZone(){
-        return $this->zone;
-    }
-
-
-    public function addRoute(Route $route)
-    {
-        if (!in_array($route, $this->routes)) {
-            $this->routes[] = $route;
+            $this->setAdminController();
         }
     }
 
-    public function getRoute()
-    {
-        foreach ($this->routes as $route) {
-            if (($routeVars = $route->match($this->currentUrl)) !== false) {
-                if ($route->hasParams()) {
-                    $listParams = array();
-                    $paramsName = $route->getParamsName();
-                    foreach ($routeVars as $key => $value) {
-                        if ($key !== 0) {
-                            $listParams[$paramsName[$key - 1]] = $value;
-                        }
-                    }
-                    $route->setParams($listParams);
-                }
-                return $route;
+    private function setPublicController(){
+        $controllerClass = '';
+        if (isset($_GET['action'])){
+            if ($_GET['action'] == 'home'){
+                $this->controller = new \Controller\PublicController\HomeController('show','');
+            }
+            elseif ($_GET['action'] == 'blog'){
+                    $this->controller = new \Controller\PublicController\BlogController('show', '');
+            }
+            elseif ($_GET['action'] == 'showPost'){
+                $this->controller = new \Controller\PublicController\BlogController('showPost', $_GET['id']);
             }
         }
-
-        return new Route(null, 'Home', 'error404');
     }
 
-    public function setCurrentUrl()
-    {
-        $this->currentUrl = $_SERVER['REQUEST_URI'];
+    private function setAdminController(){
+
     }
 
     public function getController()
     {
-        $route = $this->getRoute();
-        $controllerClass = 'Controller\\'.$this->getZone() . 'Controller\\' . $route->getModule() . 'Controller';
-        return new $controllerClass($route->getAction(), $route->getParams());
+        return $this->controller;
     }
 }
