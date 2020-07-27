@@ -32,7 +32,6 @@ class Router
     }
 
     private function setPublicController(){
-        $controllerClass = '';
         if (isset($_GET['action'])){
             if ($_GET['action'] == 'home'){
                 $this->controller = new \Controller\PublicController\HomeController('show','');
