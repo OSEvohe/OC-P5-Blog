@@ -5,48 +5,24 @@ namespace Core;
 
 class Router
 {
-    protected $zone;
     protected $controller;
 
 
     public function __construct()
     {
-        $this->setZone();
         $this->setController();
     }
 
-    private function setZone()
-    {
-        if (isset($_GET['zone']) && $_GET['zone'] == 'Admin') {
-            $this->zone = "Admin";
-        }  else
-            $this->zone = "Public";
-    }
-
-    private function setController(){
-        if ($this->zone == "Public") {
-            $this->setPublicController();
-        } else {
-            $this->setAdminController();
-        }
-    }
-
-    private function setPublicController(){
-        if (isset($_GET['action'])){
-            if ($_GET['action'] == 'home'){
-                $this->controller = new \Controller\PublicController\HomeController('show','');
-            }
-            elseif ($_GET['action'] == 'blog'){
-                    $this->controller = new \Controller\PublicController\BlogController('show', '');
-            }
-            elseif ($_GET['action'] == 'showPost'){
-                $this->controller = new \Controller\PublicController\BlogController('showPost', $_GET['id']);
+    public function setController(){
+        $routes = yaml_parse_file(ROOT_DIR.'/config/routes.yml');
+        foreach ($routes as $route){
+            if (preg_match('#'.$route['uri'].'#',$_SERVER['REQUEST_URI'], $matches)){
+                $controllerClass = '\Controller\\'.$route['zone'].'Controller\\'.$route['controller'];
+                $params = array_combine($route['params'], array_slice($matches,1));
+                return $this->controller = new $controllerClass($route['action'],$params);
             }
         }
-    }
-
-    private function setAdminController(){
-
+        $this->controller = new \Controller\PublicController\HomeController('error404', '');
     }
 
     public function getController()
