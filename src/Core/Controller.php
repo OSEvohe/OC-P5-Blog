@@ -20,8 +20,16 @@ abstract class Controller
     {
         $this->action = $action;
         $this->params = $params;
-        $loader = new FilesystemLoader(TEMPLATES_DIR);
-        $this->twig = new Environment($loader);
+
+        try {
+            $loader = new FilesystemLoader(TEMPLATES_DIR);
+            $loader->addPath(TEMPLATES_DIR . '/public', 'public');
+            $loader->addPath(TEMPLATES_DIR . '/admin', 'admin');
+
+            $this->twig = new Environment($loader);
+        } catch (LoaderError $e){
+            die ('ERROR: ' . $e->getMessage());
+        }
     }
 
     public function execute()
