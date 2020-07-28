@@ -4,49 +4,51 @@
 namespace Core;
 
 
-use Twig\TemplateWrapper;
+use Twig\Environment;
+use Twig\Error\Error;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader;
 
-abstract  class Controller
+abstract class Controller
 {
     protected $action;
     protected $params;
-    protected $page;
+    protected $twig;
+    protected $templateVars = array();
 
     public function __construct($action, $params)
     {
-        $this->setAction($action);
-        $this->setParams($params);
-        $this->page = new Page();
-    }
+        $this->action = $action;
+        $this->params = $params;
 
-    abstract function addContent($contentName, $templateFile, $templateVars);
-    abstract function loadLayout();
+        try {
+            $loader = new FilesystemLoader(ROOT_DIR . '/templates');
+            $loader->addPath(ROOT_DIR . '/templates/public', 'public');
+            $loader->addPath(ROOT_DIR . '/templates/admin', 'admin');
+
+            $this->twig = new Environment($loader);
+        } catch (LoaderError $e){
+            die ('ERROR: ' . $e->getMessage());
+        }
+    }
 
     public function execute()
     {
-        $method = 'execute' . ucfirst($this->getAction());
-
-        $this->$method($this->getParams());
+        $method = 'execute' . ucfirst($this->action);
+        $this->$method();
     }
 
-    public function setAction($action)
+    protected function render($templateFile)
     {
-        $this->action = $action;
+        try {
+            $template = $this->twig->load($templateFile);
+            try {
+                echo $template->render($this->templateVars);
+            } catch (Error $e) {
+                die ('ERROR: ' . $e->getMessage());
+            }
+        } catch (LoaderError $e) {
+            die ('ERROR: ' . $e->getMessage());
+        }
     }
-
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    public function setParams($params)
-    {
-        $this->params = $params;
-    }
-
-    public function getParams()
-    {
-        return $this->params;
-    }
-
 }

@@ -3,17 +3,14 @@
 
 namespace Controller\AdminController;
 
-use Controller\AdminController;
+use Core\Controller;
 
 
-class BlogController extends AdminController
+class BlogController extends Controller
 {
 
-    public function executeShow(){
-        echo "Render Blog admin template";
-    }
-
-    public function executeShowPost(){
-        echo "Render Single Post admin template";
+    public function executeShow()
+    {
+        $this->render('@admin/blog.html.twig');
     }
 }

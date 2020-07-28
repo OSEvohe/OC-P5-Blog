@@ -3,17 +3,18 @@
 
 namespace Controller\AdminController;
 
-use Controller\AdminController;
+use Core\Controller;
 
-class HomeController extends AdminController
+
+class AdminController extends Controller
 {
-
-    public function executeShow(){
-        $this->template = $this->twig->load('index.html');
-        $this->template->display();
+    public function executeShow()
+    {
+        $this->render('@admin/index.html.twig');
     }
 
-    public function executeError404(){
-        echo "Render Error 404 template";
+    public function executeError404()
+    {
+        $this->render('@public/error404.html.twig');
     }
 }

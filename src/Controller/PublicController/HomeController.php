@@ -3,20 +3,18 @@
 
 namespace Controller\PublicController;
 
+use Core\Controller;
 
-use Controller\PublicController;
 
-class HomeController extends PublicController
+class HomeController extends Controller
 {
-
-    public function executeShow(){
-
-        $vars = ["accroche" => "Super phrase de présentation"];
-        $this->addContent("content", 'index.html', $vars);
-        $this->page->display();
+    public function executeShow()
+    {
+        $this->render('@public/index.html.twig');
     }
 
-    public function executeError404(){
-        echo "Render Error 404 template";
+    public function executeError404()
+    {
+        $this->render('@public/error404.html.twig');
     }
 }
