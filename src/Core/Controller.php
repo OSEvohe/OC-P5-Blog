@@ -22,9 +22,9 @@ abstract class Controller
         $this->params = $params;
 
         try {
-            $loader = new FilesystemLoader(TEMPLATES_DIR);
-            $loader->addPath(TEMPLATES_DIR . '/public', 'public');
-            $loader->addPath(TEMPLATES_DIR . '/admin', 'admin');
+            $loader = new FilesystemLoader(ROOT_DIR . '/templates');
+            $loader->addPath(ROOT_DIR . '/templates/public', 'public');
+            $loader->addPath(ROOT_DIR . '/templates/admin', 'admin');
 
             $this->twig = new Environment($loader);
         } catch (LoaderError $e){
