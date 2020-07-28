@@ -1,0 +1,20 @@
+home:
+  uri: ^/$
+  zone: Public
+  controller: HomeController
+  action: show
+  params: []
+
+blog:
+  uri: ^/blog$
+  zone: Public
+  controller: BlogController
+  action: show
+  params: []
+
+blog_single_post:
+  uri: ^/blog/([0-9]+)$
+  zone: Public
+  controller: BlogController
+  action: showPost
+  params: [id]

@@ -5,72 +5,28 @@ namespace Core;
 
 class Router
 {
-    const DEFAULT_MODULE = 'Home';
-    const DEFAULT_ZONE = 'Public';
-    const NO_ROUTE = 1;
-    protected $routes = array();
-    protected $zone;
-    protected $currentUrl;
+    protected $controller;
 
 
     public function __construct()
     {
-        $this->setZone();
-        $this->setCurrentUrl();
+        $this->setController();
     }
 
-    public function setZone()
-    {
-        if (isset($_GET['zone'])) {
-            $this->zone = $_GET['zone'];
-        } else {
-            $this->zone = self::DEFAULT_ZONE;
-        }
-
-    }
-
-    public function getZone(){
-        return $this->zone;
-    }
-
-
-    public function addRoute(Route $route)
-    {
-        if (!in_array($route, $this->routes)) {
-            $this->routes[] = $route;
-        }
-    }
-
-    public function getRoute()
-    {
-        foreach ($this->routes as $route) {
-            if (($routeVars = $route->match($this->currentUrl)) !== false) {
-                if ($route->hasParams()) {
-                    $listParams = array();
-                    $paramsName = $route->getParamsName();
-                    foreach ($routeVars as $key => $value) {
-                        if ($key !== 0) {
-                            $listParams[$paramsName[$key - 1]] = $value;
-                        }
-                    }
-                    $route->setParams($listParams);
-                }
-                return $route;
+    public function setController(){
+        $routes = yaml_parse_file(ROOT_DIR.'/config/routes.yml');
+        foreach ($routes as $route){
+            if (preg_match('#'.$route['uri'].'#',$_SERVER['REQUEST_URI'], $matches)){
+                $controllerClass = '\Controller\\'.$route['zone'].'Controller\\'.$route['controller'];
+                $params = array_combine($route['params'], array_slice($matches,1));
+                return $this->controller = new $controllerClass($route['action'],$params);
             }
         }
-
-        return new Route(null, 'Home', 'error404');
-    }
-
-    public function setCurrentUrl()
-    {
-        $this->currentUrl = $_SERVER['REQUEST_URI'];
+        $this->controller = new \Controller\PublicController\HomeController('error404', '');
     }
 
     public function getController()
     {
-        $route = $this->getRoute();
-        $controllerClass = 'Controller\\'.$this->getZone() . 'Controller\\' . $route->getModule() . 'Controller';
-        return new $controllerClass($route->getAction(), $route->getParams());
+        return $this->controller;
     }
 }
