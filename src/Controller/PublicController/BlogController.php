@@ -3,18 +3,18 @@
 
 namespace Controller\PublicController;
 
-use Controller\PublicController;
+use Core\Controller;
 
 
-class BlogController extends PublicController
+class BlogController extends Controller
 {
 
-    public function executeShow(){
-        $this->addContent("content", 'blog.html');
-        $this->page->display();
+    public function executeShow()
+    {
+        $this->render('@public/blog.html.twig');
     }
 
     public function executeShowPost(){
-        echo "Render Single Post template";
+        $this->render('@public/single-post.html.twig');
     }
 }
