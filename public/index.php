@@ -9,6 +9,6 @@ try {
     $controller = $router->getController();
     $controller->execute();
 } catch (Throwable $e) {
-    die('['. get_class($e).']: '.$e);
+    echo '['. get_class($e).']: '.$e;
 }
 

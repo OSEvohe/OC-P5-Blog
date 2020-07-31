@@ -6,10 +6,10 @@ namespace Core;
 
 use Exceptions\BlogException;
 use Exceptions\BlogControllerLoaderError;
+use Exceptions\BlogTemplateLoadError;
 use Exceptions\BlogTemplateRenderError;
 use Twig\Environment;
 use Twig\Error\Error;
-use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
 
 abstract class Controller
@@ -46,7 +46,7 @@ abstract class Controller
         try {
             $template = $this->twig->load($templateFile);
         } catch (Error $e) {
-            throw new BlogTemplateRenderError($e->getMessage());
+            throw new BlogTemplateLoadError($e->getMessage());
         }
 
         try {
@@ -54,5 +54,11 @@ abstract class Controller
         } catch (\Throwable $e) {
             throw new BlogTemplateRenderError($e->getMessage());
         }
+    }
+
+    protected function displayError($e)
+    {
+        $this->templateVars['error'] = $e;
+        $this->render('@public/error.html.twig');
     }
 }
