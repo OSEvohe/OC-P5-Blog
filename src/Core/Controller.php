@@ -5,7 +5,7 @@ namespace Core;
 
 
 use Exceptions\BlogException;
-use Exceptions\BlogLoaderError;
+use Exceptions\BlogControllerLoaderError;
 use Exceptions\BlogTemplateRenderError;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -30,12 +30,8 @@ abstract class Controller
             $loader->addPath(ROOT_DIR . '/templates/admin', 'admin');
 
             $this->twig = new Environment($loader);
-        } catch (LoaderError $e) {
-            try {
-                throw new BlogLoaderError($e->getMessage());
-            } catch (BlogLoaderError $e) {
-                die($e);
-            }
+        } catch (Error $e) {
+            throw new BlogControllerLoaderError($e->getMessage());
         }
     }
 
@@ -49,22 +45,14 @@ abstract class Controller
     {
         try {
             $template = $this->twig->load($templateFile);
-        } catch (LoaderError $e) {
-            try {
-                throw new BlogLoaderError($e->getMessage());
-            } catch (BlogLoaderError $e) {
-                die($e);
-            }
+        } catch (Error $e) {
+            throw new BlogTemplateRenderError($e->getMessage());
         }
 
         try {
             echo $template->render($this->templateVars);
         } catch (\Throwable $e) {
-            try {
-                throw new BlogTemplateRenderError($e->getMessage());
-            } catch (BlogTemplateRenderError $e) {
-                die($e);
-            }
+            throw new BlogTemplateRenderError($e->getMessage());
         }
     }
 }
