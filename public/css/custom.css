@@ -1,0 +1,19 @@
+.comment {
+    padding-bottom:12px;
+    padding-top: 20px;
+    line-height: 24px;
+}
+
+.comment .comment-author{
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+.comment .comment-date {
+    font-weight: lighter;
+    font-size:12px;
+}
+
+.comment .comment-text{
+    font-size: 14px;
+}
