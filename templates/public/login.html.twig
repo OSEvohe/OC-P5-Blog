@@ -1,0 +1,29 @@
+{% extends '@public/layout.html.twig' %}
+
+{% block title %}Connexion | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <!-- Hero section -->
+    <section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
+        <div class="container">
+            <h2>Connexion</h2>
+        </div>
+    </section>
+    <!-- Hero section end -->
+
+    <section class="login-section spad">
+        <div class="container">
+            <form class="contact-form">
+                <div class="row">
+                    <div class="col-sm-8 col-md-6 m-auto">
+                        <div><input type="text" placeholder="identifiant"></div>
+                        <div><input type="password" placeholder="motdepasse"></div>
+                        <div class="text-center">
+                            <button class="site-btn">Connexion</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

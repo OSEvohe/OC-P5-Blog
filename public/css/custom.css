@@ -1,0 +1,32 @@
+.comment {
+    padding-bottom:12px;
+    padding-top: 20px;
+    line-height: 24px;
+}
+
+.comment .comment-author{
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+.comment .comment-date {
+    font-weight: lighter;
+    font-size:12px;
+}
+
+.comment .comment-text{
+    font-size: 14px;
+}
+
+.register-form-collecte {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+.register-form-collecte .register_checkbox {
+    float:left;
+    width:20px;
+    height:20px;
+    margin-right: 10px;
+
+}

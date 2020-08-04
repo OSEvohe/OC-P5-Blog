@@ -18,3 +18,24 @@ blog_single_post:
   controller: BlogController
   action: showPost
   params: [id]
+
+logout:
+  uri: ^/logout$
+  zone: Public
+  controller: AccountController
+  action: logout
+  params: []
+
+login:
+  uri: ^/login$
+  zone: Public
+  controller: AccountController
+  action: login
+  params: []
+
+register:
+  uri: ^/register$
+  zone: Public
+  controller: AccountController
+  action: register
+  params: []

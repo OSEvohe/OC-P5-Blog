@@ -1,5 +1,7 @@
 {% extends '@public/layout.html.twig' %}
 
+{% block title %}Le Blog | {{ parent() }}{% endblock %}
+
 {% block content %}
     <!-- Hero section -->
     <section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
@@ -9,21 +11,110 @@
     </section>
     <!-- Hero section end -->
 
-    <section class="recipe-details-section">
+    <section class="post-list-section spad">
         <div class="container">
             <div class="row">
-                <div class="post-meta">
-                    <div class="post-date">
-                        <span>24 Juillet 2020</span>
+                <div class="col-sm-12 col-lg-6 p-5">
+                    <div class="row">
+                        <div class="sp-blog-item">
+                            <div class="post-date">
+                                <span>24 Juillet 2020</span>
+                            </div>
+                            <div class="blog-text">
+                                <h3 class="card-title">Post N°1</h3>
+                                <span>Par Admin</span>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
+                                    Suspendisse
+                                    potenti.
+                                    Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor
+                                    enim.
+                                    Phasellus
+                                    posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et
+                                    magni.</p>
+                                <a href="#" class="comment">2 Commentaires</a>
+                                <a href="/blog/1" class="readmore"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
                     </div>
-                    <h2>Post N°1</h2>
                 </div>
-            </div>
-            <div class="row">
-                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse
-                    potenti.
-                    Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus
-                    posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magni.</p>
+                <div class="col-sm-12 col-lg-6 p-5">
+                    <div class="row">
+                        <div class="sp-blog-item">
+                            <div class="post-date">
+                                <span>24 Juillet 2020</span>
+                            </div>
+                            <div class="blog-text">
+                                <h3 class="card-title">Post 2 avec un titre un peu long mais pas trop quand même</h3>
+                                <span>Par Admin</span>
+                                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
+                                    Suspendisse
+                                    potenti.
+                                    Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor
+                                    enim.</p>
+                                <a href="#" class="comment">2 Commentaires</a>
+                                <a href="#" class="readmore"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 p-5">
+                    <div class="row">
+                        <div class="sp-blog-item">
+                            <div class="post-date">
+                                <span>24 Juillet 2020</span>
+                            </div>
+                            <div class="blog-text">
+                                <h3 class="card-title">Post N°3</h3>
+                                <span>Par Admin</span>
+                                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
+                                    Suspendisse
+                                    potenti.
+                                </p>
+                                <a href="#" class="comment">2 Commentaires</a>
+                                <a href="#" class="readmore"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 p-5">
+                    <div class="row">
+                        <div class="sp-blog-item">
+                            <div class="post-date">
+                                <span>24 Juillet 2020</span>
+                            </div>
+                            <div class="blog-text">
+                                <h3 class="card-title">Post N°4</h3>
+                                <span>Par Admin</span>
+                                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
+                                    Suspendisse potenti.
+
+                                </p>
+                                <a href="#" class="comment">2 Commentaires</a>
+                                <a href="#" class="readmore"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 p-5">
+                    <div class="row">
+                        <div class="sp-blog-item">
+                            <div class="post-date">
+                                <span>24 Juillet 2020</span>
+                            </div>
+                            <div class="blog-text">
+                                <h3 class="card-title">Post N°5</h3>
+                                <span>Par Admin</span>
+                                <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui.
+                                    Suspendisse
+                                    potenti.
+                                    Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor
+                                    enim.</p>
+                                <a href="#" class="comment">2 Commentaires</a>
+                                <a href="#" class="readmore"><i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
