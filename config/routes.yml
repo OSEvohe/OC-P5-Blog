@@ -39,3 +39,10 @@ register:
   controller: AccountController
   action: register
   params: []
+
+admin:
+  uri: ^/admin/$
+  zone: Admin
+  controller: AdminController
+  action: show
+  params: []
