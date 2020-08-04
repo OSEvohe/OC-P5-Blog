@@ -6,11 +6,10 @@ namespace Controller\AdminController;
 use Core\Controller;
 
 
-class BlogController extends Controller
+class ProfilController extends Controller
 {
-
     public function executeShow()
     {
-        $this->render('@admin/posts_list.html.twig');
+        $this->render('@admin/profil.html.twig');
     }
 }

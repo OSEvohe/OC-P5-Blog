@@ -1,0 +1,19 @@
+a.bg-orange{
+    background-color: darkorange;
+}
+
+a.bg-orange:hover{
+    background-color: orange;
+}
+
+a.bg-blue {
+    background-color: #005cbf;
+}
+
+a.bg-blue:hover {
+    background-color: #7abaff;
+}
+
+.posts_list_actions svg {
+    margin-right: 10px;
+}

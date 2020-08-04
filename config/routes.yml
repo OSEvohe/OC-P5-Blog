@@ -6,43 +6,57 @@ home:
   params: []
 
 blog:
-  uri: ^/blog$
+  uri: ^/blog/?$
   zone: Public
   controller: BlogController
   action: show
   params: []
 
 blog_single_post:
-  uri: ^/blog/([0-9]+)$
+  uri: ^/blog/([0-9]+)/?$
   zone: Public
   controller: BlogController
   action: showPost
   params: [id]
 
 logout:
-  uri: ^/logout$
+  uri: ^/logout/?$
   zone: Public
   controller: AccountController
   action: logout
   params: []
 
 login:
-  uri: ^/login$
+  uri: ^/login/?$
   zone: Public
   controller: AccountController
   action: login
   params: []
 
 register:
-  uri: ^/register$
+  uri: ^/register/?$
   zone: Public
   controller: AccountController
   action: register
   params: []
 
 admin:
-  uri: ^/admin/$
+  uri: ^/admin/?$
   zone: Admin
   controller: AdminController
+  action: show
+  params: []
+
+profil:
+  uri: ^/admin/profil/?$
+  zone: Admin
+  controller: ProfilController
+  action: show
+  params: []
+
+posts_list:
+  uri: ^/admin/blog/?$
+  zone: Admin
+  controller: BlogController
   action: show
   params: []
