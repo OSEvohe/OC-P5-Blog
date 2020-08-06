@@ -3,5 +3,23 @@
 {% block title %}Supprimer un post{% endblock %}
 
 {% block content %}
- 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-font-awesome mr-1"></i>
+                    Supprimer le post #1
+                </div>
+                <div class="card-body">
+                    <p><strong>Voulez vous supprimer le post #1 ?</strong></p>
+                    <div>
+                        <form method="post">
+                            <button type="submit" name="post_deleteCancel">Annuler</button>
+                            <button type="submit" name="post_deleteSubmit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

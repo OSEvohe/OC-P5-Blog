@@ -13,20 +13,27 @@
                 <div class="card-body">
                     <form method="post">
                         <div>
-                            <label for="title" class="d-block">Titre</label>
-                            <input style="width: 686px;max-width: 100%" type="text" name="postTitle" id="title" maxlength="60" width="60"/>
+                            <label for="postTitle" class="d-block">Titre</label>
+                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" maxlength="60" width="60"/>
                         </div>
                         <div class="mt-4">
-                            <label for="lead" class="d-block">Chapô</label>
-                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="postLead" id="lead"></textarea>
+                            <label for="PostLead" class="d-block">Chapô</label>
+                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="lead" id="postLead"></textarea>
+                        </div>
+                        <div class="mt-4">
+                            <label for="postAuthor" class="d-block"></label>
+                            <select name="userId" id="postAuthor">
+                                <option value="Admin">Admin</option>
+                            </select>
                         </div>
                         <div class="mt-4" style="width:726px;max-width: 100%">
-                            <label for="text" class="d-block">Texte</label>
-                            <textarea name="postText" id="text"></textarea>
+                            <label for="postText" class="d-block">Texte</label>
+                            <textarea name="content" id="Posttext"></textarea>
                         </div>
                         <div class="my-4">
                             <input class="btn-primary" type="submit" id="post_editSubmit" value="Modifier"/>
                         </div>
+                        <input type="hidden" name="id" value="1" />
                     </form>
                 </div>
             </div>
