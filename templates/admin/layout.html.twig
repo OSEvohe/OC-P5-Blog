@@ -13,6 +13,7 @@
           crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 </head>
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -73,12 +74,10 @@
             <div class="container-fluid">
                 <h1 class="mt-4">{{ block('title') }}</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item">Admin</li>
+                    <li class="breadcrumb-item"><a href="/admin/">Admin</a></li>
                         <li class="breadcrumb-item active">{{ block('title') }}</li>
                 </ol>
-
                 {% block content %}{% endblock %}
-
             </div>
         </main>
     </div>
@@ -87,9 +86,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="/admin/js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="/admin/js/datatables.js"></script>
+{% block scriptJS %}{% endblock %}
 </body>
 </html>
