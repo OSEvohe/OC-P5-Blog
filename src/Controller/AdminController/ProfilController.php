@@ -17,4 +17,14 @@ class ProfilController extends Controller
     {
         $this->render('@admin/social.html.twig');
     }
+
+    public function executeEditSocial()
+    {
+        $this->render('@admin/social_edit.html.twig');
+    }
+
+    public function executeDeleteSocial()
+    {
+        $this->render('@admin/social_delete.html.twig');
+    }
 }

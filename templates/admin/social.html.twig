@@ -3,5 +3,79 @@
 {% block title %}Gestion des réseaux sociaux{% endblock %}
 
 {% block content %}
- 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-address-book"></i>
+                    Ajouter un réseau social
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <label for="name" class="col-form-label d-block">Nom du réseau</label>
+                            <input type="text" maxlength="30" name="name"  style="width: 200px;" id="name" />
+                        </div>
+                        <div>
+                            <label for="profileUrl" class="col-form-label d-block">Lien du profil</label>
+                            <input type="text" maxlength="100" name="profileUrl" id="profileUrl" style="width: 200px;"/>
+                        </div>
+                        <div>
+                            <label for="icon" class="col-form-label d-block">Classe de l'icone Font-Awesome</label>
+                            <input type="text" maxlength="30" name="iconClass" id="icon" style="width: 200px;">
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn-primary" name="social_newSubmit">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <i class="fas fa-user mr-1"></i>
+                    Liste des Réseaux sociaux
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Icone</th>
+                                <th>Nom</th>
+                                <th>Uri du profil</th>
+                                <th>Crée le</th>
+                                <th>Modifié le</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Icone</th>
+                                <th>Nom</th>
+                                <th>Uri du profil</th>
+                                <th>Crée le</th>
+                                <th>Modifié le</th>
+                                <th>Actions</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>classIcon</td>
+                                <td>name</td>
+                                <td>profileUrl</td>
+                                <td>dateCreated</td>
+                                <td>dateModified</td>
+                                <td>
+                                    <a href="/admin/social/edit/1"><i class="fas fa-edit"></i></a>
+                                    <a href="/admin/social/delete/1"><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

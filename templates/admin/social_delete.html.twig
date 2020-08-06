@@ -3,5 +3,39 @@
 {% block title %}Supprimer un réseau social{% endblock %}
 
 {% block content %}
- 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-user mr-1"></i>
+                    Supprimer le réseau social #id
+                </div>
+                <div class="card-body">
+                    <div>
+                        <strong>Nom du réseau social</strong>
+                        <p>name</p>
+                    </div>
+                    <div>
+                        <strong>Lien vers le profil</strong>
+                        <p>profileUrl</p>
+                    </div>
+                    <div>
+                        <hr/>
+                        Crée le dateCreated - Modifié le dateModified
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Voulez vous supprimer ce lien ?</strong></p>
+                    <div>
+                        <form method="post">
+                            <button type="submit" name="social_deleteCancel">Annuler</button>
+                            <button type="submit" name="social_deleteSubmit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

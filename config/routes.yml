@@ -109,3 +109,17 @@ social:
   controller: ProfilController
   action: showSocial
   params: []
+
+social_edit:
+  uri: ^/admin/social/edit/([0-9]+)/?$
+  zone: Admin
+  controller: ProfilController
+  action: editSocial
+  params: []
+
+social_delete:
+  uri: ^/admin/social/delete/([0-9]+)/?$
+  zone: Admin
+  controller: ProfilController
+  action: deleteSocial
+  params: []
