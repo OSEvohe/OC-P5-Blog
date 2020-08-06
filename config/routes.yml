@@ -48,7 +48,7 @@ admin:
   params: []
 
 profil:
-  uri: ^/admin/profil/?$
+  uri: ^/admin/profile/?$
   zone: Admin
   controller: ProfilController
   action: show
@@ -73,4 +73,39 @@ post_edit:
   zone: Admin
   controller: BlogController
   action: editPost
+  params: [id]
+
+post_delete:
+  uri: ^/admin/blog/delete/([0-9]+)/?$
+  zone: Admin
+  controller: BlogController
+  action: deletePost
+  params: [id]
+
+comments_list:
+  uri: ^/admin/comments/(all|[0-9]+)/?$
+  zone: Admin
+  controller: BlogController
+  action: listComments
+  params: [postId]
+
+comment_delete:
+  uri: ^/admin/comment/delete/([0-9]+)/?$
+  zone: Admin
+  controller: BlogController
+  action: deleteComment
+  params: [id]
+
+comment_edit:
+  uri: ^/admin/comment/edit/([0-9]+)/?$
+  zone: Admin
+  controller: BlogController
+  action: editComment
+  params: [id]
+
+social:
+  uri: ^/admin/social/?$
+  zone: Admin
+  controller: ProfilController
+  action: showSocial
   params: []

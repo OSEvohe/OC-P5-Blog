@@ -12,4 +12,9 @@ class ProfilController extends Controller
     {
         $this->render('@admin/profil.html.twig');
     }
+
+    public function executeShowSocial()
+    {
+        $this->render('@admin/social.html.twig');
+    }
 }

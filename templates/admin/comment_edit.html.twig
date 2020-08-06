@@ -1,7 +1,58 @@
 {% extends '@admin/layout.html.twig' %}
 
-{% block title %}Modifier un commentaire{% endblock %}
+{% block title %}Valider un commentaire{% endblock %}
 
 {% block content %}
- 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-newspaper mr-1"></i>
+                    Valider le commentaire #1
+                </div>
+                <div class="card-body">
+                    <div>
+                        <strong>Commentaire</strong>
+                        <p>comment</p>
+                    </div>
+                    <div>
+                        <strong>Auteur</strong>
+                        <p>userDisplayName</p>
+                    </div>
+                    <div>
+                        <strong>Titre du post</strong>
+                        <p>postTitle</p>
+                    </div>
+                    <div>
+                        <hr/>
+                        Crée le dateCreated - Modifié le dateModified
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <input type="radio" name="visible" value="1" id="visible" checked="checked">
+                            <label for="visible" class="font-weight-bold">Visible</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="visible" value="0" id="hidden">
+                            <label for="hidden">Caché</label>
+                        </div>
+                        <button type="submit" name="comment_editSubmit">Valider</button>
+                        <input type="hidden" value="id" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scriptJS %}
+    <script>
+        CKEDITOR.replace('postText', {
+            baseFloatZIndex: 10005,
+        });
+    </script>
 {% endblock %}

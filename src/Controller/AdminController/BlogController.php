@@ -14,11 +14,31 @@ class BlogController extends Controller
         $this->render('@admin/posts_list.html.twig');
     }
 
-    public function executeNewPost(){
+    public function executeNewPost()
+    {
         $this->render('@admin/post_new.html.twig');
     }
 
-    public function executeEditPost(){
+    public function executeEditPost()
+    {
         $this->render('@admin/post_edit.html.twig');
+    }
+
+    public function executeDeletePost()
+    {
+        $this->render('@admin/post_delete.html.twig');
+    }
+
+    public function executeListComments()
+    {
+        $this->render('@admin/comments_list.html.twig');
+    }
+
+    public function executeEditComment(){
+        $this->render('@admin/comment_edit.html.twig');
+    }
+
+    public function executeDeleteComment(){
+        $this->render('@admin/comment_delete.html.twig');
     }
 }
