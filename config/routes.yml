@@ -60,3 +60,17 @@ posts_list:
   controller: BlogController
   action: show
   params: []
+
+post_new:
+  uri: ^/admin/blog/new/?$
+  zone: Admin
+  controller: BlogController
+  action: newPost
+  params: []
+
+post_edit:
+  uri: ^/admin/blog/edit/([0-9]+)/?$
+  zone: Admin
+  controller: BlogController
+  action: editPost
+  params: []

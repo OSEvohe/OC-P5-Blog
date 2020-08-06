@@ -3,5 +3,42 @@
 {% block title %}Créer un nouveau post{% endblock %}
 
 {% block content %}
- 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-newspaper mr-1"></i>
+                    Nouveau post
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <label for="title" class="d-block">Titre</label>
+                            <input style="width: 686px;max-width: 100%" type="text" name="postTitle" id="title" maxlength="60" width="60"/>
+                        </div>
+                        <div class="mt-4">
+                            <label for="lead" class="d-block">Chapô</label>
+                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="postLead" id="lead"></textarea>
+                        </div>
+                        <div class="mt-4" style="width:726px;max-width: 100%">
+                            <label for="text" class="d-block">Texte</label>
+                            <textarea name="postText" id="text"></textarea>
+                        </div>
+                        <div class="my-4">
+                            <input class="btn-primary" type="submit" id="post_newSubmit" value="Publier"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scriptJS %}
+    <script>
+        CKEDITOR.replace('postText', {
+            baseFloatZIndex: 10005,
+        });
+    </script>
 {% endblock %}

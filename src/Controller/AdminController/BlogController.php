@@ -13,4 +13,12 @@ class BlogController extends Controller
     {
         $this->render('@admin/posts_list.html.twig');
     }
+
+    public function executeNewPost(){
+        $this->render('@admin/post_new.html.twig');
+    }
+
+    public function executeEditPost(){
+        $this->render('@admin/post_edit.html.twig');
+    }
 }
