@@ -5,7 +5,8 @@
         "psr-4": {
             "Core\\": "src/Core/",
             "Controller\\": "src/Controller/",
-            "Exceptions\\": "src/Exceptions"
+            "Exceptions\\": "src/Exceptions/",
+            "Entity\\": "src/Entity/"
         }
     },
     "require": {
