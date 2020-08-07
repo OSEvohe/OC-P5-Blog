@@ -5,19 +5,19 @@ home:
   action: show
   params: []
 
-blog:
-  uri: ^/blog$
-  zone: Public
-  controller: BlogController
-  action: show
-  params: []
-
 blog_single_post:
   uri: ^/blog/([0-9]+)$
   zone: Public
   controller: BlogController
   action: showPost
   params: [id]
+
+blog:
+  uri: ^/blog$
+  zone: Public
+  controller: BlogController
+  action: show
+  params: []
 
 logout:
   uri: ^/logout$
@@ -38,4 +38,88 @@ register:
   zone: Public
   controller: AccountController
   action: register
+  params: []
+
+admin:
+  uri: ^/admin/$
+  zone: Admin
+  controller: AdminController
+  action: show
+  params: []
+
+profil:
+  uri: ^/admin/profile$
+  zone: Admin
+  controller: ProfilController
+  action: show
+  params: []
+
+post_edit:
+  uri: ^/admin/blog/edit/([0-9]+)$
+  zone: Admin
+  controller: BlogController
+  action: editPost
+  params: [id]
+
+post_delete:
+  uri: ^/admin/blog/delete/([0-9]+)$
+  zone: Admin
+  controller: BlogController
+  action: deletePost
+  params: [id]
+
+post_new:
+  uri: ^/admin/blog/new$
+  zone: Admin
+  controller: BlogController
+  action: newPost
+  params: []
+
+posts_list:
+  uri: ^/admin/blog$
+  zone: Admin
+  controller: BlogController
+  action: show
+  params: []
+
+comment_delete:
+  uri: ^/admin/comment/delete/([0-9]+)$
+  zone: Admin
+  controller: BlogController
+  action: deleteComment
+  params: [id]
+
+comment_edit:
+  uri: ^/admin/comment/edit/([0-9]+)$
+  zone: Admin
+  controller: BlogController
+  action: editComment
+  params: [id]
+
+comments_list:
+  uri: ^/admin/comments/(all|[0-9]+)$
+  zone: Admin
+  controller: BlogController
+  action: listComments
+  params: [postId]
+
+social_edit:
+  uri: ^/admin/social/edit/([0-9]+)$
+  zone: Admin
+  controller: ProfilController
+  action: editSocial
+  params: []
+
+social_delete:
+  uri: ^/admin/social/delete/([0-9]+)$
+  zone: Admin
+  controller: ProfilController
+  action: deleteSocial
+  params: []
+
+social:
+  uri: ^/admin/social$
+  zone: Admin
+  controller: ProfilController
+  action: showSocial
   params: []

@@ -1,0 +1,45 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Supprimer un post{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-newspaper mr-1"></i>
+                    Supprimer le post #id
+                </div>
+                <div class="card-body">
+                    <div>
+                        <strong>Titre du post</strong>
+                        <p>title</p>
+                    </div>
+                    <div>
+                        <strong>Auteur</strong>
+                        <p>userDisplayName</p>
+                    </div>
+                    <div>
+                        <strong>Chapô</strong>
+                        <p>lead</p>
+                    </div>
+                    <div>
+                        <hr/>
+                        Crée le dateCreated - Modifié le dateModified
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Voulez vous supprimer le post #id ?</strong></p>
+                    <div>
+                        <form method="post">
+                            <button type="submit" name="post_deleteCancel">Annuler</button>
+                            <button type="submit" name="post_deleteSubmit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

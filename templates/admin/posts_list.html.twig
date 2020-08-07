@@ -1,0 +1,112 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Gestion des posts{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <a class="bg-success text-white mx-4 text-center p-2 d-inline-block text-decoration-none"
+                       href="/admin/blog/new">Nouveau post</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-newspaper mr-1"></i>
+                    Gestion des posts
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Titre</th>
+                                <th>Crée le</th>
+                                <th>Modifié le</th>
+                                <th>Auteur</th>
+                                <th class="posts_list_comments_count">Commentaires</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Titre</th>
+                                <th>Crée le</th>
+                                <th>Modifié le</th>
+                                <th>Auteur</th>
+                                <th>Commentaires</th>
+                                <th>Actions</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Post 1</td>
+                                <td>21-07-2020</td>
+                                <td>-</td>
+                                <td>Admin</td>
+                                <td><a href="/admin/comments/1">2 <i class="fas fa-comment"></i></a></td>
+                                <td class="posts_list_actions">
+                                    <a href="/admin/blog/edit/1"><i class="fas fa-edit"></i></a>
+                                    <a href="/admin/blog/delete/1"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Post 2 avec un titre un peu long mais pas trop quand même</td>
+                                <td>22-07-2020</td>
+                                <td>-</td>
+                                <td>Admin</td>
+                                <td>1 <i class="fas fa-comment"></i></td>
+                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
+                                            class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Post 3</td>
+                                <td>23-07-2020</td>
+                                <td>30-07-2020</td>
+                                <td>Admin</td>
+                                <td>3 <i class="fas fa-comment"></i></td>
+                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
+                                            class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Post 4</td>
+                                <td>24-07-2020</td>
+                                <td>-</td>
+                                <td>Admin</td>
+                                <td>0 <i class="fas fa-comment"></i></td>
+                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
+                                            class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Post 5</td>
+                                <td>25-07-2020</td>
+                                <td>-</td>
+                                <td>Admin</td>
+                                <td>2 <i class="fas fa-comment"></i></td>
+                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
+                                            class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

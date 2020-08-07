@@ -1,1 +1,46 @@
-Hello World !!
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="card mb-4 col-12">
+            <div class="card-header">
+                <i class="far fa-newspaper mr-1"></i>
+                Gestion du blog
+            </div>
+            <div class="card-body">
+                <a class="bg-dark text-light m-4 text-center p-3 d-inline-block text-decoration-none"
+                   href="/admin/blog">
+                    Gérer les posts
+                </a>
+                <a class="bg-success text-white m-4 text-center p-3 d-inline-block text-decoration-none"
+                   href="/admin/blog/new">
+                    Ecrire un nouveau post
+                </a>
+                <a class="bg-blue text-white m-4 text-center p-3 d-inline-block text-decoration-none"
+                   href="/admin/comments/all">
+                    Gérer les commentaires
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card mb-4 col-12">
+            <div class="card-header">
+                <i class="far fa-user mr-1"></i>
+                Gestion du profil
+            </div>
+            <div class="card-body">
+                <a class="bg-primary text-white m-4 text-center p-3 d-inline-block text-decoration-none"
+                   href="/admin/social">
+                    Gérer les réseaux sociaux
+                </a>
+                <a class="bg-orange text-white m-4 text-center p-3 d-inline-block text-decoration-none"
+                   href="/admin/profile">
+                    Gérer le profil
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

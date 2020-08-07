@@ -1,0 +1,51 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Modifier un  post{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="far fa-newspaper mr-1"></i>
+                    Modifier le post #1
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <label for="postTitle" class="d-block">Titre</label>
+                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" maxlength="60" width="60"/>
+                        </div>
+                        <div class="mt-4">
+                            <label for="PostLead" class="d-block">Chapô</label>
+                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="lead" id="postLead"></textarea>
+                        </div>
+                        <div class="mt-4">
+                            <label for="postAuthor" class="d-block"></label>
+                            <select name="userId" id="postAuthor">
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="mt-4" style="width:726px;max-width: 100%">
+                            <label for="postText" class="d-block">Texte</label>
+                            <textarea name="content" id="Posttext"></textarea>
+                        </div>
+                        <div class="my-4">
+                            <input class="btn-primary" type="submit" id="post_editSubmit" value="Modifier"/>
+                        </div>
+                        <input type="hidden" name="id" value="1" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scriptJS %}
+    <script>
+        CKEDITOR.replace('postText', {
+            baseFloatZIndex: 10005,
+        });
+    </script>
+{% endblock %}
