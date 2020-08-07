@@ -1,2 +1,3 @@
 .idea/
 vendor/
+config/db-config.yml
