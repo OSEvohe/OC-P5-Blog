@@ -3,6 +3,7 @@
 
 namespace Core;
 
+use DateTime;
 use PDO;
 use PDOStatement;
 
@@ -53,8 +54,8 @@ class Manager
 
         $query = $this->db->prepare("SELECT * FROM " . $table . $whereClause . $orderClause . $limitClause);
 
-        if ($whereClause) $this->bindWhereValues($query, $where);
-        if ($limitClause) $this->bindLimitValues($query, $limit);
+        if ($whereClause) $this->bindArrayOfValues($query, $where);
+        if ($limitClause) $this->bindArrayOfValues($query, $limit);
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
@@ -77,40 +78,96 @@ class Manager
         return FALSE;
     }
 
-    public function delete(string $table, int $id)
+    /**
+     * @param Entity $entity
+     */
+    public function delete(Entity $entity)
     {
+        $query = $this->db->prepare('DELETE FROM ' . $this->getEntityTable($entity) . ' WHERE id = :id');
+        $query->bindValue(':id', $entity->getId());
 
+        $query->execute();
     }
 
 
-    public function update($entity)
+    /**
+     * @param Entity $entity
+     */
+    public function update(Entity $entity)
     {
+        $fields = array_keys($entity->entityToArray());
+        $setClause = $this->addSetClauseToQuery($entity, $fields);
 
+        $query = $this->db->prepare("UPDATE " . $this->getEntityTable($entity) . $setClause . ' WHERE id = :id');
+        $entity->setDateModified(new DateTime());
+
+        $paramsToBind = [];
+        foreach ($fields as $field) {
+            $method = 'get' . ucfirst($field);
+            $paramsToBind[$field] = $entity->$method();
+        }
+        $this->bindArrayOfValues($query, $paramsToBind);
+
+        $query->execute();
     }
 
-    public function create()
+    /**
+     * @param Entity $entity
+     */
+    public function create(Entity $entity)
     {
+        $fields = array_keys($entity->entityToArray());
+        $insertClause = $this->addInsertClauseToQuery($entity, $fields);
 
+        $query = $this->db->prepare('INSERT INTO ' . $this->getEntityTable($entity) . $insertClause);
+        $entity->setDateCreated(new DateTime());
+
+        $paramsToBind = [];
+        foreach ($fields as $field) {
+            if ($field != 'id') {
+                $method = 'get' . ucfirst($field);
+                $paramsToBind[$field] = $entity->$method();
+            }
+        }
+        $this->bindArrayOfValues($query, $paramsToBind);
+        $query->execute();
     }
 
-
-    /** ------------- HELPERS -------------- */
-
-
-    protected function bindWhereValues(PDOStatement $preparedQuery, $where): void
+    /**
+     * @param Entity $entity
+     * @param $vars
+     * @return string
+     */
+    protected function addInsertClauseToQuery(Entity $entity, $vars)
     {
-        foreach ($where as $field => $value) {
-            $preparedQuery->bindValue(':' . $field, $value);
+        $fields = [];
+        $values = [];
+        foreach ($vars as $field) {
+            if ($field != 'id') {
+                $fields[] = $this->getEntityTable($entity) . '.' . $field;
+                $values[] = ':' . $field;
+            }
+        }
+        return ' (' . implode(',', $fields) . ') VALUES (' . implode(',', $values) . ')';
+    }
+
+    /**
+     * @param PDOStatement $preparedQuery
+     * @param $params
+     */
+    protected function bindArrayOfValues(PDOStatement $preparedQuery, $params): void
+    {
+        foreach ($params as $field => $value) {
+            if (is_string($value)) {
+                $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_STR);
+            } elseif (is_int($value)) {
+                $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_INT);
+            } elseif (is_a($value, 'DateTime')) {
+                $preparedQuery->bindValue(':' . $field, $value->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+            }
+
         }
     }
-
-    protected function bindLimitValues(PDOStatement $preparedQuery, $limit): void
-    {
-        foreach ($limit as $param => $value) {
-            $preparedQuery->bindValue(':' . $param, (int)$value, PDO::PARAM_INT);
-        }
-    }
-
 
     /**
      * Construct the WHERE clause
@@ -167,5 +224,31 @@ class Manager
             return " LIMIT " . implode(',', $params);
         }
         return '';
+    }
+
+    /**
+     * Get the corresponding table name from an entity
+     * @param Entity $entity
+     * @return string
+     */
+    protected function getEntityTable(Entity $entity)
+    {
+        return lcfirst(explode('Entity\\', get_class($entity))[1]);
+    }
+
+
+    /**
+     * Construct the SET clause for UPDATE
+     * @param array $set
+     * @return string
+     */
+    protected function addSetClauseToQuery(Entity $entity, array $set)
+    {
+        $setClause = [];
+        foreach ($set as $field) {
+            if ($field != 'id')
+                $setClause[] = $this->getEntityTable($entity) . '.' . $field . '=:' . $field;
+        }
+        return " SET " . implode(',', $setClause);
     }
 }

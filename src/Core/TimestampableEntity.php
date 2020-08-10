@@ -10,9 +10,9 @@ use Exception;
 trait TimestampableEntity
 {
     /** @var dateTime */
-    private $dateCreated;
+    protected $dateCreated;
     /** @var dateTime */
-    private $dateModified;
+    protected $dateModified;
 
     /**@return DateTime
      * @throws Exception
@@ -33,10 +33,11 @@ trait TimestampableEntity
 
     /**
      * @return DateTime
+     * @throws Exception
      */
     public function getDateModified(): DateTime
     {
-        return $this->dateModified;
+        return new dateTime($this->dateModified);
     }
 
     /**
@@ -45,10 +46,6 @@ trait TimestampableEntity
      */
     public function setDateModified(DateTime $dateModified): void
     {
-        $this->dateModified = $dateModified;
+        $this->dateModified = $dateModified->format('Y-m-d H:i:s');
     }
-
-
-
-
 }
