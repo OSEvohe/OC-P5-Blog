@@ -196,10 +196,9 @@ class Manager
         $params = [];
         if (!empty($order)) {
             foreach ($order as $field => $sort) {
-                if (!in_array($sort, ['ASC', 'DESC'])) {
-                    return '';
+                if (in_array($sort, ['ASC', 'DESC'])) {
+                    $params[] = $field . " " . $sort;
                 }
-                $params[] = $field . " " . $sort;
             }
             return " ORDER BY " . implode(',', $params);
         }
