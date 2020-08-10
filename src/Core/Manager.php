@@ -4,6 +4,7 @@
 namespace Core;
 
 use PDO;
+use PDOStatement;
 
 class Manager
 {
@@ -23,7 +24,13 @@ class Manager
      */
     public function findAll(string $table, array $order = [], array $limit = [])
     {
-        $query = $this->db->prepare("SELECT * FROM " . $table . $this->addOrderToQuery($order) . $this->addLimitToQuery($limit));
+        $orderClause = $this->addOrderToQuery($order);
+        $limitClause = $this->addLimitToQuery($limit);
+
+        $query = $this->db->prepare("SELECT * FROM " . $table . $orderClause . $limitClause);
+
+        if ($limitClause) $this->bindLimitValues($query, $limit);
+
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
 
@@ -40,13 +47,17 @@ class Manager
      */
     public function findBy(string $table, array $where, array $order = [], array $limit = [])
     {
-        $query = $this->db->prepare("SELECT * FROM " . $table . $this->addWhereToQuery($where) . $this->addOrderToQuery($order) . $this->addLimitToQuery($limit));
-        foreach ($where as $field => $value) {
-            $query->bindValue(':' . $field, $value);
-        }
+        $whereClause = $this->addWhereToQuery($where);
+        $orderClause = $this->addOrderToQuery($order);
+        $limitClause = $this->addLimitToQuery($limit);
+
+        $query = $this->db->prepare("SELECT * FROM " . $table . $whereClause . $orderClause . $limitClause);
+
+        if ($whereClause) $this->bindWhereValues($query, $where);
+        if ($limitClause) $this->bindLimitValues($query, $limit);
+
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
-
         return $query->fetchAll();
     }
 
@@ -55,91 +66,106 @@ class Manager
      * @param string $table table for FROM Clause
      * @param array $where keys : field Name<br />value : value to Find<br />example : ["userId" => 1, "postId" => 3]
      * @param array $order keys : fieldName<br />value : orderDirection<br />example : ["lastName" => "DESC", "firstName" => "ASC]
-     * @return Entity return Entity or FALSE if no result
+     * @return mixed return Entity or FALSE if no result
      */
     public function findOneBy(string $table, array $where, array $order = [])
     {
         $result = $this->findBy($table, $where, $order, ['count_row' => 1]);
-        if (!empty($result)){
+        if (!empty($result)) {
             return $result[0];
         }
         return FALSE;
     }
 
+    public function delete(string $table, int $id)
+    {
 
-    public function update(Entity $entity){
-        $table = lcfirst(explode('Entity\\', get_class($entity))[1]);
+    }
 
-        $query = "Update ".$table. " SET ";
-        foreach ($entity as $attr => $value){
-            if ($attr != 'id') {
-                $query .= $attr . " = :" . $attr . " ";
-            }
+
+    public function update($entity)
+    {
+
+    }
+
+    public function create()
+    {
+
+    }
+
+
+    /** ------------- HELPERS -------------- */
+
+
+    protected function bindWhereValues(PDOStatement $preparedQuery, $where): void
+    {
+        foreach ($where as $field => $value) {
+            $preparedQuery->bindValue(':' . $field, $value);
         }
-        $query .= "Where id = :id";
-        echo $query;
     }
 
-    public function delete(){
-
-    }
-
-    public function create(){
-
+    protected function bindLimitValues(PDOStatement $preparedQuery, $limit): void
+    {
+        foreach ($limit as $param => $value) {
+            $preparedQuery->bindValue(':' . $param, (int)$value, PDO::PARAM_INT);
+        }
     }
 
 
     /**
+     * Construct the WHERE clause
      * @param array $where
      * @return string
      */
     protected function addWhereToQuery(array $where)
     {
-        $query = '';
+        $params = [];
         if (!empty($where)) {
-            $query = ' WHERE 1 ';
             foreach (array_keys($where) as $field) {
-                $query .= "AND " . $field . "=:" . "$field";
+                $params[] = $field . "=:" . "$field";
             }
+            return " WHERE " . implode(" AND ", $params);
         }
-        return $query;
+        return '';
     }
 
     /**
+     * Construct the ORDER BY clause
      * @param array $order
      * @return string
      */
     protected function addOrderToQuery(array $order)
     {
-        $query = '';
+        $params = [];
         if (!empty($order)) {
-            $query .= " ORDER BY";
             foreach ($order as $field => $sort) {
                 if (in_array($sort, ['ASC', 'DESC'])) {
-                    $query .= " " . $field . " " . $sort;
+                    $params[] = $field . " " . $sort;
                 } else {
                     return '';
                 }
             }
+            return " ORDER BY " . implode(',', $params);
         }
-        return $query;
+        return '';
     }
 
 
     /**
+     * Construct the LIMIT clause
      * @param array $limit
      * @return string
      */
     protected function addLimitToQuery(array $limit)
     {
-        $query = '';
+        $params = [];
         if (isset($limit['count_row']) && is_int($limit['count_row'])) {
-            $query .= " LIMIT ";
             if (isset($limit['offset']) && is_int($limit['offset'])) {
-                $query .= $limit['offset'] . ",";
+                $params[] = ':offset';
             }
-            $query .= $limit['count_row'];
+            $params[] = ':count_row';
+            return " LIMIT " . implode(',', $params);
         }
-        return $query;
+        return '';
     }
 }
