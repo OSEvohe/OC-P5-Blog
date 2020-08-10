@@ -3,6 +3,8 @@
 namespace Core;
 
 
+use Controller\PublicController\HomeController;
+
 class Router
 {
     protected $controller;
@@ -22,7 +24,7 @@ class Router
                 return $this->controller = new $controllerClass($route['action'],$params);
             }
         }
-        $this->controller = new \Controller\PublicController\HomeController('error404', '');
+        return $this->controller = new HomeController('error404', '');
     }
 
     public function getController()

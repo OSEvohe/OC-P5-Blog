@@ -16,6 +16,10 @@ class User extends Entity
     /** @var string */
     protected $role;
 
+    const ROLE_GUEST = 'guest';
+    const ROLE_MEMBER = 'member';
+    const ROLE_ADMIN = 'admin';
+
     /**
      * @return string
      */
@@ -69,7 +73,10 @@ class User extends Entity
      */
     public function getRole(): array
     {
-        return unserialize($this->role);
+        $role = unserialize($this->role);
+        if (empty($role))
+            $role[] = self::ROLE_GUEST;
+        return $role;
     }
 
     /**
