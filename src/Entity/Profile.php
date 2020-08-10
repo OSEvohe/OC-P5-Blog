@@ -4,22 +4,19 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class Profile extends Entity
 {
-    use TimestampableEntity;
-
     /** @var string */
-    private $lastName;
+    protected $lastName;
     /** @var string */
-    private $firstName;
+    protected $firstName;
     /** @var string */
-    private $photoUrl;
+    protected $photoUrl;
     /** @var string */
-    private $cvUrl;
+    protected $cvUrl;
     /** @var string */
-    private $teasing;
+    protected $teasing;
 
     /**
      * @return string

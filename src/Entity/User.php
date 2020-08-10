@@ -4,20 +4,17 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class User extends Entity
 {
-    use TimestampableEntity;
-
     /** @var string */
-    private $login;
+    protected $login;
     /** @var string */
-    private $passwordHash;
+    protected $passwordHash;
     /** @var string */
-    private $displayName;
+    protected $displayName;
     /** @var string */
-    private $role;
+    protected $role;
 
     /**
      * @return string

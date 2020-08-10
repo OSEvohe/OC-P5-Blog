@@ -4,20 +4,17 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class Post extends Entity
 {
-    use TimestampableEntity;
-
     /** @var string */
-    private $content;
+    protected $content;
     /** @var string */
-    private $title;
+    protected $title;
     /** @var string */
-    private $lead;
+    protected $lead;
     /** @var int */
-    private $userId;
+    protected $userId;
 
     /**
      * @return string
