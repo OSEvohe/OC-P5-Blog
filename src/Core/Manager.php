@@ -32,7 +32,7 @@ class Manager
 
         $query = $this->db->prepare("SELECT * FROM " . $table . $orderClause . $limitClause);
 
-        if ($limitClause) $this->bindLimitValues($query, $limit);
+        if ($limitClause) $this->bindArrayOfValues($query, $limit);
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
