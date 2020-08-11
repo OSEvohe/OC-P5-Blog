@@ -49,8 +49,8 @@ class Manager
     public function findBy(string $table, array $where, array $order = [], array $limit = [])
     {
         $whereClause = $this->addWhereToQuery($where);
-        $orderClause = $this->addOrderToQuery($order);
-        $limitClause = $this->addLimitToQuery($limit);
+        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
+        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
 
         $query = $this->db->prepare("SELECT * FROM " . $table . $whereClause . $orderClause . $limitClause);
 
@@ -193,16 +193,12 @@ class Manager
      */
     protected function addOrderToQuery(array $order)
     {
-        $params = [];
-        if (!empty($order)) {
             foreach ($order as $field => $sort) {
                 if (in_array($sort, ['ASC', 'DESC'])) {
                     $params[] = $field . " " . $sort;
                 }
             }
             return " ORDER BY " . implode(',', $params);
-        }
-        return '';
     }
 
 
