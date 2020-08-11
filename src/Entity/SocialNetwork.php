@@ -4,18 +4,15 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class SocialNetwork extends Entity
 {
-    use TimestampableEntity;
-
     /** @var string */
-    private $name;
+    protected $name;
     /** @var string */
-    private $iconClass;
+    protected $iconClass;
     /** @var string */
-    private $profileUrl;
+    protected $profileUrl;
 
     /**
      * @return string

@@ -4,23 +4,17 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class Comment extends Entity
 {
-    use TimestampableEntity;
-
     /** @var string */
-    private $content;
-
+    protected $content;
     /** @var bool */
-    private $visible;
-
+    protected $visible;
     /** @var int */
-    private $userId;
-
+    protected $userId;
     /** @var int */
-    private $postId;
+    protected $postId;
 
 
     /** @return string */

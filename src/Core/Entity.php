@@ -4,8 +4,10 @@
 namespace Core;
 
 
+
 class Entity
 {
+    use TimestampableEntity;
 
     /** @var int */
     protected $id;
@@ -50,5 +52,9 @@ class Entity
                 $this->$method($value);
             }
         }
+    }
+
+    public function entityToArray(){
+        return get_object_vars($this);
     }
 }

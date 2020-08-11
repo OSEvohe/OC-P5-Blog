@@ -5,18 +5,21 @@ namespace Core;
 
 
 use DateTime;
+use Exception;
 
 trait TimestampableEntity
 {
     /** @var dateTime */
-    private $dateCreated;
+    protected $dateCreated;
     /** @var dateTime */
-    private $dateModified;
+    protected $dateModified;
 
-    /**@return DateTime */
+    /**@return DateTime
+     * @throws Exception
+     */
     public function getDateCreated(): DateTime
     {
-        return $this->dateCreated;
+        return new DateTime($this->dateCreated);
     }
 
     /**
@@ -25,15 +28,16 @@ trait TimestampableEntity
      */
     public function setDateCreated(DateTime $dateCreated): void
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = $dateCreated->format('Y-m-d H:i:s');
     }
 
     /**
      * @return DateTime
+     * @throws Exception
      */
     public function getDateModified(): DateTime
     {
-        return $this->dateModified;
+        return new dateTime($this->dateModified);
     }
 
     /**
@@ -42,10 +46,6 @@ trait TimestampableEntity
      */
     public function setDateModified(DateTime $dateModified): void
     {
-        $this->dateModified = $dateModified;
+        $this->dateModified = $dateModified->format('Y-m-d H:i:s');
     }
-
-
-
-
 }

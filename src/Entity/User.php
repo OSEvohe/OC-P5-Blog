@@ -4,20 +4,21 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\TimestampableEntity;
 
 class User extends Entity
 {
-    use TimestampableEntity;
+    /** @var string */
+    protected $login;
+    /** @var string */
+    protected $passwordHash;
+    /** @var string */
+    protected $displayName;
+    /** @var string */
+    protected $role;
 
-    /** @var string */
-    private $login;
-    /** @var string */
-    private $passwordHash;
-    /** @var string */
-    private $displayName;
-    /** @var string */
-    private $role;
+    const ROLE_GUEST = 'guest';
+    const ROLE_MEMBER = 'member';
+    const ROLE_ADMIN = 'admin';
 
     /**
      * @return string
@@ -72,7 +73,10 @@ class User extends Entity
      */
     public function getRole(): array
     {
-        return unserialize($this->role);
+        $role = unserialize($this->role);
+        if (empty($role))
+            $role[] = self::ROLE_GUEST;
+        return $role;
     }
 
     /**
