@@ -25,8 +25,10 @@ class Manager
      */
     public function findAll(string $table, array $order = [], array $limit = [])
     {
-        $orderClause = $this->addOrderToQuery($order);
-        $limitClause = $this->addLimitToQuery($limit);
+        $orderClause = $limitClause = '';
+
+        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
+        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
 
         $query = $this->db->prepare("SELECT * FROM " . $table . $orderClause . $limitClause);
 
@@ -48,6 +50,7 @@ class Manager
      */
     public function findBy(string $table, array $where, array $order = [], array $limit = [])
     {
+        $orderClause = $limitClause = '';
         $whereClause = $this->addWhereToQuery($where);
         if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
         if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
