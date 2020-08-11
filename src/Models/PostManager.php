@@ -16,9 +16,9 @@ class PostManager extends \Core\Manager
         if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
         if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
 
-        $queryStr = "   SELECT `post`.*, `user`.displayName,count(comment.id) as comment_count
-                        from `post` LEFT OUTER JOIN `comment` on `post`.id = `comment`.postId
-                        INNER JOIN `user` on `post`.userId = `user`.id
+        $queryStr = "   SELECT `post`.*, `user`.displayName,count(comment.id) AS comment_count
+                        FROM `post` LEFT OUTER JOIN `comment` ON `post`.id = `comment`.postId
+                        INNER JOIN `user` ON `post`.userId = `user`.id
                         GROUP BY post.id";
 
         $query = $this->db->prepare($queryStr . $orderClause . $limitClause);

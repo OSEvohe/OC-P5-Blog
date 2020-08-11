@@ -8,24 +8,27 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-comment mr-1"></i>
-                    Valider le commentaire #1
+                    Valider le commentaire #{{ comment.id }}
                 </div>
                 <div class="card-body">
                     <div>
                         <strong>Commentaire</strong>
-                        <p>comment</p>
+                        <p>{{ comment.content }}</p>
                     </div>
                     <div>
                         <strong>Auteur</strong>
-                        <p>userDisplayName</p>
+                        <p>{{ author.displayName }}</p>
                     </div>
                     <div>
                         <strong>Titre du post</strong>
-                        <p>postTitle</p>
+                        <p>{{ post.title }}</p>
                     </div>
                     <div>
                         <hr/>
-                        Crée le dateCreated - Modifié le dateModified
+                        Crée le {{ comment.dateCreated.format('d-m-Y à H:i:s') }}
+                        {% if comment.dateCreated != comment.dateModified %}
+                            - Modifié le {{ comment.dateModified.format('d-m-Y à H:i:s') }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -33,26 +36,18 @@
                 <div class="card-body">
                     <form method="post">
                         <div>
-                            <input type="radio" name="visible" value="1" id="visible" checked="checked">
-                            <label for="visible" class="font-weight-bold">Visible</label>
+                            <input type="radio" name="visible" value="1" id="visible" {% if comment.visible %}checked="checked"{% endif %}>
+                            <label for="visible" {% if comment.visible %}class="font-weight-bold"{% endif %}>Visible</label>
                         </div>
                         <div>
-                            <input type="radio" name="visible" value="0" id="hidden">
-                            <label for="hidden">Caché</label>
+                            <input type="radio" name="visible" value="0" id="hidden" {% if not comment.visible %}checked="checked"{% endif %}>
+                            <label for="hidden" {% if not comment.visible %}class="font-weight-bold"{% endif %}>Caché</label>
                         </div>
                         <button type="submit" name="comment_editSubmit">Valider</button>
-                        <input type="hidden" value="id" />
+                        <input type="hidden" name="id" value="{{ comment.id }}" />
                     </form>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scriptJS %}
-    <script>
-        CKEDITOR.replace('postText', {
-            baseFloatZIndex: 10005,
-        });
-    </script>
 {% endblock %}

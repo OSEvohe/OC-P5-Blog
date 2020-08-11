@@ -5,6 +5,7 @@ namespace Controller\AdminController;
 
 use Core\Controller;
 use Entity\User;
+use Models\CommentManager;
 use Models\PostManager;
 use Models\UserManager;
 
@@ -41,14 +42,30 @@ class BlogController extends Controller
 
     public function executeListComments()
     {
+        $manager = new CommentManager();
+        if ($this->params['postId'] == 'all')
+            $this->templateVars['comments'] = $manager->getComments();
+        else
+            $this->templateVars['comments'] = $manager->getComments(['postId' => $this->params['postId']]);
+
         $this->render('@admin/comments_list.html.twig');
     }
 
-    public function executeEditComment(){
+    public function executeEditComment()
+    {
+        $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy('comment', ['id' => $this->params['id']]);
+        $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $comment->getUserId()]);
+        $this->templateVars['post'] = (new PostManager())->findOneBy('post', ['id' => $comment->getPostId()]);
+
         $this->render('@admin/comment_edit.html.twig');
     }
 
-    public function executeDeleteComment(){
+    public function executeDeleteComment()
+    {
+        $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy('comment', ['id' => $this->params['id']]);
+        $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $comment->getUserId()]);
+        $this->templateVars['post'] = (new PostManager())->findOneBy('post', ['id' => $comment->getPostId()]);
+
         $this->render('@admin/comment_delete.html.twig');
     }
 }
