@@ -25,14 +25,11 @@ abstract class Controller
         $this->params = $params;
 
         try {
-            $loader = new FilesystemLoader(ROOT_DIR . '/templates');
-            $loader->addPath(ROOT_DIR . '/templates/public', 'public');
-            $loader->addPath(ROOT_DIR . '/templates/admin', 'admin');
-
-            $this->twig = new Environment($loader);
+            $this->loadTwigConfig();
         } catch (Error $e) {
             throw new BlogControllerLoaderError($e->getMessage());
         }
+
     }
 
     public function execute()
@@ -60,5 +57,18 @@ abstract class Controller
     {
         $this->templateVars['error'] = $e;
         $this->render('@public/error.html.twig');
+    }
+
+    private function loadTwigConfig()
+    {
+        $loader = new FilesystemLoader(ROOT_DIR . '/templates');
+        $loader->addPath(ROOT_DIR . '/templates/public', 'public');
+        $loader->addPath(ROOT_DIR . '/templates/admin', 'admin');
+
+        $this->twig = new Environment($loader);
+
+        $config = yaml_parse_file(ROOT_DIR.'/config/config.yml');
+        $this->twig->addGlobal('locale', $config['twig_global']['locale']);
+        $this->twig->addGlobal('charset',$config['twig_global']['charset']);
     }
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ locale }}">
 <head>
     <title>{% block title %}Sollagnier Blog{% endblock %}</title>
-    <meta charset="UTF-8">
+    <meta charset="{{ charset }}">
     <meta name="description" content="Sollagnier Blog, développeur d'application PHP/Symfony">
     <meta name="keywords" content="développeur, php, symfony, openclassrooms">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,7 +74,7 @@
 {% block content %}{% endblock %}
 
 <!-- Footer section  -->
-<footer class="footer-section set-bg">
+<footer class="footer-section">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
