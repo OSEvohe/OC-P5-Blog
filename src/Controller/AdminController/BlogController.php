@@ -53,19 +53,22 @@ class BlogController extends Controller
 
     public function executeEditComment()
     {
-        $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy('comment', ['id' => $this->params['id']]);
-        $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $comment->getUserId()]);
-        $this->templateVars['post'] = (new PostManager())->findOneBy('post', ['id' => $comment->getPostId()]);
-
+        $this->setTemplateVarsForSingleComment();
         $this->render('@admin/comment_edit.html.twig');
     }
 
     public function executeDeleteComment()
     {
+        $this->setTemplateVarsForSingleComment();
+        $this->render('@admin/comment_delete.html.twig');
+    }
+
+    private function setTemplateVarsForSingleComment()
+    {
         $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy('comment', ['id' => $this->params['id']]);
         $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $comment->getUserId()]);
         $this->templateVars['post'] = (new PostManager())->findOneBy('post', ['id' => $comment->getPostId()]);
 
-        $this->render('@admin/comment_delete.html.twig');
+        return $comment;
     }
 }
