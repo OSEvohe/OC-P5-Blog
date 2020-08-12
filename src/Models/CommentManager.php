@@ -9,15 +9,22 @@ use PDO;
 class CommentManager extends \Core\Manager
 {
 
-    public function getComments(array $where = [], array $order = [], array $limit = []){
+    public function getComments(array $where = [], array $order = [], array $limit = [])
+    {
 
         $orderClause = '';
         $limitClause = '';
         $whereClause = '';
 
-        if (!empty($where)) $whereClause = $this->addWhereToQuery($where);
-        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
-        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
+        if (!empty($where)) {
+            $whereClause = $this->addWhereToQuery($where);
+        }
+        if (!empty($order)) {
+            $orderClause = $this->addOrderToQuery($order);
+        }
+        if (!empty($limit)) {
+            $limitClause = $this->addLimitToQuery($limit);
+        }
 
         $queryStr = "   SELECT comment.*, `user`.id, `user`.displayName, post.title as postTitle
                         FROM comment 
@@ -26,8 +33,12 @@ class CommentManager extends \Core\Manager
 
         $query = $this->db->prepare($queryStr . $whereClause . $orderClause . $limitClause);
 
-        if ($whereClause) $this->bindArrayOfValues($query, $where);
-        if ($limitClause) $this->bindArrayOfValues($query, $limit);
+        if ($whereClause) {
+            $this->bindArrayOfValues($query, $where);
+        }
+        if ($limitClause) {
+            $this->bindArrayOfValues($query, $limit);
+        }
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\Comment');

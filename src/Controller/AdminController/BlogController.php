@@ -43,10 +43,11 @@ class BlogController extends Controller
     public function executeListComments()
     {
         $manager = new CommentManager();
-        if ($this->params['postId'] == 'all')
+        if ($this->params['postId'] == 'all') {
             $this->templateVars['comments'] = $manager->getComments();
-        else
+        } else {
             $this->templateVars['comments'] = $manager->getComments(['postId' => $this->params['postId']]);
+        }
 
         $this->render('@admin/comments_list.html.twig');
     }

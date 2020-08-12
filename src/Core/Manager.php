@@ -27,12 +27,18 @@ class Manager
     {
         $orderClause = $limitClause = '';
 
-        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
-        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
+        if (!empty($order)) {
+            $orderClause = $this->addOrderToQuery($order);
+        }
+        if (!empty($limit)) {
+            $limitClause = $this->addLimitToQuery($limit);
+        }
 
         $query = $this->db->prepare("SELECT * FROM " . $table . $orderClause . $limitClause);
 
-        if ($limitClause) $this->bindArrayOfValues($query, $limit);
+        if ($limitClause) {
+            $this->bindArrayOfValues($query, $limit);
+        }
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
@@ -196,12 +202,12 @@ class Manager
      */
     protected function addOrderToQuery(array $order)
     {
-            foreach ($order as $field => $sort) {
-                if (in_array($sort, ['ASC', 'DESC'])) {
-                    $params[] = $field . " " . $sort;
-                }
+        foreach ($order as $field => $sort) {
+            if (in_array($sort, ['ASC', 'DESC'])) {
+                $params[] = $field . " " . $sort;
             }
-            return " ORDER BY " . implode(',', $params);
+        }
+        return " ORDER BY " . implode(',', $params);
     }
 
 
