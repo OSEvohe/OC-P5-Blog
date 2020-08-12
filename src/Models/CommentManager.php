@@ -11,7 +11,6 @@ class CommentManager extends \Core\Manager
 
     public function getComments(array $where = [], array $order = [], array $limit = [])
     {
-
         $orderClause = '';
         $limitClause = '';
         $whereClause = '';
@@ -26,11 +25,8 @@ class CommentManager extends \Core\Manager
             $limitClause = $this->addLimitToQuery($limit);
         }
 
-        $queryStr = "   SELECT comment.*, `user`.id, `user`.displayName, post.title as postTitle
-                        FROM comment 
-                        INNER JOIN post ON post.id = comment.postId
-                        INNER JOIN `user` ON `user`.id = comment.userId";
-
+        $queryStr = "   SELECT comment.*, `user`.id, `user`.displayName, post.title as postTitle FROM comment 
+                        INNER JOIN post ON post.id = comment.postId INNER JOIN `user` ON `user`.id = comment.userId";
         $query = $this->db->prepare($queryStr . $whereClause . $orderClause . $limitClause);
 
         if ($whereClause) {
@@ -42,8 +38,6 @@ class CommentManager extends \Core\Manager
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\Comment');
-
         return $query->fetchAll();
     }
-
 }
