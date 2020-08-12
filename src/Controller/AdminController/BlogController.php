@@ -28,7 +28,7 @@ class BlogController extends Controller
     {
         $post = (new PostManager())->findOneBy('post', ['id' => $this->params['id']]);
         $this->templateVars['post'] = $post;
-        $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_GUEST);
+        $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_ADMIN);
         $this->render('@admin/post_edit.html.twig');
     }
 
