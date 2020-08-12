@@ -13,8 +13,12 @@ class PostManager extends \Core\Manager
         $orderClause = '';
         $limitClause = '';
 
-        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
-        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
+        if (!empty($order)) {
+            $orderClause = $this->addOrderToQuery($order);
+        }
+        if (!empty($limit)) {
+            $limitClause = $this->addLimitToQuery($limit);
+        }
 
         $queryStr = "   SELECT `post`.*, `user`.displayName,count(comment.id) AS comment_count
                         FROM `post` LEFT OUTER JOIN `comment` ON `post`.id = `comment`.postId
@@ -23,7 +27,9 @@ class PostManager extends \Core\Manager
 
         $query = $this->db->prepare($queryStr . $orderClause . $limitClause);
 
-        if ($limitClause) $this->bindArrayOfValues($query, $limit);
+        if ($limitClause) {
+            $this->bindArrayOfValues($query, $limit);
+        }
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\Post');
