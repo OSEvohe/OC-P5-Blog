@@ -8,32 +8,34 @@
             <div class="card">
                 <div class="card-header">
                     <i class="far fa-newspaper mr-1"></i>
-                    Modifier le post #1
+                    Modifier le post #{{ post.id }}
                 </div>
                 <div class="card-body">
                     <form method="post">
                         <div>
                             <label for="postTitle" class="d-block">Titre</label>
-                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" maxlength="60" width="60"/>
+                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" maxlength="60" width="60" value="{{ post.title }}"/>
                         </div>
                         <div class="mt-4">
                             <label for="PostLead" class="d-block">Chapô</label>
-                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="lead" id="postLead"></textarea>
+                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="lead" id="postLead">{{ post.lead }}</textarea>
                         </div>
                         <div class="mt-4">
                             <label for="postAuthor" class="d-block"></label>
                             <select name="userId" id="postAuthor">
-                                <option value="Admin">Admin</option>
+                                {% for author in authors %}
+                                <option value="{{ author.id }}"{% if author.id == post.userId %} selected class="font-weight-bold bg-dark text-white"{% endif %}>{{ author.displayName }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="mt-4" style="width:726px;max-width: 100%">
                             <label for="postText" class="d-block">Texte</label>
-                            <textarea name="content" id="Posttext"></textarea>
+                            <textarea name="content" id="postText">{{ post.content }}</textarea>
                         </div>
                         <div class="my-4">
                             <input class="btn-primary" type="submit" id="post_editSubmit" value="Modifier"/>
                         </div>
-                        <input type="hidden" name="id" value="1" />
+                        <input type="hidden" name="id" value="{{ post.id }}" />
                     </form>
                 </div>
             </div>

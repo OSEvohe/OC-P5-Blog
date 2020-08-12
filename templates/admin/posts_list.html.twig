@@ -46,62 +46,22 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Post 1</td>
-                                <td>21-07-2020</td>
-                                <td>-</td>
-                                <td>Admin</td>
-                                <td><a href="/admin/comments/1">2 <i class="fas fa-comment"></i></a></td>
-                                <td class="posts_list_actions">
-                                    <a href="/admin/blog/edit/1"><i class="fas fa-edit"></i></a>
-                                    <a href="/admin/blog/delete/1"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Post 2 avec un titre un peu long mais pas trop quand même</td>
-                                <td>22-07-2020</td>
-                                <td>-</td>
-                                <td>Admin</td>
-                                <td>1 <i class="fas fa-comment"></i></td>
-                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
-                                            class="fas fa-edit"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Post 3</td>
-                                <td>23-07-2020</td>
-                                <td>30-07-2020</td>
-                                <td>Admin</td>
-                                <td>3 <i class="fas fa-comment"></i></td>
-                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
-                                            class="fas fa-edit"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Post 4</td>
-                                <td>24-07-2020</td>
-                                <td>-</td>
-                                <td>Admin</td>
-                                <td>0 <i class="fas fa-comment"></i></td>
-                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
-                                            class="fas fa-edit"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Post 5</td>
-                                <td>25-07-2020</td>
-                                <td>-</td>
-                                <td>Admin</td>
-                                <td>2 <i class="fas fa-comment"></i></td>
-                                <td class="posts_list_actions"><i class="fas fa-trash"></i>&nbsp;<i
-                                            class="fas fa-edit"></i>
-                                </td>
-                            </tr>
+                            {% for post in posts %}
+                                <tr>
+                                    <td>{{ post.id }}</td>
+                                    <td>{{ post.title }}</td>
+                                    <td>{{ post.dateCreated.format('Y-m-d H:i:s') }}</td>
+                                    <td>{% if post.dateModified != post.dateCreated %}{{ post.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                                    <td>{{ post.displayName }}</td>
+                                    <td>{% if post.comment_count > 0 %}<a
+                                            href="/admin/comments/{{ post.id }}">{{ post.comment_count }} <i
+                                                    class="fas fa-comment"></i></a>{% else %}-{% endif %}</td>
+                                    <td class="posts_list_actions">
+                                        <a href="/admin/blog/edit/{{ post.id }}"><i class="fas fa-edit"></i></a>
+                                        <a href="/admin/blog/delete/{{ post.id }}"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

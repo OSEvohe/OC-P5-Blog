@@ -8,25 +8,25 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-user"></i>
-                    Modifier un réseau social
+                    Modifier le réseau social #{{ network.id }}
                 </div>
                 <div class="card-body">
                     <form method="post">
                         <div>
                             <label for="name" class="col-form-label d-block">Nom du réseau</label>
-                            <input type="text" maxlength="30" name="name" style="width: 200px;" id="name" value="name"/>
+                            <input type="text" maxlength="30" name="name" style="width: 200px;" id="name" value="{{ network.name }}"/>
                         </div>
                         <div>
                             <label for="profileUrl" class="col-form-label d-block">Lien du profil</label>
-                            <input type="text" maxlength="100" name="profileUrl" id="profileUrl" value="profileUrl" style="width: 200px;"/>
+                            <input type="text" maxlength="100" style="width: 686px;max-width: 100%" name="profileUrl" id="profileUrl" value="{{ network.profileUrl }}"/>
                         </div>
                         <div>
                             <label for="icon" class="col-form-label d-block">Classe de l'icone Font-Awesome</label>
-                            <input type="text" maxlength="30" name="iconClass" id="icon" value="iconClass" style="width: 200px;">
+                            <input type="text" maxlength="30" name="iconClass" id="icon" value="{{ network.iconClass }}" style="width: 200px;">
                         </div>
                         <div class="mt-4">
                             <button type="submit" class="btn-primary" name="social_newSubmit">Modifier</button>
-                            <input type="hidden" name="id" value="id" />
+                            <input type="hidden" name="id" value="{{ network.id }}" />
                         </div>
                     </form>
                 </div>

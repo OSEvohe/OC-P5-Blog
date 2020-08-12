@@ -37,6 +37,9 @@ trait TimestampableEntity
      */
     public function getDateModified(): DateTime
     {
+        if (is_null($this->dateModified)) {
+            return $this->getDateCreated();
+        }
         return new dateTime($this->dateModified);
     }
 

@@ -6,9 +6,10 @@
         <div class="hero-slider owl-carousel">
             <div class="hero-slide-item set-bg" data-setbg="img/slider-bg-1.jpg">
                 <div class="hs-text">
-                    <h2 class="hs-title-1"><span>Sébastien Ollagnier</span></h2>
+                    <h2 class="hs-title-1"><span>{{ profile.lastName }} {{ profile.firstName }}</span></h2>
                     <h2 class="hs-title-2"><span>Développeur</span></h2>
                     <h2 class="hs-title-3"><span>PHP/Symfony</span></h2>
+                    <span><img src="{{ profile.photoUrl }}" class="profile-photo"/></span>
                 </div>
             </div>
         </div>
@@ -26,8 +27,7 @@
                     <div class="col-lg-4 col-md-5 offset-lg-8 offset-md-7">
                         <div class="add-text text-white">
                             <div class="at-style"></div>
-                            <p class="lead">Responsable Informatique pendant 10 ans je me forme en tant que Développeur
-                                PhP/Symfony chez OpenClassrooms</p>
+                            <p class="lead pr-2">{{ profile.teasing }}</p>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="row pb-5">
                 <div class="col-12 text-center">
-                    <div class="site-btn text-center">Voir Mon CV</div>
+                    <div class="site-btn text-center"><a href="{{ profile.cvUrl }}" class="text-white">Voir Mon CV</a></div>
                 </div>
             </div>
             <div class="row">

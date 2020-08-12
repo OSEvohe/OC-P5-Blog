@@ -55,6 +55,9 @@ class Profile extends Entity
      */
     public function getPhotoUrl(): string
     {
+        if (is_null($this->photoUrl)) {
+            return '';
+        }
         return $this->photoUrl;
     }
 
@@ -71,6 +74,9 @@ class Profile extends Entity
      */
     public function getCvUrl(): string
     {
+        if (is_null($this->cvUrl)) {
+            return '';
+        }
         return $this->cvUrl;
     }
 

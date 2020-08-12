@@ -8,34 +8,38 @@
             <div class="card">
                 <div class="card-header">
                     <i class="far fa-newspaper mr-1"></i>
-                    Supprimer le post #id
+                    Supprimer le post #{{ post.id }}
                 </div>
                 <div class="card-body">
                     <div>
                         <strong>Titre du post</strong>
-                        <p>title</p>
+                        <p>{{ post.title }}</p>
                     </div>
                     <div>
                         <strong>Auteur</strong>
-                        <p>userDisplayName</p>
+                        <p>{{ author.displayName }}</p>
                     </div>
                     <div>
                         <strong>Chapô</strong>
-                        <p>lead</p>
+                        <p>{{ post.lead }}</p>
                     </div>
                     <div>
                         <hr/>
-                        Crée le dateCreated - Modifié le dateModified
+                        Crée le {{ post.dateCreated.format('d-m-Y à H:i:s') }}
+                        {% if post.dateCreated != post.dateModified %}
+                            - Modifié le {{ post.dateModified.format('d-m-Y à H:i:s') }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <p><strong>Voulez vous supprimer le post #id ?</strong></p>
+                    <p><strong>Voulez vous supprimer le post #{{ post.id }} ?</strong></p>
                     <div>
                         <form method="post">
                             <button type="submit" name="post_deleteCancel">Annuler</button>
                             <button type="submit" name="post_deleteSubmit">Supprimer</button>
+                            <input type="hidden" name="id" value="{{ post.id }}"/>
                         </form>
                     </div>
                 </div>

@@ -61,17 +61,19 @@
                             </tr>
                             </tfoot>
                             <tbody>
+                            {% for network in socialNetworks %}
                             <tr>
-                                <td>id</td>
-                                <td>classIcon</td>
-                                <td>name</td>
-                                <td>profileUrl</td>
-                                <td>dateCreated</td>
-                                <td>dateModified</td>
+                                <td>{{ network.id }}</td>
+                                <td><em class="{{ network.iconClass }}"></em></td>
+                                <td>{{ network.name }}</td>
+                                <td>{{ network.profileUrl }}</td>
+                                <td>{{ network.dateCreated.format('Y-m-d H:i:s') }}</td>
+                                <td>{% if network.dateModified != network.dateCreated %}{{ network.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
                                 <td>
-                                    <a href="/admin/social/edit/1"><i class="fas fa-edit"></i></a>
-                                    <a href="/admin/social/delete/1"><i class="fas fa-trash"></i></a></td>
+                                    <a href="/admin/social/edit/{{ network.id }}"><i class="fas fa-edit"></i></a>
+                                    <a href="/admin/social/delete/{{ network.id }}"><i class="fas fa-trash"></i></a></td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

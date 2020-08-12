@@ -108,14 +108,14 @@ social_edit:
   zone: Admin
   controller: ProfilController
   action: editSocial
-  params: []
+  params: [id]
 
 social_delete:
   uri: ^/admin/social/delete/([0-9]+)$
   zone: Admin
   controller: ProfilController
   action: deleteSocial
-  params: []
+  params: [id]
 
 social:
   uri: ^/admin/social$
