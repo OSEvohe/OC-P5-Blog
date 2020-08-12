@@ -1,3 +1,2 @@
-twig_global:
-  locale: 'fr'
-  charset: 'UTF-8'
+locale: 'fr'
+charset: 'UTF-8'

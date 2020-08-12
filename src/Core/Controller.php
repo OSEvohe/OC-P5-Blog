@@ -68,7 +68,7 @@ abstract class Controller
         $this->twig = new Environment($loader);
 
         $config = yaml_parse_file(ROOT_DIR.'/config/config.yml');
-        $this->twig->addGlobal('locale', $config['twig_global']['locale']);
-        $this->twig->addGlobal('charset',$config['twig_global']['charset']);
+        $this->twig->addGlobal('locale', $config['locale']);
+        $this->twig->addGlobal('charset',$config['charset']);
     }
 }
