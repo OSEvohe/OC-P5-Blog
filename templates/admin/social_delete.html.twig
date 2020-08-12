@@ -8,20 +8,23 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-user mr-1"></i>
-                    Supprimer le réseau social #id
+                    Supprimer le réseau social #{{ network.id }}
                 </div>
                 <div class="card-body">
                     <div>
                         <strong>Nom du réseau social</strong>
-                        <p>name</p>
+                        <p>{{ network.name }}</p>
                     </div>
                     <div>
                         <strong>Lien vers le profil</strong>
-                        <p>profileUrl</p>
+                        <p>{{ network.profileUrl }}</p>
                     </div>
                     <div>
                         <hr/>
-                        Crée le dateCreated - Modifié le dateModified
+                        Crée le {{ network.dateCreated.format('d-m-Y à H:i:s') }}
+                        {% if network.dateCreated != network.dateModified %}
+                            - Modifié le {{ network.dateModified.format('d-m-Y à H:i:s') }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -32,6 +35,7 @@
                         <form method="post">
                             <button type="submit" name="social_deleteCancel">Annuler</button>
                             <button type="submit" name="social_deleteSubmit">Supprimer</button>
+                            <input type="hidden" name="id" value="{{ network.id }}" />
                         </form>
                     </div>
                 </div>

@@ -14,14 +14,15 @@
                     <form method="post">
                         <div class="mb-2">
                             <label for="lastName">Nom</label><br/>
-                            <input type="text" maxlength="40" name="lastName" id="lastName"/>
+                            <input type="text" maxlength="40" name="lastName" id="lastName" value="{{ profile.lastName }}"/>
                         </div>
                         <div class="mb-2">
                             <label for="fistName">Prénom</label><br/>
-                            <input type="text" maxlength="20" name="firstName" id="fistName"/>
+                            <input type="text" maxlength="20" name="firstName" id="fistName" value="{{ profile.firstName }}"/>
                         </div>
                         <div>
                             <button type="submit" name="profil_nameSubmit">Enregistrer</button>
+                            <input type="hidden" name="id" value="{{ profile.id }}" />
                         </div>
                     </form>
                 </div>
@@ -36,11 +37,13 @@
                 <div class="card-body">
                     <form method="post">
                         <div class="mb-2">
+                            <label for="teasing" class="d-none">Phrase d'accroche</label>
                             <textarea maxlength="130" name="teasing" id="teasing" style="width:686px;max-width: 100%"
-                                      rows="2"></textarea>
+                                      rows="2">{{ profile.teasing }}</textarea>
                         </div>
                         <div>
                             <button type="submit" name="profil_teasingSubmit">Enregistrer</button>
+                            <input type="hidden" name="id" value="{{ profile.id }}" />
                         </div>
                     </form>
                 </div>
@@ -55,13 +58,14 @@
                 <div class="card-body">
                     <form method="post">
                         <div class="mb-2">
-                            <img src="/img/logo.png" width="120px"/>
+                            <img src="{{ profile.photoUrl }}" width="120px" alt="Photo / Logo"/>
                         </div>
                         <div class="mb-2">
-                            <input type="file" name="profilPhoto"/>
+                            <input type="file" name="profilePhoto"/>
                         </div>
                         <div>
                             <button type="submit" name="profil_photoSubmit">Enregistrer</button>
+                            <input type="hidden" name="id" value="{{ profile.id }}" />
                         </div>
                     </form>
                 </div>
@@ -76,13 +80,14 @@
                 <div class="card-body">
                     <form method="post">
                         <div class="mb-2">
-                            <a href="/cv.pdf">/cv.pdf</a>
+                            <a href="{{ profile.cvUrl }}">/cv.pdf</a>
                         </div>
                         <div class="mb-2">
                             <input type="file" name="profilCv"/>
                         </div>
                         <div>
                             <button type="submit" name="profil_CvSubmit">Enregistrer</button>
+                            <input type="hidden" name="id" value="{{ profile.id }}" />
                         </div>
                     </form>
                 </div>
