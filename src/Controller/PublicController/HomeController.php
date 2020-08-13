@@ -14,7 +14,7 @@ class HomeController extends Controller
 
     public function executeShow()
     {
-        $profile = (new ProfileManager())->findAll('profile');
+        $profile = (new ProfileManager())->findAll();
         if (!empty($profile)) {
             $this->templateVars['profile'] = $profile[0];
         }

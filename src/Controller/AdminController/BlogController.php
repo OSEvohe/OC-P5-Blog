@@ -26,7 +26,7 @@ class BlogController extends Controller
 
     public function executeEditPost()
     {
-        $post = (new PostManager())->findOneBy('post', ['id' => $this->params['id']]);
+        $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
         $this->templateVars['post'] = $post;
         $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_ADMIN);
         $this->render('@admin/post_edit.html.twig');
@@ -34,9 +34,9 @@ class BlogController extends Controller
 
     public function executeDeletePost()
     {
-        $post = (new PostManager())->findOneBy('post', ['id' => $this->params['id']]);
+        $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
         $this->templateVars['post'] = $post;
-        $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $post->getId()]);
+        $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $post->getId()]);
         $this->render('@admin/post_delete.html.twig');
     }
 
@@ -66,9 +66,9 @@ class BlogController extends Controller
 
     private function setTemplateVarsForSingleComment()
     {
-        $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy('comment', ['id' => $this->params['id']]);
-        $this->templateVars['author'] = (new UserManager())->findOneBy('user', ['id' => $comment->getUserId()]);
-        $this->templateVars['post'] = (new PostManager())->findOneBy('post', ['id' => $comment->getPostId()]);
+        $this->templateVars['comment'] = $comment = (new CommentManager())->findOneBy(['id' => $this->params['id']]);
+        $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $comment->getUserId()]);
+        $this->templateVars['post'] = (new PostManager())->findOneBy(['id' => $comment->getPostId()]);
 
         return $comment;
     }
