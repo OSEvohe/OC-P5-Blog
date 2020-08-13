@@ -6,24 +6,26 @@ namespace Core;
 use DateTime;
 use PDO;
 use PDOStatement;
+use ReflectionClass;
 
-class Manager
+abstract class Manager
 {
     protected $db;
+    private $tableName;
 
     public function __construct()
     {
         $this->db = PDOFactory::getDBConnexion();
+        $this->tableName = lcfirst(str_replace('Manager', '', (new ReflectionClass($this))->getShortName()));
     }
 
 
     /**
-     * @param string $table table for FROM Clause
      * @param array $order keys : fieldName<br />value : orderDirection<br />example : ["lastName" => "DESC", "firstName" => "ASC]
      * @param array $limit keys : count_row, offset<br />example ["count_row" => 5, "offset" => 2]
      * @return array
      */
-    public function findAll(string $table, array $order = [], array $limit = [])
+    public function findAll(array $order = [], array $limit = [])
     {
         $orderClause = $limitClause = '';
 
@@ -34,53 +36,51 @@ class Manager
             $limitClause = $this->addLimitToQuery($limit);
         }
 
-        $query = $this->db->prepare("SELECT * FROM " . $table . $orderClause . $limitClause);
+        $query = $this->db->prepare("SELECT * FROM " . $this->tableName . $orderClause . $limitClause);
 
         if ($limitClause) {
             $this->bindArrayOfValues($query, $limit);
         }
 
         $query->execute();
-        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
+        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($this->tableName));
 
         return $query->fetchAll();
     }
 
 
     /**
-     * @param string $table table for FROM Clause
      * @param array $where keys : field Name<br />value : value to Find<br />example : ["userId" => 1, "postId" => 3]
      * @param array $order keys : fieldName<br />value : orderDirection<br />example : ["lastName" => "DESC", "firstName" => "ASC]
      * @param array $limit keys : count_row, offset<br />example ["count_row" => 5, "offset" => 2]
      * @return array
      */
-    public function findBy(string $table, array $where, array $order = [], array $limit = [])
+    public function findBy(array $where, array $order = [], array $limit = [])
     {
         $orderClause = $limitClause = '';
         $whereClause = $this->addWhereToQuery($where);
         if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
         if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
 
-        $query = $this->db->prepare("SELECT * FROM " . $table . $whereClause . $orderClause . $limitClause);
+        $query = $this->db->prepare("SELECT * FROM " . $this->tableName . $whereClause . $orderClause . $limitClause);
 
         if ($whereClause) $this->bindArrayOfValues($query, $where);
         if ($limitClause) $this->bindArrayOfValues($query, $limit);
 
         $query->execute();
-        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($table));
+        $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($this->tableName));
         return $query->fetchAll();
     }
 
 
     /**
-     * @param string $table table for FROM Clause
      * @param array $where keys : field Name<br />value : value to Find<br />example : ["userId" => 1, "postId" => 3]
      * @param array $order keys : fieldName<br />value : orderDirection<br />example : ["lastName" => "DESC", "firstName" => "ASC]
      * @return mixed return Entity or FALSE if no result
      */
-    public function findOneBy(string $table, array $where, array $order = [])
+    public function findOneBy(array $where, array $order = [])
     {
-        $result = $this->findBy($table, $where, $order, ['count_row' => 1]);
+        $result = $this->findBy($where, $order, ['count_row' => 1]);
         if (!empty($result)) {
             return $result[0];
         }
@@ -92,7 +92,7 @@ class Manager
      */
     public function delete(Entity $entity)
     {
-        $query = $this->db->prepare('DELETE FROM ' . $this->getEntityTable($entity) . ' WHERE id = :id');
+        $query = $this->db->prepare('DELETE FROM ' . $this->tableName . ' WHERE id = :id');
         $query->bindValue(':id', $entity->getId());
 
         $query->execute();
@@ -107,7 +107,7 @@ class Manager
         $fields = array_keys($entity->entityToArray());
         $setClause = $this->addSetClauseToQuery($entity, $fields);
 
-        $query = $this->db->prepare("UPDATE " . $this->getEntityTable($entity) . $setClause . ' WHERE id = :id');
+        $query = $this->db->prepare("UPDATE " . $this->tableName . $setClause . ' WHERE id = :id');
         $entity->setDateModified(new DateTime());
 
         $paramsToBind = [];
@@ -128,7 +128,7 @@ class Manager
         $fields = array_keys($entity->entityToArray());
         $insertClause = $this->addInsertClauseToQuery($entity, $fields);
 
-        $query = $this->db->prepare('INSERT INTO ' . $this->getEntityTable($entity) . $insertClause);
+        $query = $this->db->prepare('INSERT INTO ' . $this->tableName . $insertClause);
         $entity->setDateCreated(new DateTime());
 
         $paramsToBind = [];
@@ -153,7 +153,7 @@ class Manager
         $values = [];
         foreach ($vars as $field) {
             if ($field != 'id') {
-                $fields[] = $this->getEntityTable($entity) . '.' . $field;
+                $fields[] = $this->tableName . '.' . $field;
                 $values[] = ':' . $field;
             }
         }
@@ -230,17 +230,6 @@ class Manager
     }
 
     /**
-     * Get the corresponding table name from an entity
-     * @param Entity $entity
-     * @return string
-     */
-    protected function getEntityTable(Entity $entity)
-    {
-        return lcfirst(explode('Entity\\', get_class($entity))[1]);
-    }
-
-
-    /**
      * Construct the SET clause for UPDATE
      * @param array $set
      * @return string
@@ -250,7 +239,7 @@ class Manager
         $setClause = [];
         foreach ($set as $field) {
             if ($field != 'id')
-                $setClause[] = $this->getEntityTable($entity) . '.' . $field . '=:' . $field;
+                $setClause[] = $this->tableName . '.' . $field . '=:' . $field;
         }
         return " SET " . implode(',', $setClause);
     }
