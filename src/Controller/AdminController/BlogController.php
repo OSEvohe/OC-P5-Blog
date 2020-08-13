@@ -4,7 +4,9 @@
 namespace Controller\AdminController;
 
 use Core\Controller;
+use Entity\Post;
 use Entity\User;
+use Core\FormError;
 use Models\CommentManager;
 use Models\PostManager;
 use Models\UserManager;
@@ -21,6 +23,18 @@ class BlogController extends Controller
 
     public function executeNewPost()
     {
+        if (isset($_POST) && isset($_POST['post_newSubmit'])) {
+            $post = new Post($_POST);
+
+            if (!FormError::hasError()) {
+                (new PostManager())->create($post);
+                $this->redirect('/admin/blog');
+            } else {
+                $this->templateVars['errors'] = FormError::getErrors();
+                print_r(FormError::getErrors());
+                $this->templateVars['post'] = (new Post($_POST))->entityToArray();
+            }
+        }
         $this->render('@admin/post_new.html.twig');
     }
 

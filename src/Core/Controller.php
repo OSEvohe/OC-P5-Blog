@@ -71,4 +71,8 @@ abstract class Controller
         $this->twig->addGlobal('locale', $config['locale']);
         $this->twig->addGlobal('charset',$config['charset']);
     }
+
+    protected function redirect($url){
+        header('Location: '.$url);
+    }
 }

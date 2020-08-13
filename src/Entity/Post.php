@@ -4,6 +4,7 @@
 namespace Entity;
 
 use Core\Entity;
+use Core\FormError;
 
 class Post extends Entity
 {
@@ -29,6 +30,7 @@ class Post extends Entity
      */
     public function setContent(string $content): void
     {
+        (strlen($content) < 10) ? FormError::addError('content', FormError::TOO_SHORT) : false;
         $this->content = $content;
     }
 
@@ -45,6 +47,8 @@ class Post extends Entity
      */
     public function setTitle(string $title): void
     {
+        (strlen($title) < 5) ? FormError::addError('title', FormError::TOO_SHORT) : false;
+        (strlen($title) > 60) ? FormError::addError('title', FormError::TOO_LONG) : false;
         $this->title = $title;
     }
 
@@ -61,6 +65,8 @@ class Post extends Entity
      */
     public function setLead(string $lead): void
     {
+        (strlen($lead) < 5) ? FormError::addError('lead', FormError::TOO_SHORT) : false;
+        (strlen($lead) > 200) ? FormError::addError('lead', FormError::TOO_LONG) : false;
         $this->lead = $lead;
     }
 
