@@ -9,7 +9,7 @@ use PDO;
 class CommentManager extends \Core\Manager
 {
 
-    public function getComments(array $where = [], array $order = [], array $limit = [])
+    public function getCommentsWithAuthorNameAndPostTitle(array $where = [], array $order = [], array $limit = [])
     {
         $orderClause = '';
         $limitClause = '';

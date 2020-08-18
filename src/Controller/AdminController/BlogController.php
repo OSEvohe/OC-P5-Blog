@@ -17,7 +17,7 @@ class BlogController extends Controller
 
     public function executeShow()
     {
-        $this->templateVars['posts'] = (new PostManager())->getPosts(['dateCreated' => 'DESC']);
+        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC']);
         $this->render('@admin/posts_list.html.twig');
     }
 
@@ -80,9 +80,9 @@ class BlogController extends Controller
     {
         $manager = new CommentManager();
         if ($this->params['postId'] == 'all') {
-            $this->templateVars['comments'] = $manager->getComments();
+            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle();
         } else {
-            $this->templateVars['comments'] = $manager->getComments(['postId' => $this->params['postId']]);
+            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle(['postId' => $this->params['postId']]);
         }
 
         $this->render('@admin/comments_list.html.twig');
