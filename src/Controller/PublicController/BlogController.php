@@ -16,7 +16,7 @@ class BlogController extends Controller
 
     public function executeShow()
     {
-        $this->templateVars['posts'] = (new PostManager())->getPosts(['dateCreated' => 'DESC'], ['count_row' => 10]);
+        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC'], ['count_row' => 10]);
 
         $this->getSocialNetworks();
         $this->render('@public/blog.html.twig');

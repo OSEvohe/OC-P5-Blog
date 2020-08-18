@@ -67,8 +67,18 @@ abstract class Controller
 
         $this->twig = new Environment($loader);
 
-        $config = yaml_parse_file(ROOT_DIR.'/config/config.yml');
+        $config = yaml_parse_file(ROOT_DIR . '/config/config.yml');
         $this->twig->addGlobal('locale', $config['locale']);
-        $this->twig->addGlobal('charset',$config['charset']);
+        $this->twig->addGlobal('charset', $config['charset']);
+    }
+
+    protected function redirect($url)
+    {
+        header('Location: ' . $url);
+    }
+
+    protected function isFormSubmit($submitName)
+    {
+        return (isset($_POST) && isset($_POST[$submitName]));
     }
 }

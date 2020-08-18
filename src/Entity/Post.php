@@ -4,6 +4,7 @@
 namespace Entity;
 
 use Core\Entity;
+use Core\DataValidator;
 
 class Post extends Entity
 {
@@ -29,6 +30,7 @@ class Post extends Entity
      */
     public function setContent(string $content): void
     {
+        DataValidator::isLengthValid($content, 10, 0, 'content');
         $this->content = $content;
     }
 
@@ -45,6 +47,8 @@ class Post extends Entity
      */
     public function setTitle(string $title): void
     {
+        DataValidator::isLengthValid($title, 5, 60, 'title');
+
         $this->title = $title;
     }
 
@@ -61,6 +65,7 @@ class Post extends Entity
      */
     public function setLead(string $lead): void
     {
+        DataValidator::isLengthValid($lead, 5, 200, 'lead');
         $this->lead = $lead;
     }
 

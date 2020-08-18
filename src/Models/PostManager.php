@@ -8,7 +8,7 @@ use PDO;
 
 class PostManager extends \Core\Manager
 {
-    public function getPosts(array $order = [], array $limit = []){
+    public function getPostsWithCommentsCountAndAuthorName(array $order = [], array $limit = []){
 
         $orderClause = '';
         $limitClause = '';
