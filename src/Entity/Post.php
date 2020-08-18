@@ -4,7 +4,7 @@
 namespace Entity;
 
 use Core\Entity;
-use Core\FormError;
+use Core\DataValidator;
 
 class Post extends Entity
 {
@@ -30,7 +30,7 @@ class Post extends Entity
      */
     public function setContent(string $content): void
     {
-        (strlen($content) < 10) ? FormError::addError('content', FormError::TOO_SHORT) : false;
+        DataValidator::isLengthValid($content, 10, 0, 'content');
         $this->content = $content;
     }
 
@@ -47,8 +47,8 @@ class Post extends Entity
      */
     public function setTitle(string $title): void
     {
-        (strlen($title) < 5) ? FormError::addError('title', FormError::TOO_SHORT) : false;
-        (strlen($title) > 60) ? FormError::addError('title', FormError::TOO_LONG) : false;
+        DataValidator::isLengthValid($title, 5, 60, 'title');
+
         $this->title = $title;
     }
 
@@ -65,8 +65,7 @@ class Post extends Entity
      */
     public function setLead(string $lead): void
     {
-        (strlen($lead) < 5) ? FormError::addError('lead', FormError::TOO_SHORT) : false;
-        (strlen($lead) > 200) ? FormError::addError('lead', FormError::TOO_LONG) : false;
+        DataValidator::isLengthValid($lead, 5, 200, 'lead');
         $this->lead = $lead;
     }
 

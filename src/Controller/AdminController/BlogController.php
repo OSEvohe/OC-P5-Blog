@@ -6,7 +6,7 @@ namespace Controller\AdminController;
 use Core\Controller;
 use Entity\Post;
 use Entity\User;
-use Core\FormError;
+use Core\DataValidator;
 use Models\CommentManager;
 use Models\PostManager;
 use Models\UserManager;
@@ -26,19 +26,15 @@ class BlogController extends Controller
         $post = new Post(['userId' => 1]); // TODO : Get from logged user
 
         if ($this->isFormSubmit('post_newSubmit')) {
-            $post->hydrate([
-                'title' => $_POST['title'],
-                'lead' => $_POST['lead'],
-                'content' => $_POST['content']
-            ]);
+            $this->hydrateEntityFromPOST($post);
 
-            if (!FormError::hasError()) {
+            if (!DataValidator::hasError()) {
                 (new PostManager())->create($post);
                 $this->redirect('/admin/blog');
             }
         }
 
-        $this->templateVars['errors'] = FormError::getErrors();
+        $this->templateVars['errors'] = DataValidator::getErrors();
         $this->templateVars['post'] = $post->entityToArray();
         $this->render('@admin/post_new.html.twig');
     }
@@ -48,20 +44,15 @@ class BlogController extends Controller
         $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
 
         if ($this->isFormSubmit('post_editSubmit')) {
-            $post->hydrate([
-                'title' => $_POST['title'],
-                'lead' => $_POST['lead'],
-                'content' => $_POST['content'],
-                'userId' => $_POST['userId']
-            ]);
+            $this->hydrateEntityFromPOST($post);
 
-            if (!FormError::hasError()) {
+            if (!DataValidator::hasError()) {
                 (new PostManager())->update($post);
                 $this->redirect('/admin/blog');
             }
         }
 
-        $this->templateVars['errors'] = FormError::getErrors();
+        $this->templateVars['errors'] = DataValidator::getErrors();
         $this->templateVars['post'] = $post->entityToArray();
         $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_ADMIN);
         $this->render('@admin/post_edit.html.twig');
@@ -99,13 +90,31 @@ class BlogController extends Controller
 
     public function executeEditComment()
     {
-        $this->setTemplateVarsForSingleComment();
+        $comment = $this->setTemplateVarsForSingleComment();
+
+        if ($this->isFormSubmit('comment_editSubmit')) {
+            $this->hydrateEntityFromPOST($comment);
+
+            (new CommentManager())->update($comment);
+            $this->redirect('/admin/comments/all');
+        }
+
         $this->render('@admin/comment_edit.html.twig');
     }
 
     public function executeDeleteComment()
     {
-        $this->setTemplateVarsForSingleComment();
+        $comment = $this->setTemplateVarsForSingleComment();
+
+        if ($this->isFormSubmit('comment_deleteCancel')) {
+            $this->redirect('/admin/comments/all');
+        }
+
+        if ($this->isFormSubmit('comment_deleteSubmit')) {
+            (new CommentManager())->delete($comment);
+            $this->redirect('/admin/comments/all');
+        }
+
         $this->render('@admin/comment_delete.html.twig');
     }
 
