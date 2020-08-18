@@ -81,23 +81,4 @@ abstract class Controller
     {
         return (isset($_POST) && isset($_POST[$submitName]));
     }
-
-    /**
-     * Hydrate entity with values from $_POST with key name existing in entity declaration
-     * @param $entity
-     */
-    protected function hydrateEntityFromPOST($entity)
-    {
-        $postData = [];
-        $entityClass = get_class($entity);
-        $entityKeys = array_keys((new $entityClass)->entityToArray());
-        foreach ($_POST as $key => $value) {
-            if (in_array($key, $entityKeys)) {
-                $postData[$key] = $value;
-            }
-            $entity->hydrate($postData);
-        }
-        print_r($entity);
-        print_r(DataValidator::$errors);
-    }
 }

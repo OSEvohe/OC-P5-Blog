@@ -26,7 +26,7 @@ class BlogController extends Controller
         $post = new Post(['userId' => 1]); // TODO : Get from logged user
 
         if ($this->isFormSubmit('post_newSubmit')) {
-            $this->hydrateEntityFromPOST($post);
+            $post->hydrate($_POST);
 
             if (!DataValidator::hasError()) {
                 (new PostManager())->create($post);
@@ -44,7 +44,7 @@ class BlogController extends Controller
         $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
 
         if ($this->isFormSubmit('post_editSubmit')) {
-            $this->hydrateEntityFromPOST($post);
+            $post->hydrate($_POST);
 
             if (!DataValidator::hasError()) {
                 (new PostManager())->update($post);
@@ -93,7 +93,7 @@ class BlogController extends Controller
         $comment = $this->setTemplateVarsForSingleComment();
 
         if ($this->isFormSubmit('comment_editSubmit')) {
-            $this->hydrateEntityFromPOST($comment);
+            $comment->hydrate($_POST);
 
             (new CommentManager())->update($comment);
             $this->redirect('/admin/comments/all');

@@ -17,7 +17,7 @@ class ProfilController extends Controller
         $profile = (new ProfileManager())->findAll()[0];
 
         if ($this->isFormSubmit('profile_nameSubmit') || $this->isFormSubmit('profile_teasingSubmit')) {
-            $this->hydrateEntityFromPOST($profile);
+            $profile->hydrate($_POST);
 
             (new ProfileManager())->update($profile);
             $this->redirect('/admin/profile');
@@ -31,7 +31,7 @@ class ProfilController extends Controller
     {
         if ($this->isFormSubmit('social_newSubmit')){
             $network = new SocialNetwork();
-            $this->hydrateEntityFromPOST($network);
+            $network->hydrate($_POST);
 
             (new SocialNetworkManager())->create($network);
             $this->redirect('/admin/social');
@@ -46,7 +46,7 @@ class ProfilController extends Controller
         $network = (new SocialNetworkManager())->findOneBy(['id' => $this->params['id']]);
 
         if ($this->isFormSubmit('social_editSubmit')){
-            $this->hydrateEntityFromPOST($network);
+            $network->hydrate($_POST);
 
             (new SocialNetworkManager())->update($network);
             $this->redirect('/admin/social');
