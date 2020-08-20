@@ -3,10 +3,13 @@
 
 namespace Entity;
 
+use Core\ConstraintableEntity;
 use Core\Entity;
 
 class Comment extends Entity
 {
+    use ConstraintableEntity;
+
     /** @var string */
     protected $content;
     /** @var bool */
@@ -16,6 +19,39 @@ class Comment extends Entity
     /** @var int */
     protected $postId;
 
+    /**
+     * Profile constructor.
+     * @param array $data
+     */
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+
+        $this->addConstraints([
+            'content' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^.{0,255}$/um'],
+                    'msg' => 'Texte du contenu invalide'
+                ]],
+            'visible' => [
+                [
+                    'filter' => FILTER_VALIDATE_BOOLEAN,
+                    'msg' => 'Visibilité invalide'
+                ]],
+            'postId' => [
+                [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'msg' => 'Identifiant du post invalide'
+                ]],
+            'userId' => [
+                [
+                    'filter' => FILTER_VALIDATE_INT,
+                    'msg' => 'Identifiant de l\'utilisateur invalide'
+                ]]
+        ]);
+    }
+
 
     /** @return string */
     public function getContent(): string
@@ -24,7 +60,7 @@ class Comment extends Entity
     }
 
     /** @return bool */
-    public function isVisible(): bool
+    public function getVisible(): bool
     {
         return $this->visible;
     }
@@ -50,7 +86,7 @@ class Comment extends Entity
     }
 
     /**
-     * @param bool $visible
+     * @param boolean $visible
      */
     public function setVisible(bool $visible): void
     {

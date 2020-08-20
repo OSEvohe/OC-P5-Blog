@@ -3,10 +3,13 @@
 
 namespace Entity;
 
+use Core\ConstraintableEntity;
 use Core\Entity;
 
 class User extends Entity
 {
+    use ConstraintableEntity;
+
     /** @var string */
     protected $login;
     /** @var string */
@@ -19,6 +22,41 @@ class User extends Entity
     const ROLE_GUEST = 'guest';
     const ROLE_MEMBER = 'member';
     const ROLE_ADMIN = 'admin';
+
+    protected static $constraints = [];
+
+
+    /**
+     * Profile constructor.
+     * @param array $data
+     */
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+
+        $this->addConstraints([
+            'login' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^\[a-zA-Z0-9_]{4,50}$/u'],
+                    'msg' => 'Nom d\'utilisateur invalide, 4 à 50 caractères non spéciaux autorisés'
+                ]],
+            'passwordHash' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^.{60}$/u'],
+                    'msg' => 'Erreur dans la hash du mot de passe'
+                ]],
+            'displayName' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^\w{4,20}$/u'],
+                    'msg' => 'Pseudo invalide 4 à 20 caractères alphanumérique autorisés'
+                ]
+            ]
+        ]);
+    }
+
 
     /**
      * @return string

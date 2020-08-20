@@ -3,10 +3,13 @@
 
 namespace Entity;
 
+use Core\ConstraintableEntity;
 use Core\Entity;
 
 class Profile extends Entity
 {
+    use ConstraintableEntity;
+
     /** @var string */
     protected $lastName;
     /** @var string */
@@ -17,6 +20,50 @@ class Profile extends Entity
     protected $cvUrl;
     /** @var string */
     protected $teasing;
+
+    /**
+     * Profile constructor.
+     * @param array $data
+     */
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+
+        $this->addConstraints([
+            'lastName' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^[\pL\pM\p{Zs}.-]{2,40}$/u'],
+                    'msg' => 'Nom invalide, 2 à 40 caractères alphanumériques autorisés'
+                ]],
+            'firstName' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^[\pL\pM\p{Zs}.-]{2,20}$/u'],
+                    'msg' => 'Prénom invalide, 2 à 20 caractères alphanumériques autorisés'
+                ]],
+            'photoUrl' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^\/uploads\/[\w\d-]{1,18}\.gif|jpeg|png|jpg$/'],
+                    'nullable' => true,
+                    'msg' => 'Chemin du fichier de la photo/logo invalide'
+                ]],
+            'cvUrl' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^\/uploads\/[\w\d-]{1,18}\.pdf$/'],
+                    'nullable' => true,
+                    'msg' => 'Chemin du fichier du CV invalide'
+                ]],
+            'teasing' => [
+                [
+                    'filter' => FILTER_VALIDATE_REGEXP,
+                    'options' => ['regexp' => '/^.{4,130}$/u'],
+                    'msg' => 'Phrase d\'accroche invalide, 4 à 130 caractères autorisés'
+                ]]
+        ]);
+    }
 
     /**
      * @return string
