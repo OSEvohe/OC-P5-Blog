@@ -167,14 +167,13 @@ abstract class Manager
     protected function bindArrayOfValues(PDOStatement $preparedQuery, $params): void
     {
         foreach ($params as $field => $value) {
-            if (is_string($value)) {
-                $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_STR);
-            } elseif (is_int($value) || is_bool($value)) {
+            if (is_int($value) || is_bool($value)) {
                 $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_INT);
             } elseif (is_a($value, 'DateTime')) {
                 $preparedQuery->bindValue(':' . $field, $value->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+            } else {
+                $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_STR);
             }
-
         }
     }
 
