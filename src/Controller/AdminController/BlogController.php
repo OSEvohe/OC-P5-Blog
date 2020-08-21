@@ -28,13 +28,13 @@ class BlogController extends Controller
         if ($this->isFormSubmit('post_newSubmit')) {
             $post->hydrate($_POST);
 
-            if (!DataValidator::hasError()) {
+            if ($post->isValid()) {
                 (new PostManager())->create($post);
                 $this->redirect('/admin/blog');
             }
         }
 
-        $this->templateVars['errors'] = DataValidator::getErrors();
+        $this->templateVars['errors'] = $post->getConstraintsErrors();
         $this->templateVars['post'] = $post->entityToArray();
         $this->render('@admin/post_new.html.twig');
     }
@@ -46,13 +46,13 @@ class BlogController extends Controller
         if ($this->isFormSubmit('post_editSubmit')) {
             $post->hydrate($_POST);
 
-            if (!DataValidator::hasError()) {
+            if ($post->isValid()) {
                 (new PostManager())->update($post);
                 $this->redirect('/admin/blog');
             }
         }
 
-        $this->templateVars['errors'] = DataValidator::getErrors();
+        $this->templateVars['errors'] =$post->getConstraintsErrors();
         $this->templateVars['post'] = $post->entityToArray();
         $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_ADMIN);
         $this->render('@admin/post_edit.html.twig');
@@ -94,11 +94,13 @@ class BlogController extends Controller
 
         if ($this->isFormSubmit('comment_editSubmit')) {
             $comment->hydrate($_POST);
-
-            (new CommentManager())->update($comment);
-            $this->redirect('/admin/comments/all');
+            if ($comment->isValid()) {
+                (new CommentManager())->update($comment);
+                $this->redirect('/admin/comments/all');
+            }
         }
 
+        $this->templateVars['errors'] =$comment->getConstraintsErrors();
         $this->render('@admin/comment_edit.html.twig');
     }
 
