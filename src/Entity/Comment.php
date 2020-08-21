@@ -31,7 +31,7 @@ class Comment extends Entity
             'content' => [
                 [
                     'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => ['regexp' => '/^.{0,255}$/um'],
+                    'options' => ['regexp' => '/^.{3,255}$/um'],
                     'msg' => 'Texte du contenu invalide'
                 ]],
             'visible' => [

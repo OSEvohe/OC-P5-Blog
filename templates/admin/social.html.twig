@@ -3,6 +3,7 @@
 {% block title %}Gestion des réseaux sociaux{% endblock %}
 
 {% block content %}
+    {% include '@admin/block_formError.html.twig' %}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -14,7 +15,7 @@
                     <form method="post">
                         <div>
                             <label for="name" class="col-form-label d-block">Nom du réseau</label>
-                            <input type="text" maxlength="30" name="name"  style="width: 200px;" id="name" />
+                            <input type="text" minlength="2" maxlength="30" name="name" style="width: 200px;" id="name"/>
                         </div>
                         <div>
                             <label for="profileUrl" class="col-form-label d-block">Lien du profil</label>
@@ -22,7 +23,7 @@
                         </div>
                         <div>
                             <label for="icon" class="col-form-label d-block">Classe de l'icone Font-Awesome</label>
-                            <input type="text" maxlength="30" name="iconClass" id="icon" style="width: 200px;">
+                            <input type="text" minlength="7" maxlength="30" name="iconClass" id="icon" style="width: 200px;">
                         </div>
                         <div class="mt-4">
                             <button type="submit" class="btn-primary" name="social_newSubmit">Ajouter</button>
@@ -62,17 +63,18 @@
                             </tfoot>
                             <tbody>
                             {% for network in socialNetworks %}
-                            <tr>
-                                <td>{{ network.id }}</td>
-                                <td><em class="{{ network.iconClass }}"></em></td>
-                                <td>{{ network.name }}</td>
-                                <td>{{ network.profileUrl }}</td>
-                                <td>{{ network.dateCreated.format('Y-m-d H:i:s') }}</td>
-                                <td>{% if network.dateModified != network.dateCreated %}{{ network.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
-                                <td>
-                                    <a href="/admin/social/edit/{{ network.id }}"><i class="fas fa-edit"></i></a>
-                                    <a href="/admin/social/delete/{{ network.id }}"><i class="fas fa-trash"></i></a></td>
-                            </tr>
+                                <tr>
+                                    <td>{{ network.id }}</td>
+                                    <td><em class="{{ network.iconClass }}"></em></td>
+                                    <td>{{ network.name }}</td>
+                                    <td>{{ network.profileUrl }}</td>
+                                    <td>{{ network.dateCreated.format('Y-m-d H:i:s') }}</td>
+                                    <td>{% if network.dateModified != network.dateCreated %}{{ network.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                                    <td>
+                                        <a href="/admin/social/edit/{{ network.id }}"><i class="fas fa-edit"></i></a>
+                                        <a href="/admin/social/delete/{{ network.id }}"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>
@@ -80,4 +82,5 @@
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}
