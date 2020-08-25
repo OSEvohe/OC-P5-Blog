@@ -54,6 +54,7 @@
                                     <h4>Laisser un commentaire</h4>
                                 </div>
                             </div>
+                            {% include '@admin/block_formError.html.twig' %}
                             <div class="row">
                                 <div class="col-md-12">
                                     <textarea placeholder="Votre Message" name="content" id="form_comment_content" minlength="3" maxlength="200"></textarea>
