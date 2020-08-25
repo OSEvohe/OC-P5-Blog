@@ -36,10 +36,10 @@ class SocialNetwork extends Entity
             'iconClass' => [
                 [
                     'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => ['regexp' => '/^fa[sb]? fa-[a-z]{1,23}$/u'],
+                    'options' => ['regexp' => '/^fa[sb]? fa-[a-z-]{1,23}$/u'],
                     'msg' => 'Format de la classe font-awesome invalide'
                 ]],
-            'profileUrl' =>[
+            'profileUrl' => [
                 [
                     'filter' => FILTER_VALIDATE_URL,
                     'msg' => 'Url du profil invalide'

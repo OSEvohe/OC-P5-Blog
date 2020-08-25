@@ -34,7 +34,7 @@ class BlogController extends Controller
         $this->templateVars['post'] = $post;
         $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $post->getUserId()]);
         $this->templateVars['comments'] = (new CommentManager())->findBy(['postId' => $this->params['id'], 'visible' => 1]);
-        $this->templateVars['lastPosts'] = (new CommentManager())->findAll([], ['count_row' => 5]);
+        $this->templateVars['lastPosts'] = (new PostManager())->findAll([], ['count_row' => 5]);
 
         $this->getSocialNetworks();
         $this->render('@public/single-post.html.twig');

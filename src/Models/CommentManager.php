@@ -25,7 +25,7 @@ class CommentManager extends \Core\Manager
             $limitClause = $this->addLimitToQuery($limit);
         }
 
-        $queryStr = "   SELECT comment.*, `user`.id, `user`.displayName, post.title as postTitle FROM comment 
+        $queryStr = "   SELECT comment.*, `user`.id as userId, `user`.displayName, post.title as postTitle FROM comment 
                         INNER JOIN post ON post.id = comment.postId INNER JOIN `user` ON `user`.id = comment.userId";
         $query = $this->db->prepare($queryStr . $whereClause . $orderClause . $limitClause);
 
