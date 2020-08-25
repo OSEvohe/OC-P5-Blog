@@ -39,9 +39,8 @@ class ProfilController extends Controller
                 (new SocialNetworkManager())->create($network);
                 $this->redirect('/admin/social');
             }
+            $this->templateVars['errors'] = $network->getConstraintsErrors();
         }
-
-        $this->templateVars['errors'] = $network->getConstraintsErrors();
         $this->templateVars['socialNetworks'] = (new SocialNetworkManager())->findAll(['name' => 'ASC']);
         $this->render('@admin/social.html.twig');
     }
