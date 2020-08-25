@@ -3,13 +3,7 @@
 {% block title %}Créer un nouveau post{% endblock %}
 
 {% block content %}
-    {% if errors %}
-        <div class="row">
-            <div class="col-12">
-                <p class="text-danger">Erreur(s) dans le formulaire</p>
-            </div>
-        </div>
-    {% endif %}
+    {% include '@admin/block_formError.html.twig' %}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -21,15 +15,15 @@
                     <form method="post">
                         <div>
                             <label for="postTitle" class="d-block">Titre <span class="text-danger">{{ errors.title.msg }}</span></label>
-                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" maxlength="60" width="60" value="{{ post.title }}"/>
+                            <input style="width: 686px;max-width: 100%" type="text" name="title" id="postTitle" minlength="4" maxlength="60" width="60" value="{{ post.title }}"/>
                         </div>
                         <div class="mt-4">
                             <label for="postLead" class="d-block">Chapô <span class="text-danger">{{ errors.lead.msg }}</span></label>
-                            <textarea style="width: 686px;max-width: 100%" maxlength="200" rows="4"  name="lead" id="postLead">{{ post.lead }}</textarea>
+                            <textarea style="width: 686px;max-width: 100%" minlength="10" maxlength="200" rows="4"  name="lead" id="postLead">{{ post.lead }}</textarea>
                         </div>
                         <div class="mt-4" style="width:726px;max-width: 100%">
                             <label for="postText" class="d-block">Texte <span class="text-danger">{{ errors.content.msg }}</span></label>
-                            <textarea name="content" id="postText">{{ post.content }}</textarea>
+                            <textarea name="content" minlength="10" id="postText">{{ post.content }}</textarea>
                         </div>
                         <div class="my-4">
                             <input class="btn-primary" type="submit" name="post_newSubmit" value="Publier"/>

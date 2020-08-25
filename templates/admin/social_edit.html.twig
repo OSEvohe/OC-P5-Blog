@@ -3,6 +3,7 @@
 {% block title %}Modification d'un réseau social{% endblock %}
 
 {% block content %}
+    {% include '@admin/block_formError.html.twig' %}
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -14,15 +15,18 @@
                     <form method="post">
                         <div>
                             <label for="name" class="col-form-label d-block">Nom du réseau</label>
-                            <input type="text" maxlength="30" name="name" style="width: 200px;" id="name" value="{{ network.name }}"/>
+                            <input type="text" minlength="2" maxlength="30" name="name" style="width: 200px;" id="name"
+                                   value="{{ network.name }}"/>
                         </div>
                         <div>
                             <label for="profileUrl" class="col-form-label d-block">Lien du profil</label>
-                            <input type="text" maxlength="100" style="width: 686px;max-width: 100%" name="profileUrl" id="profileUrl" value="{{ network.profileUrl }}"/>
+                            <input type="text" maxlength="100" style="width: 686px;max-width: 100%" name="profileUrl"
+                                   id="profileUrl" value="{{ network.profileUrl }}"/>
                         </div>
                         <div>
                             <label for="icon" class="col-form-label d-block">Classe de l'icone Font-Awesome</label>
-                            <input type="text" maxlength="30" name="iconClass" id="icon" value="{{ network.iconClass }}" style="width: 200px;">
+                            <input type="text" minlength="7" maxlength="30" name="iconClass" id="icon" value="{{ network.iconClass }}"
+                                   style="width: 200px;">
                         </div>
                         <div class="mt-4">
                             <button type="submit" class="btn-primary" name="social_editSubmit">Modifier</button>
