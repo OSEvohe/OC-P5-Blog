@@ -1,3 +1,4 @@
 .idea/
 vendor/
 config/db-config.yml
+config/auth-config.yml
