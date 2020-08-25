@@ -8,8 +8,8 @@ use PDO;
 
 class PostManager extends \Core\Manager
 {
-    public function getPostsWithCommentsCountAndAuthorName(array $order = [], array $limit = []){
-
+    public function getPostsWithCommentsCountAndAuthorName(array $order = [], array $limit = [], $showHidden = false)
+    {
         $orderClause = '';
         $limitClause = '';
 
@@ -22,8 +22,12 @@ class PostManager extends \Core\Manager
 
         $queryStr = "   SELECT `post`.*, `user`.displayName,count(comment.id) AS comment_count
                         FROM `post` LEFT OUTER JOIN `comment` ON `post`.id = `comment`.postId
-                        INNER JOIN `user` ON `post`.userId = `user`.id
-                        GROUP BY post.id";
+                        INNER JOIN `user` ON `post`.userId = `user`.id";
+
+        if (!$showHidden) {
+            $queryStr .= " WHERE visible=1";
+        }
+        $queryStr .= " GROUP BY post.id";
 
         $query = $this->db->prepare($queryStr . $orderClause . $limitClause);
 
