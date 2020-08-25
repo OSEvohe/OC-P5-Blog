@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-user"></i>
+                    <i class="fa fa-user"></i>
                     Ajouter un réseau social
                 </div>
                 <div class="card-body">
@@ -33,7 +33,7 @@
             </div>
             <div class="card mt-4">
                 <div class="card-header">
-                    <i class="fas fa-address-book mr-1"></i>
+                    <i class="fa fa-address-book mr-1"></i>
                     Liste des Réseaux sociaux
                 </div>
                 <div class="card-body">
@@ -71,8 +71,8 @@
                                     <td>{{ network.dateCreated.format('Y-m-d H:i:s') }}</td>
                                     <td>{% if network.dateModified != network.dateCreated %}{{ network.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
                                     <td>
-                                        <a href="/admin/social/edit/{{ network.id }}"><i class="fas fa-edit"></i></a>
-                                        <a href="/admin/social/delete/{{ network.id }}"><i class="fas fa-trash"></i></a>
+                                        <a href="/admin/social/edit/{{ network.id }}"><i class="fa fa-edit"></i></a>
+                                        <a href="/admin/social/delete/{{ network.id }}"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
