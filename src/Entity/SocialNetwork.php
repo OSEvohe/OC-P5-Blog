@@ -39,7 +39,7 @@ class SocialNetwork extends Entity
                     'options' => ['regexp' => '/^fa[sb]? fa-[a-z]{1,23}$/u'],
                     'msg' => 'Format de la classe font-awesome invalide'
                 ]],
-            'profileUrl' =>[
+            'profileUrl' => [
                 [
                     'filter' => FILTER_VALIDATE_URL,
                     'msg' => 'Url du profil invalide'
