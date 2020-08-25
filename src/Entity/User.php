@@ -113,7 +113,7 @@ class User extends Entity
     {
         $role = unserialize($this->role);
         if (empty($role))
-            $role[] = self::ROLE_GUEST;
+            $role[] = self::ROLE_MEMBER;
         return $role;
     }
 
