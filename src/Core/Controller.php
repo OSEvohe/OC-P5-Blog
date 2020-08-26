@@ -28,7 +28,7 @@ abstract class Controller
         $this->params = $params;
         $this->zone = $zone;
 
-        $this->user = new BlogAuth($this);
+        $this->user = new BlogAuth();
         if ($this->zone == 'Admin') {
             if (!$this->user->isConnected()) {
                 $_SESSION['return'] = $_SERVER['REQUEST_URI'];

@@ -21,9 +21,8 @@ class BlogAuth
 
     const TOKEN_EXPIRE_TIME = 1800;
 
-    public function __construct(Controller $controller)
+    public function __construct()
     {
-        $this->controller = $controller;
         $this->secret_key = yaml_parse_file(ROOT_DIR . '/config/auth-config.yml')['secret_key'];
         $this->user = new User();
         if ($this->isUserConnected()){
@@ -115,7 +114,6 @@ class BlogAuth
     public function disconnectUser()
     {
         unset($_SESSION['auth']);
-        $this->controller->redirect('/');
     }
 
 
