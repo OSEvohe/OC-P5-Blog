@@ -18,8 +18,13 @@ class User extends Entity
     protected $displayName;
     /** @var string */
     protected $role;
+    /** @var string */
+    protected $token;
+    /** @var int */
+    protected $tokenTime;
+    /** @var bool */
+    protected $isValid;
 
-    const ROLE_GUEST = 'guest';
     const ROLE_MEMBER = 'member';
     const ROLE_ADMIN = 'admin';
 
@@ -124,4 +129,40 @@ class User extends Entity
     {
         $this->role = serialize($role);
     }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function getTokenTime(): int
+    {
+        return $this->tokenTime;
+    }
+
+    public function setTokenTime(int $tokenTime): void
+    {
+        $this->tokenTime = $tokenTime;
+    }
+
+    public function getIsValid(): bool
+    {
+        return $this->isValid();
+    }
+
+    public function setIsValid(bool $isValid): void
+    {
+        $this->isValid = $isValid;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return array_search($role, $this->getRole())!== false;
+    }
+
 }

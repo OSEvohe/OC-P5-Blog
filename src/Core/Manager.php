@@ -171,6 +171,8 @@ abstract class Manager
                 $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_INT);
             } elseif (is_a($value, 'DateTime')) {
                 $preparedQuery->bindValue(':' . $field, $value->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+            } elseif (is_array($value)) {
+                $preparedQuery->bindValue(':' . $field, serialize($value), PDO::PARAM_STR);
             } else {
                 $preparedQuery->bindValue(':' . $field, $value, PDO::PARAM_STR);
             }
