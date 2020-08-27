@@ -94,7 +94,11 @@ abstract class Controller
 
     public function redirect($url)
     {
-        header('Location: ' . $url);
+        if (isset($_SESSION['auth']['return']) && $url === 0) {
+            header('Location: ' . $_SESSION['auth']['return']);
+        } else {
+            header('Location: ' . $url);
+        }
         exit();
     }
 
