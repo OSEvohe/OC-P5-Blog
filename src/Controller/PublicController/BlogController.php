@@ -5,6 +5,7 @@ namespace Controller\PublicController;
 
 use Core\Controller;
 use Entity\Comment;
+use Entity\User;
 use Models\CommentManager;
 use Models\PostManager;
 use Models\UserManager;
@@ -31,6 +32,9 @@ class BlogController extends Controller
             $this->templateVars['errors'] = $this->processNewCommentForm();
         }
 
+        if ($this->user->getUser()->hasRole(User::ROLE_MEMBER) || $this->user->getUser()->hasRole(User::ROLE_ADMIN)) {
+            $this->templateVars['allowComment'] = 1;
+        }
         $this->templateVars['post'] = $post;
         $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $post->getUserId()]);
         $this->templateVars['comments'] = (new CommentManager())->findBy(['postId' => $this->params['id'], 'visible' => 1]);

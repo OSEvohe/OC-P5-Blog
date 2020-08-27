@@ -4,6 +4,7 @@
 namespace Core;
 
 
+use Entity\User;
 use Exceptions\BlogControllerLoaderError;
 use Exceptions\BlogTemplateLoadError;
 use Exceptions\BlogTemplateRenderError;
@@ -31,10 +32,10 @@ abstract class Controller
         $this->user = new BlogAuth();
         if ($this->zone == 'Admin') {
             if (!$this->user->isConnected()) {
-                $_SESSION['return'] = $_SERVER['REQUEST_URI'];
+                $_SESSION['auth']['return'] = $_SERVER['REQUEST_URI'];
                 $this->redirect('/login');
             }
-            if (!$this->user->getUser()->hasRole('admin')) {
+            if (!$this->user->getUser()->hasRole(User::ROLE_ADMIN)) {
                 $this->redirect('/');
             }
         }
@@ -72,10 +73,11 @@ abstract class Controller
         }
     }
 
-    protected function displayError($e)
+    protected function addErrors(array $errors)
     {
-        $this->templateVars['error'] = $e;
-        $this->render('@public/error.html.twig');
+        foreach ($errors as $key => $error) {
+            $this->templateVars['errors'][$key] = $error;
+        }
     }
 
     private function setTwigConfig()

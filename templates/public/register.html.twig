@@ -13,16 +13,17 @@
 
     <section class="login-section spad">
         <div class="container">
-            <form class="contact-form">
+            <form class="contact-form" method="post">
                 <div class="row">
                     <div class="col-sm-12 col-md-6 m-auto">
-                        <div><input type="text" placeholder="Votre adresse e-mail"></div>
-                        <div><input type="text" placeholder="Pseudo"></div>
-                        <div><input type="password" placeholder="Mot de passe"></div>
-                        <div><input type="password" placeholder="Confirmer le mot de passe"></div>
-                        <div class="register-form-collecte"><input type="checkbox" class="register_checkbox">J'autorise le site à collecter et conserver les données personnelles que je lui transmets via ce formulaire</div>
+                        {% include '@admin/block_formError.html.twig' %}
+                        <div><input type="text" name="login" placeholder="Votre adresse e-mail" value="{{ user.login }}"></div>
+                        <div><input type="text" name="displayName" placeholder="Pseudo" value="{{ user.displayName }}"></div>
+                        <div><input type="password" name="password" placeholder="Mot de passe"></div>
+                        <div><input type="password" name="passwordConfirm" placeholder="Confirmer le mot de passe"></div>
+                        <div class="register-form-collecte"><input required type="checkbox" class="register_checkbox" name="rpgd">J'autorise le site à collecter et conserver les données personnelles que je lui transmets via ce formulaire</div>
                         <div class="text-center">
-                            <button class="site-btn">S'enregistrer</button>
+                            <button class="site-btn" name="registerSubmit">S'enregistrer</button>
                         </div>
                     </div>
                 </div>

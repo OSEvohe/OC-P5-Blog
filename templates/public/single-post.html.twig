@@ -18,7 +18,7 @@
                         <h2>{{ post.title }}</h2>
                         <div class="small text-muted pt-2 pl-3">Le {{ post.dateCreated.format('d/m/Y') }}
                             {% if post.dateModified != post.dateCreated %}
-                                <span class="small"> - modifié le {{ post.dateModified.format('d/m/Y')}} </span>
+                                <span class="small"> - modifié le {{ post.dateModified.format('d/m/Y') }} </span>
                             {% endif %}
                         </div>
                         <div class="pl-3 small"><span>Par {{ author.displayName }}</span></div>
@@ -47,28 +47,50 @@
                             </div>
                         </div>
                     </div>
-                    <div class="comment-form pt-5">
-                        <form class="contact-form" method="post">
+                    {% if allowComment == 1 %}
+                        <div class="comment-form pt-5">
+                            <form class="contact-form" method="post">
+                                <div class="row">
+                                    <div class="col-12 pb-3">
+                                        <h4>Laisser un commentaire</h4>
+                                    </div>
+                                </div>
+                                {% include '@admin/block_formError.html.twig' %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <textarea placeholder="Votre Message" name="content" id="form_comment_content"
+                                                  minlength="3" maxlength="200"></textarea>
+                                        <button class="site-btn" name="comment_newSubmit" id="form_comment_submit">
+                                            Envoyer
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="comment-form pt-5">
                             <div class="row">
                                 <div class="col-12 pb-3">
                                     <h4>Laisser un commentaire</h4>
                                 </div>
-                            </div>
-                            {% include '@admin/block_formError.html.twig' %}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <textarea placeholder="Votre Message" name="content" id="form_comment_content" minlength="3" maxlength="200"></textarea>
-                                    <button class="site-btn" name="comment_newSubmit" id="form_comment_submit">Envoyer</button>
+                                <div>
+                                    <p>Veuillez vous connecter ou vous enregistrer pour pouvoir laisser un commentaire
+                                        <br/>
+                                        <a class="btn btn-primary" href="/login">Connexion</a>
+                                        <a class="btn btn-secondary" href="/register">S'enregistrer</a>
+                                    </p>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <aside class="col-sm-12 col-md-4 offset-md-1 pt-5 pt-md-0">
                     <h4 class="pb-3">Derniers posts</h4>
                     <ul class="list-unstyled">
                         {% for lastPost in lastPosts %}
-                        <li class="py-2 border-bottom"><a class="text-dark" href="/blog/{{ lastPost.id }}">{{ lastPost.title }}</a></li>
+                            <li class="py-2 border-bottom"><a class="text-dark"
+                                                              href="/blog/{{ lastPost.id }}">{{ lastPost.title }}</a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </aside>

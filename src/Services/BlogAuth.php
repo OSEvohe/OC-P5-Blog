@@ -126,10 +126,33 @@ class BlogAuth
         return false;
     }
 
-    private function hashPassword($password)
+    public function hashPassword($password)
     {
         return password_hash($password, PASSWORD_BCRYPT);
     }
+
+    /**
+     * Check for password errors, if no error found the function return an empty array
+     * @param $password
+     * @return array an array of errors
+     */
+    public function checkPasswordErrors(string $password) : array{
+        $errors = [];
+        if (strlen($password) < 8) {
+            $errors[] = "Mot de passe trop court, 8 caractères au minimum";
+        }
+
+        if (!preg_match("#[0-9]+#", $password)) {
+            $errors[] = "Le mot de passe doit contenir au moins un chiffre !";
+        }
+
+        if (!preg_match("#[a-zA-Z]+#", $password)) {
+            $errors[] = "Le mot de passe doit contenir au moins une lettre!";
+        }
+
+        return $errors;
+    }
+
 
     public function getUser(): User
     {

@@ -22,9 +22,8 @@ class User extends Entity
     protected $token;
     /** @var int */
     protected $tokenTime;
-    /** @var bool */
-    protected $isValid;
 
+    const ROLE_GUEST = 'guest';
     const ROLE_MEMBER = 'member';
     const ROLE_ADMIN = 'admin';
 
@@ -42,9 +41,8 @@ class User extends Entity
         $this->addConstraints([
             'login' => [
                 [
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => ['regexp' => '/^\[a-zA-Z0-9_]{4,50}$/u'],
-                    'msg' => 'Nom d\'utilisateur invalide, 4 à 50 caractères non spéciaux autorisés'
+                    'filter' => FILTER_VALIDATE_EMAIL,
+                    'msg' => 'Adresse E-Mail invalide'
                 ]],
             'passwordHash' => [
                 [
@@ -68,7 +66,7 @@ class User extends Entity
      */
     public function getLogin(): string
     {
-        return $this->login;
+        return (string)$this->login;
     }
 
     /**
@@ -84,7 +82,7 @@ class User extends Entity
      */
     public function getPasswordHash(): string
     {
-        return $this->passwordHash;
+        return (string)$this->passwordHash;
     }
 
     /**
@@ -100,7 +98,7 @@ class User extends Entity
      */
     public function getDisplayName(): string
     {
-        return $this->displayName;
+        return (string)$this->displayName;
     }
 
     /**
@@ -118,7 +116,7 @@ class User extends Entity
     {
         $role = unserialize($this->role);
         if (empty($role))
-            $role[] = self::ROLE_MEMBER;
+            $role[] = self::ROLE_GUEST;
         return $role;
     }
 
@@ -132,7 +130,7 @@ class User extends Entity
 
     public function getToken(): string
     {
-        return $this->token;
+        return (string)$this->token;
     }
 
     public function setToken(string $token): void
@@ -142,7 +140,7 @@ class User extends Entity
 
     public function getTokenTime(): int
     {
-        return $this->tokenTime;
+        return (int)$this->tokenTime;
     }
 
     public function setTokenTime(int $tokenTime): void
@@ -150,15 +148,6 @@ class User extends Entity
         $this->tokenTime = $tokenTime;
     }
 
-    public function getIsValid(): bool
-    {
-        return $this->isValid();
-    }
-
-    public function setIsValid(bool $isValid): void
-    {
-        $this->isValid = $isValid;
-    }
 
     public function hasRole(string $role): bool
     {
