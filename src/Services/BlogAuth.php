@@ -64,17 +64,19 @@ class BlogAuth
 
     private function verifyToken(int $userId, array $data, $time)
     {
-        if (isset($this->token['token'])) {
-            if ($this->token['token'] == hash('sha256', $this->secret_key . (string)$userId . implode(',', $data) . $time)) {
-                if (($time + self::TOKEN_EXPIRE_TIME) < time()) {
-                    return false;
-                } elseif (($time + self::TOKEN_EXPIRE_TIME / 2) < time()) {
-                    $this->renewToken($userId, $data);
-                }
-                return true;
+        if ( isset($this->token['token']) && $this->token['token'] == hash('sha256', $this->secret_key . (string)$userId . implode(',', $data) . $time)) {
+               return $this->checkTokenExpireTime($userId, $data, $time);
             }
-        }
         return false;
+    }
+
+    private function checkTokenExpireTime($userId, $data, $time){
+        if (($time + self::TOKEN_EXPIRE_TIME) < time()) {
+            return false;
+        } elseif (($time + self::TOKEN_EXPIRE_TIME / 2) < time()) {
+            $this->renewToken($userId, $data);
+        }
+        return true;
     }
 
     private function renewToken(int $userId, array $data): void
