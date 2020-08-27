@@ -30,19 +30,8 @@ abstract class Controller
         $this->zone = $zone;
 
         $this->user = new BlogAuth();
-        if ($this->zone == 'Admin') {
-            if (!$this->user->isConnected()) {
-                $_SESSION['auth']['return'] = $_SERVER['REQUEST_URI'];
-                $this->redirect('/login');
-            }
-            if (!$this->user->getUser()->hasRole(User::ROLE_ADMIN)) {
-                $this->redirect('/');
-            }
-        }
-
-        if ($this->user->isConnected()) {
-            $this->templateVars['userInfo'] = $this->user->getUser();
-        }
+        $this->restrictAdminZone();
+        $this->userInfoToTemplateVars();
 
         try {
             $this->config = yaml_parse_file(ROOT_DIR . '/config/config.yml');
@@ -105,5 +94,23 @@ abstract class Controller
     protected function isFormSubmit($submitName)
     {
         return (isset($_POST) && isset($_POST[$submitName]));
+    }
+
+    private function restrictAdminZone(){
+        if ($this->zone == 'Admin') {
+            if (!$this->user->isConnected()) {
+                $_SESSION['auth']['return'] = $_SERVER['REQUEST_URI'];
+                $this->redirect('/login');
+            }
+            if (!$this->user->getUser()->hasRole(User::ROLE_ADMIN)) {
+                $this->redirect('/');
+            }
+        }
+    }
+
+    private function userInfoToTemplateVars(){
+        if ($this->user->isConnected()) {
+            $this->templateVars['userInfo'] = $this->user->getUser();
+        }
     }
 }
