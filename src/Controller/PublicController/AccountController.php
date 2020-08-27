@@ -40,29 +40,44 @@ class AccountController extends Controller
 
     public function executeRegister()
     {
-        $user = new User($_POST);
-
+        if ($this->user->isConnected()) {
+            $this->redirect('/');
+        }
         if ($this->isFormSubmit('registerSubmit')) {
-            $user = $this->hydrateWithHashedPassword($user);
-            if ($user->isValid()) {
-                if ($_POST['password'] == $_POST['passwordConfirm']) {
-                    if ($passwordErrors = $this->user->checkPasswordErrors($_POST['password'])) {
-                        $this->addErrors(['password' => $passwordErrors]);
-                    } else {
-                        if ($this->createNewUser($user)) {
-                            $this->redirect('/');
-                        }
-                    }
-                } else {
-                    $this->addErrors(['password' => ['Le mot de passe ne correspond pas']]);
-                }
-            }
+            $this->processRegisterForm();
         }
 
-        $this->addErrors($user->getConstraintsErrors());
         $this->getSocialNetworks();
-        $this->templateVars['user'] = $user;
+        $this->templateVars['user'] = $this->user->getUser();
         $this->render('@public/register.html.twig');
+    }
+
+    private function processRegisterForm()
+    {
+        $this->hydrateWithHashedPassword($this->user->getUser());
+        if ($this->user->getUser()->isValid()) {
+            if ($this->checkPassword($_POST['password'], $_POST['passwordConfirm'])) {
+                if ($this->createNewUser($this->user->getUser())) {
+                    $this->redirect('/');
+                }
+            }
+        } else {
+            $this->addErrors($this->user->getUser()->getConstraintsErrors());
+        }
+    }
+
+    private function checkPassword($password, $passwordConfirm)
+    {
+        if ($password == $passwordConfirm) {
+            if ($passwordErrors = $this->user->checkPasswordErrors($password)) {
+                $this->addErrors(['password' => $passwordErrors]);
+            } else {
+                return true;
+            }
+        } else {
+            $this->addErrors(['password' => ['Le mot de passe ne correspond pas']]);
+        }
+        return false;
     }
 
     private function hydrateWithHashedPassword(User $user)
