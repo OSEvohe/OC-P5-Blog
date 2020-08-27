@@ -19,11 +19,7 @@ class AccountController extends Controller
 
         if ($this->isFormSubmit('loginSubmit')) {
             if ($this->user->connectUser($_POST['login'], $_POST['password'])) {
-                if (isset($_SESSION['auth']['return'])) {
-                    $this->redirect($_SESSION['auth']['return']);
-                } else {
-                    $this->redirect('/');
-                }
+                $this->redirect(0);
             } else {
                 $this->templateVars['errors']['connect'][] = "Identifiant ou mot de passe invalide";
             }
@@ -44,7 +40,9 @@ class AccountController extends Controller
             $this->redirect('/');
         }
         if ($this->isFormSubmit('registerSubmit')) {
-            $this->processRegisterForm();
+            if ($this->processRegisterForm()){
+                $this->redirect('/');
+            };
         }
 
         $this->getSocialNetworks();
@@ -55,15 +53,11 @@ class AccountController extends Controller
     private function processRegisterForm()
     {
         $this->hydrateWithHashedPassword($this->user->getUser());
-        if ($this->user->getUser()->isValid()) {
-            if ($this->checkPassword($_POST['password'], $_POST['passwordConfirm'])) {
-                if ($this->createNewUser($this->user->getUser())) {
-                    $this->redirect('/');
-                }
-            }
-        } else {
-            $this->addErrors($this->user->getUser()->getConstraintsErrors());
+        if ($this->user->getUser()->isValid() && $this->checkPassword($_POST['password'], $_POST['passwordConfirm'])) {
+            return $this->createNewUser($this->user->getUser());
         }
+        $this->addErrors($this->user->getUser()->getConstraintsErrors());
+        return false;
     }
 
     private function checkPassword($password, $passwordConfirm)
