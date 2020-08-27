@@ -42,7 +42,7 @@ class AccountController extends Controller
         if ($this->isFormSubmit('registerSubmit')) {
             if ($this->processRegisterForm()){
                 $this->redirect('/');
-            };
+            }
         }
 
         $this->getSocialNetworks();
