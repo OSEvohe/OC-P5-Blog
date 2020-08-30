@@ -23,6 +23,7 @@ abstract class Controller
     protected $user;
     protected $zone;
 
+
     public function __construct($action, $params, $zone = 'Public')
     {
         $this->action = $action;
@@ -41,12 +42,31 @@ abstract class Controller
         }
     }
 
+
+    /**
+     * Execute the action corresponding to the route
+     **/
     public function execute()
     {
         $method = 'execute' . ucfirst($this->action);
         $this->$method();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConfig($key)
+    {
+        return $this->config[$key];
+    }
+
+
+    /**
+     * Render the page
+     * @param $templateFile
+     * @throws BlogTemplateLoadError
+     * @throws BlogTemplateRenderError
+     */
     protected function render($templateFile)
     {
         try {
@@ -62,13 +82,22 @@ abstract class Controller
         }
     }
 
-    protected function addErrors(array $errors)
+
+    /**
+     * add errors reported during form processing to the template
+     * @param array $errors
+     */
+    public function addFormErrors(array $errors)
     {
         foreach ($errors as $key => $error) {
             $this->templateVars['errors'][$key] = $error;
         }
     }
 
+
+    /**
+     * Init the Twig configuration
+     **/
     private function setTwigConfig()
     {
         $loader = new FilesystemLoader(ROOT_DIR . '/templates');
@@ -81,22 +110,39 @@ abstract class Controller
         $this->twig->addGlobal('charset', $this->config['charset']);
     }
 
+
+    /**
+     * Redirect to the $url
+     * If $url is 0 (integer) redirect to url stored in $_SESSION['auth']['return']
+     * @param mixed $url to redirect to or 0 to redirect to 'return' url
+     **/
     public function redirect($url)
     {
         if (isset($_SESSION['auth']['return']) && $url === 0) {
             header('Location: ' . $_SESSION['auth']['return']);
-        } else {
+        } elseif ($url !== 0){
             header('Location: ' . $url);
+        } else {
+            header('Location: /');
         }
+
         exit();
     }
 
+
+    /*
+     * Test if a form is submitted using a button names $submitName
+     */
     protected function isFormSubmit($submitName)
     {
         return (isset($_POST) && isset($_POST[$submitName]));
     }
 
-    private function restrictAdminZone(){
+
+    /**
+     * If the route is in Admin zone, restrict access to user with Admin role
+     **/
+    private function restrictAdminZone() : void{
         if ($this->zone == 'Admin') {
             if (!$this->user->isConnected()) {
                 $_SESSION['auth']['return'] = $_SERVER['REQUEST_URI'];
@@ -108,7 +154,11 @@ abstract class Controller
         }
     }
 
-    private function userInfoToTemplateVars(){
+
+    /**
+     * Send info about the connected user to the template vars
+     **/
+    private function userInfoToTemplateVars() : void{
         if ($this->user->isConnected()) {
             $this->templateVars['userInfo'] = $this->user->getUser();
         }

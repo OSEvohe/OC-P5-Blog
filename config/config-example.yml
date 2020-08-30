@@ -1,0 +1,11 @@
+locale: 'fr'
+charset: 'UTF-8'
+adminEmail: 'your-mail@mail.com'
+phpmailer:
+  smtpMailFromAddress: 'mail@accepted.by.server'
+  smtpServer: 'smtp.server.com'
+  smtpServerPort: '25'
+  smtpUseAuth: 'yes'
+  smtpAuthLogin: ''
+  smtpAuthPassword: ''
+  smtpSecurity: 'ssl'

@@ -2,3 +2,5 @@
 vendor/
 config/db-config.yml
 config/auth-config.yml
+config/config.yml
+test/

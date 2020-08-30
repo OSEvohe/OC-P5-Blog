@@ -5,6 +5,13 @@ home:
   action: show
   params: []
 
+contactmsg_sent:
+  uri: ^/confirmation-contact$
+  zone: Public
+  controller: HomeController
+  action: confirmContact
+  params: []
+
 blog_single_post:
   uri: ^/blog/([0-9]+)$
   zone: Public
