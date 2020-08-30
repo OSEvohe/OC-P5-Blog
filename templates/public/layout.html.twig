@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon -->
     <link href="/img/favicon.ico" rel="shortcut icon"/>
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16"/>
 
 
     <!-- Google Fonts -->
@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/custom.css"/>
 
-     <!--[if lt IE 9]>
+    <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -41,12 +41,18 @@
         <div class="container">
             <div class="header-social">
                 {% for network in socialNetworks %}
-                <a href="{{ network.profileUrl }}" title="{{ network.name }}"><span class="{{ network.iconClass }}"></span></a>
+                    <a href="{{ network.profileUrl }}" title="{{ network.name }}"><span
+                                class="{{ network.iconClass }}"></span></a>
                 {% endfor %}
             </div>
             <div class="user-panel">
-                <a href="/register">S'enregistrer</a> /
-                <a href="/login">Connexion</a>
+                {% if userInfo %}
+                    Bonjour {{ userInfo.displayName }} -
+                    <a href="/logout">Deconnexion</a>
+                {% else %}
+                    <a href="/register">S'enregistrer</a> /
+                    <a href="/login">Connexion</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -80,7 +86,8 @@
                 </div>
                 <div class="footer-social">
                     {% for network in socialNetworks %}
-                        <a href="{{ network.profileUrl }}" title="{{ network.name }}"><span class="{{ network.iconClass }}"></span></a>
+                        <a href="{{ network.profileUrl }}" title="{{ network.name }}"><span
+                                    class="{{ network.iconClass }}"></span></a>
                     {% endfor %}
                 </div>
             </div>
@@ -90,8 +97,10 @@
                     <li><a href="/blog">Blog</a></li>
                     <li><a href="/#contact">Contact</a></li>
                 </ul>
-                <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    &copy;2020 Tout droits réservés | template conçu par <a href="https://colorlib.com" target="_blank">Colorlib</a> et modifié avec&nbsp;<i class="fa fa-heart-o" aria-hidden="true"></i>
+                <p class="copyright">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    &copy;2020 Tout droits réservés | template conçu par <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    et modifié avec&nbsp;<i class="fa fa-heart-o" aria-hidden="true"></i>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     - <a href="/admin/">Accès Admin</a>
                 </p>
@@ -100,7 +109,6 @@
     </div>
 </footer>
 <!-- Footer section end -->
-
 
 
 <!--====== Javascripts & Jquery ======-->

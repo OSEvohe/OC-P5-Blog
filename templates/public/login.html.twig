@@ -13,13 +13,14 @@
 
     <section class="login-section spad">
         <div class="container">
-            <form class="contact-form">
+            <form class="contact-form" method="post">
                 <div class="row">
                     <div class="col-sm-8 col-md-6 m-auto">
-                        <div><input type="text" placeholder="identifiant"></div>
-                        <div><input type="password" placeholder="motdepasse"></div>
+                        {% include '@admin/block_formError.html.twig' %}
+                        <div><input type="text" name="login" placeholder="identifiant"></div>
+                        <div><input type="password" name="password" placeholder="motdepasse"></div>
                         <div class="text-center">
-                            <button class="site-btn">Connexion</button>
+                            <button class="site-btn" name="loginSubmit">Connexion</button>
                         </div>
                     </div>
                 </div>

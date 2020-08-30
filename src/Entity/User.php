@@ -18,6 +18,10 @@ class User extends Entity
     protected $displayName;
     /** @var string */
     protected $role;
+    /** @var string */
+    protected $token;
+    /** @var int */
+    protected $tokenTime;
 
     const ROLE_GUEST = 'guest';
     const ROLE_MEMBER = 'member';
@@ -37,9 +41,8 @@ class User extends Entity
         $this->addConstraints([
             'login' => [
                 [
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => ['regexp' => '/^\[a-zA-Z0-9_]{4,50}$/u'],
-                    'msg' => 'Nom d\'utilisateur invalide, 4 à 50 caractères non spéciaux autorisés'
+                    'filter' => FILTER_VALIDATE_EMAIL,
+                    'msg' => 'Adresse E-Mail invalide'
                 ]],
             'passwordHash' => [
                 [
@@ -63,7 +66,7 @@ class User extends Entity
      */
     public function getLogin(): string
     {
-        return $this->login;
+        return (string)$this->login;
     }
 
     /**
@@ -79,7 +82,7 @@ class User extends Entity
      */
     public function getPasswordHash(): string
     {
-        return $this->passwordHash;
+        return (string)$this->passwordHash;
     }
 
     /**
@@ -95,7 +98,7 @@ class User extends Entity
      */
     public function getDisplayName(): string
     {
-        return $this->displayName;
+        return (string)$this->displayName;
     }
 
     /**
@@ -124,4 +127,31 @@ class User extends Entity
     {
         $this->role = serialize($role);
     }
+
+    public function getToken(): string
+    {
+        return (string)$this->token;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function getTokenTime(): int
+    {
+        return (int)$this->tokenTime;
+    }
+
+    public function setTokenTime(int $tokenTime): void
+    {
+        $this->tokenTime = $tokenTime;
+    }
+
+
+    public function hasRole(string $role): bool
+    {
+        return array_search($role, $this->getRole())!== false;
+    }
+
 }

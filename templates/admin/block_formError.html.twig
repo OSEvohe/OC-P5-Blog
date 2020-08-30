@@ -1,12 +1,9 @@
 {% if errors %}
-    <div class="row">
-        <div class="col-12">
-            <p class="text-danger">Erreur(s) dans le formulaire</p>
+    <div>
             {% for key in errors %}
                 {% for error in key %}
                     <p class="text-danger">{{ error }}</p>
                 {% endfor %}
             {% endfor %}
-        </div>
     </div>
 {% endif %}

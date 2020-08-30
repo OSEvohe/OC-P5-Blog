@@ -4,32 +4,41 @@
 namespace Core;
 
 
-use Exceptions\BlogException;
+use Entity\User;
 use Exceptions\BlogControllerLoaderError;
 use Exceptions\BlogTemplateLoadError;
 use Exceptions\BlogTemplateRenderError;
+use Services\BlogAuth;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Loader\FilesystemLoader;
 
 abstract class Controller
 {
+    protected $config;
     protected $action;
     protected $params;
     protected $twig;
     protected $templateVars = array();
+    protected $user;
+    protected $zone;
 
-    public function __construct($action, $params)
+    public function __construct($action, $params, $zone = 'Public')
     {
         $this->action = $action;
         $this->params = $params;
+        $this->zone = $zone;
+
+        $this->user = new BlogAuth();
+        $this->restrictAdminZone();
+        $this->userInfoToTemplateVars();
 
         try {
-            $this->loadTwigConfig();
+            $this->config = yaml_parse_file(ROOT_DIR . '/config/config.yml');
+            $this->setTwigConfig();
         } catch (Error $e) {
             throw new BlogControllerLoaderError($e->getMessage());
         }
-
     }
 
     public function execute()
@@ -53,13 +62,14 @@ abstract class Controller
         }
     }
 
-    protected function displayError($e)
+    protected function addErrors(array $errors)
     {
-        $this->templateVars['error'] = $e;
-        $this->render('@public/error.html.twig');
+        foreach ($errors as $key => $error) {
+            $this->templateVars['errors'][$key] = $error;
+        }
     }
 
-    private function loadTwigConfig()
+    private function setTwigConfig()
     {
         $loader = new FilesystemLoader(ROOT_DIR . '/templates');
         $loader->addPath(ROOT_DIR . '/templates/public', 'public');
@@ -67,18 +77,40 @@ abstract class Controller
 
         $this->twig = new Environment($loader);
 
-        $config = yaml_parse_file(ROOT_DIR . '/config/config.yml');
-        $this->twig->addGlobal('locale', $config['locale']);
-        $this->twig->addGlobal('charset', $config['charset']);
+        $this->twig->addGlobal('locale', $this->config['locale']);
+        $this->twig->addGlobal('charset', $this->config['charset']);
     }
 
-    protected function redirect($url)
+    public function redirect($url)
     {
-        header('Location: ' . $url);
+        if (isset($_SESSION['auth']['return']) && $url === 0) {
+            header('Location: ' . $_SESSION['auth']['return']);
+        } else {
+            header('Location: ' . $url);
+        }
+        exit();
     }
 
     protected function isFormSubmit($submitName)
     {
         return (isset($_POST) && isset($_POST[$submitName]));
+    }
+
+    private function restrictAdminZone(){
+        if ($this->zone == 'Admin') {
+            if (!$this->user->isConnected()) {
+                $_SESSION['auth']['return'] = $_SERVER['REQUEST_URI'];
+                $this->redirect('/login');
+            }
+            if (!$this->user->getUser()->hasRole(User::ROLE_ADMIN)) {
+                $this->redirect('/');
+            }
+        }
+    }
+
+    private function userInfoToTemplateVars(){
+        if ($this->user->isConnected()) {
+            $this->templateVars['userInfo'] = $this->user->getUser();
+        }
     }
 }
