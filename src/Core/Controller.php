@@ -131,7 +131,7 @@ abstract class Controller
 
 
     /*
-     * Test if a form is submitted using a button names $submitName
+     * Test if a form is submitted using a button named $submitName
      */
     protected function isFormSubmit($submitName)
     {
