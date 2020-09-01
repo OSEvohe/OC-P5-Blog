@@ -60,7 +60,8 @@
                     Photo / Logo
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="256000" />
                         <div class="mb-2">
                             <img src="{{ profile.photoUrl }}" width="120px" alt="Photo / Logo"/>
                         </div>
@@ -82,12 +83,13 @@
                     C.V.
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form enctype="multipart/form-data" method="POST">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
                         <div class="mb-2">
-                            <a href="{{ profile.cvUrl }}">/cv.pdf</a>
+                            <a href="{{ profile.cvUrl }}">http://{{ profile.cvUrl }}</a>
                         </div>
                         <div class="mb-2">
-                            <input type="file" name="profilCv"/>
+                            <input type="file" name="profileCv"/>
                         </div>
                         <div>
                             <button type="submit" name="profile_CvSubmit">Enregistrer</button>
