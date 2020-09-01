@@ -97,12 +97,10 @@ class ProfilController extends Controller
      */
     private function processPhotoForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000)) {
-                if ($profile->isValid()) {
-                    (new ProfileManager())->update($profile);
-                    $this->redirect('/admin/profile');
-                }
-            }
+        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
+        }
     }
 
 
@@ -112,14 +110,12 @@ class ProfilController extends Controller
      */
     private function processCVForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_cvSubmit')) {
-            if ($this->uploadProfileFile($profile, self::FORM_CV_INPUT, FileUploader::MIME_TYPE_PDF, 10248576)) {
-                if ($profile->isValid()) {
-                    (new ProfileManager())->update($profile);
-                    $this->redirect('/admin/profile');
-                }
-            }
+        if ($this->isFormSubmit('profile_cvSubmit') && $this->uploadProfileFile($profile, self::FORM_CV_INPUT, FileUploader::MIME_TYPE_PDF, 10248576) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
         }
+
+
     }
 
 
@@ -138,7 +134,7 @@ class ProfilController extends Controller
             $uploader = new FileUploader('/uploads', $isCvOrPdf, $mimeType, $maxSize);
 
             if ($uploader->upload()) {
-                $method = 'set'.$isCvOrPdf.'Url';
+                $method = 'set' . $isCvOrPdf . 'Url';
                 $profile->$method($uploader->getFileUrl());
                 return true;
             }
