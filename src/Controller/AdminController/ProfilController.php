@@ -97,14 +97,12 @@ class ProfilController extends Controller
      */
     private function processPhotoForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_photoSubmit')) {
-            if ($this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000)) {
+        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000)) {
                 if ($profile->isValid()) {
                     (new ProfileManager())->update($profile);
                     $this->redirect('/admin/profile');
                 }
             }
-        }
     }
 
 
