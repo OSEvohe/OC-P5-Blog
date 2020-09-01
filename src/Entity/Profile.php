@@ -39,14 +39,22 @@ class Profile extends Entity
                 'msg' => 'Prénom invalide, 2 à 20 caractères alphanumériques autorisés'
             ]],
             'photoUrl' => [[
-                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^\/uploads\/[\w\d-]{1,18}\.gif|jpeg|png|jpg$/'],
+                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.*\/uploads\/[\w\d-]{1,50}\.(gif|jpeg|png|jpg)$/'],
                 'nullable' => true,
-                'msg' => 'Chemin du fichier de la photo/logo invalide'
+                'msg' => 'Fichier invalide'
+            ], [
+                'filter' => FILTER_VALIDATE_URL,
+                'nullable' => true,
+                'msg' => 'URL du fichier de la photo/logo invalide'
             ]],
             'cvUrl' => [[
-                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^\/uploads\/[\w\d-]{1,18}\.pdf$/'],
+                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.*\/uploads\/[\w\d-]{1,50}\.pdf$/'],
                 'nullable' => true,
-                'msg' => 'Chemin du fichier du CV invalide'
+                'msg' => 'Fichier du CV invalide'
+            ], [
+                'filter' => FILTER_VALIDATE_URL,
+                'nullable' => true,
+                'msg' => 'URL du fichier du CV invalide'
             ]],
             'teasing' => [[
                 'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.{4,130}$/u'],
