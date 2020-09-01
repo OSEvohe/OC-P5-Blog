@@ -56,7 +56,7 @@ class AccountController extends Controller
         if ($this->user->getUser()->isValid() && $this->checkPassword($_POST['password'], $_POST['passwordConfirm'])) {
             return $this->createNewUser($this->user->getUser());
         }
-        $this->addErrors($this->user->getUser()->getConstraintsErrors());
+        $this->addFormErrors($this->user->getUser()->getConstraintsErrors());
         return false;
     }
 
@@ -64,12 +64,12 @@ class AccountController extends Controller
     {
         if ($password == $passwordConfirm) {
             if ($passwordErrors = $this->user->checkPasswordErrors($password)) {
-                $this->addErrors(['password' => $passwordErrors]);
+                $this->addFormErrors(['password' => $passwordErrors]);
             } else {
                 return true;
             }
         } else {
-            $this->addErrors(['password' => ['Le mot de passe ne correspond pas']]);
+            $this->addFormErrors(['password' => ['Le mot de passe ne correspond pas']]);
         }
         return false;
     }
@@ -89,9 +89,9 @@ class AccountController extends Controller
     private function createNewUser(User $user)
     {
         if ((new UserManager())->findOneBy(['login' => $user->getLogin()])) {
-            $this->addErrors(['login' => ['Cet identifiant existe déjà']]);
+            $this->addFormErrors(['login' => ['Cet identifiant existe déjà']]);
         } elseif (((new UserManager())->findOneBy(['displayName' => $user->getDisplayName()]))) {
-            $this->addErrors(['displayName' => ['Ce pseudo existe déjà']]);
+            $this->addFormErrors(['displayName' => ['Ce pseudo existe déjà']]);
         } else {
             (new UserManager())->create($user);
             $this->user->connectUser($_POST['login'], $_POST['password']);
