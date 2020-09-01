@@ -92,9 +92,13 @@ class ProfilController extends Controller
      */
     private function processPhotoForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadPhotoFile($profile) && $profile->isValid()) {
-            (new ProfileManager())->update($profile);
-            $this->redirect('/admin/profile');
+        if ($this->isFormSubmit('profile_photoSubmit')) {
+            if ($this->uploadProfileFile($profile, 'Photo', 'profilePhoto', FileUploader::MIME_TYPE_IMAGE, 384000)) {
+                if ($profile->isValid()) {
+                    (new ProfileManager())->update($profile);
+                    $this->redirect('/admin/profile');
+                }
+            }
         }
     }
 
@@ -105,47 +109,38 @@ class ProfilController extends Controller
      */
     private function processCVForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_CvSubmit') && $this->uploadCvFile($profile) && $profile->isValid()) {
-            (new ProfileManager())->update($profile);
-            $this->redirect('/admin/profile');
+        if ($this->isFormSubmit('profile_CvSubmit')) {
+            if ($this->uploadProfileFile($profile, 'Cv', 'profileCv', FileUploader::MIME_TYPE_PDF, 10248576)) {
+                if ($profile->isValid()) {
+                    (new ProfileManager())->update($profile);
+                    $this->redirect('/admin/profile');
+                }
+            }
         }
     }
 
 
     /**
-     * Upload the CV (PDF) file
+     * Upload the CV or Photo File
      * @param Profile $profile
+     * @param string $isCvOrPdf
+     * @param string $inputName
+     * @param array $mimeType
+     * @param int $maxSize
      * @return bool
      */
-    private function uploadCvFile(Profile $profile): bool
+    private function uploadProfileFile(Profile $profile, string $isCvOrPdf, string $inputName, array $mimeType, int $maxSize): bool
     {
-        $uploader = new FileUploader('/uploads', 'profileCv',FileUploader::MIME_TYPE_PDF, 10248576);
+        if (in_array($isCvOrPdf, ['Cv', 'Photo'])) {
+            $uploader = new FileUploader('/uploads', $inputName, $mimeType, $maxSize);
 
-        if ($uploader->upload()) {
-            $profile->setCvUrl($uploader->getFileUrl());
-            return true;
+            if ($uploader->upload()) {
+                $method = 'set'.$isCvOrPdf.'Url';
+                $profile->$method($uploader->getFileUrl());
+                return true;
+            }
+            $this->addFormErrors(['ProfileUpload' => $uploader->getErrors()]);
         }
-
-        $this->addFormErrors(['CvUpload' => $uploader->getErrors()]);
-        return false;
-    }
-
-
-    /**
-     * Upload the Photo/Logo file
-     * @param Profile $profile
-     * @return bool
-     */
-    private function uploadPhotoFile(Profile $profile): bool
-    {
-        $uploader = new FileUploader('/uploads', 'profilePhoto', FileUploader::MIME_TYPE_IMAGE, 256000);
-
-        if ($uploader->upload()) {
-            $profile->setPhotoUrl($uploader->getFileUrl());
-            return true;
-        }
-
-        $this->addFormErrors(['PhotoUpload' => $uploader->getErrors()]);
         return false;
     }
 }

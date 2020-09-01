@@ -40,13 +40,13 @@ class Profile extends Entity
 
             'photoUrl' => [[
                 'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.*\/uploads\/[\w\d-]{1,50}\.(gif|jpeg|png|jpg)$/'],
-                'nullable' => true, 'msg' => 'Fichier invalide'
+                'nullable' => true, 'msg' => 'Fichier de la photo invalide ou nom trop long'
             ], [
                 'filter' => FILTER_VALIDATE_URL, 'nullable' => true, 'msg' => 'URL du fichier de la photo/logo invalide']],
 
             'cvUrl' => [[
                 'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.*\/uploads\/[\w\d-]{1,50}\.pdf$/'],
-                'nullable' => true, 'msg' => 'Fichier du CV invalide'
+                'nullable' => true, 'msg' => 'Fichier du CV invalide ou nom trop long'
             ], [
                 'filter' => FILTER_VALIDATE_URL, 'nullable' => true, 'msg' => 'URL du fichier du CV invalide']],
 
