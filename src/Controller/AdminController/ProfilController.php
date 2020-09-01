@@ -87,48 +87,69 @@ class ProfilController extends Controller
 
 
     /**
-     * Upload the Logo/Photo on the server then save its url in database
+     * Process the Photo/Logo upload form then save its url in database
      * @param Profile $profile An already hydrated Profile
      */
-    private function processPhotoForm(Profile $profile)
+    private function processPhotoForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_photoSubmit')) {
-            $uploader = new FileUploader('/uploads', 'profilePhoto');
-            $uploader->setMaxSize(256000);
-            if ($uploader->upload()) {
-                $profile->setPhotoUrl($uploader->getFileUrl());
-
-                if ($profile->isValid()) {
-                    (new ProfileManager())->update($profile);
-                    $this->redirect('/admin/profile');
-                }
-            } else {
-                $this->addFormErrors(['photoUpload' => $uploader->getErrors()]);
-            }
+        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadPhotoFile($profile) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
         }
     }
 
 
     /**
-     * Upload the PDF on the server then save its url in database
+     * Process the CV upload form then save its url in database
      * @param Profile $profile An already hydrated Profile
      */
-    private function processCVForm(Profile $profile)
+    private function processCVForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_CvSubmit')) {
-            $uploader = new FileUploader('/uploads', 'profileCv');
-            $uploader->setMaxSize(1048576);
-            $uploader->setMimeTypeAllowed(FileUploader::MIME_TYPE_PDF);
-            if ($uploader->upload()) {
-                $profile->setCvUrl($uploader->getFileUrl());
-
-                if ($profile->isValid()) {
-                    (new ProfileManager())->update($profile);
-                    $this->redirect('/admin/profile');
-                }
-            } else {
-                $this->addFormErrors(['CvUpload' => $uploader->getErrors()]);
-            }
+        if ($this->isFormSubmit('profile_CvSubmit') && $this->uploadCvFile($profile) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
         }
+    }
+
+
+    /**
+     * Upload the CV (PDF) file
+     * @param Profile $profile
+     * @return bool
+     */
+    private function uploadCvFile(Profile $profile): bool
+    {
+        $uploader = new FileUploader('/uploads', 'profileCv');
+        $uploader->setMaxSize(10248576);
+        $uploader->setMimeTypeAllowed(FileUploader::MIME_TYPE_PDF);
+
+        if ($uploader->upload()) {
+            $profile->setCvUrl($uploader->getFileUrl());
+            return true;
+        }
+
+        $this->addFormErrors(['CvUpload' => $uploader->getErrors()]);
+        return false;
+    }
+
+
+    /**
+     * Upload the Photo/Logo file
+     * @param Profile $profile
+     * @return bool
+     */
+    private function uploadPhotoFile(Profile $profile): bool
+    {
+        $uploader = new FileUploader('/uploads', 'profilePhoto');
+        $uploader->setMaxSize(256000);
+        $uploader->setMimeTypeAllowed(FileUploader::MIME_TYPE_IMAGE);
+
+        if ($uploader->upload()) {
+            $profile->setPhotoUrl($uploader->getFileUrl());
+            return true;
+        }
+
+        $this->addFormErrors(['PhotoUpload' => $uploader->getErrors()]);
+        return false;
     }
 }
