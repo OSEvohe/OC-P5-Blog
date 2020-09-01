@@ -13,6 +13,11 @@ use Services\FileUploader;
 
 class ProfilController extends Controller
 {
+
+    const FORM_CV_INPUT = 'Cv';
+    const FORM_PHOTO_INPUT = 'Photo';
+
+
     public function executeShow()
     {
         $profile = (new ProfileManager())->findAll()[0];
@@ -93,7 +98,7 @@ class ProfilController extends Controller
     private function processPhotoForm(Profile $profile): void
     {
         if ($this->isFormSubmit('profile_photoSubmit')) {
-            if ($this->uploadProfileFile($profile, 'Photo', 'profilePhoto', FileUploader::MIME_TYPE_IMAGE, 384000)) {
+            if ($this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000)) {
                 if ($profile->isValid()) {
                     (new ProfileManager())->update($profile);
                     $this->redirect('/admin/profile');
@@ -109,8 +114,8 @@ class ProfilController extends Controller
      */
     private function processCVForm(Profile $profile): void
     {
-        if ($this->isFormSubmit('profile_CvSubmit')) {
-            if ($this->uploadProfileFile($profile, 'Cv', 'profileCv', FileUploader::MIME_TYPE_PDF, 10248576)) {
+        if ($this->isFormSubmit('profile_cvSubmit')) {
+            if ($this->uploadProfileFile($profile, self::FORM_CV_INPUT, FileUploader::MIME_TYPE_PDF, 10248576)) {
                 if ($profile->isValid()) {
                     (new ProfileManager())->update($profile);
                     $this->redirect('/admin/profile');
@@ -129,10 +134,10 @@ class ProfilController extends Controller
      * @param int $maxSize
      * @return bool
      */
-    private function uploadProfileFile(Profile $profile, string $isCvOrPdf, string $inputName, array $mimeType, int $maxSize): bool
+    private function uploadProfileFile(Profile $profile, string $isCvOrPdf, array $mimeType, int $maxSize): bool
     {
-        if (in_array($isCvOrPdf, ['Cv', 'Photo'])) {
-            $uploader = new FileUploader('/uploads', $inputName, $mimeType, $maxSize);
+        if (in_array($isCvOrPdf, [self::FORM_CV_INPUT, self::FORM_PHOTO_INPUT])) {
+            $uploader = new FileUploader('/uploads', $isCvOrPdf, $mimeType, $maxSize);
 
             if ($uploader->upload()) {
                 $method = 'set'.$isCvOrPdf.'Url';

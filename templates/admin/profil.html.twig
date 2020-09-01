@@ -66,7 +66,7 @@
                             <img src="{{ profile.photoUrl }}" width="120px" alt="Photo / Logo"/>
                         </div>
                         <div class="mb-2">
-                            <input type="file" name="profilePhoto"/>
+                            <input type="file" name="Photo"/>
                         </div>
                         <div>
                             <button type="submit" name="profile_photoSubmit">Enregistrer</button>
@@ -89,10 +89,10 @@
                             <a href="{{ profile.cvUrl }}">http://{{ profile.cvUrl }}</a>
                         </div>
                         <div class="mb-2">
-                            <input type="file" name="profileCv"/>
+                            <input type="file" name="Cv"/>
                         </div>
                         <div>
-                            <button type="submit" name="profile_CvSubmit">Enregistrer</button>
+                            <button type="submit" name="profile_cvSubmit">Enregistrer</button>
                             <input type="hidden" name="id" value="{{ profile.id }}"/>
                         </div>
                     </form>
