@@ -36,7 +36,9 @@ class FileUploader
     public function __construct(string $uploadDir, string $inputName, array $mimeType, $maxSize = 10248576)
     {
         $this->uploadDir = rtrim($uploadDir, '/');
-        $this->file = $_FILES[$inputName];
+        $this->file['name'] = basename($_FILES[$inputName]['name']);
+        $this->file['error']= (int)$_FILES[$inputName]['error'];
+        $this->file['tmp_name'] = $_FILES[$inputName]['tmp_name'];
         $this->setMaxSize($maxSize);
         $this->setMimeTypeAllowed($mimeType);
     }
