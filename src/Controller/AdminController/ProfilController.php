@@ -119,9 +119,7 @@ class ProfilController extends Controller
      */
     private function uploadCvFile(Profile $profile): bool
     {
-        $uploader = new FileUploader('/uploads', 'profileCv');
-        $uploader->setMaxSize(10248576);
-        $uploader->setMimeTypeAllowed(FileUploader::MIME_TYPE_PDF);
+        $uploader = new FileUploader('/uploads', 'profileCv',FileUploader::MIME_TYPE_PDF, 10248576);
 
         if ($uploader->upload()) {
             $profile->setCvUrl($uploader->getFileUrl());
@@ -140,9 +138,7 @@ class ProfilController extends Controller
      */
     private function uploadPhotoFile(Profile $profile): bool
     {
-        $uploader = new FileUploader('/uploads', 'profilePhoto');
-        $uploader->setMaxSize(256000);
-        $uploader->setMimeTypeAllowed(FileUploader::MIME_TYPE_IMAGE);
+        $uploader = new FileUploader('/uploads', 'profilePhoto', FileUploader::MIME_TYPE_IMAGE, 256000);
 
         if ($uploader->upload()) {
             $profile->setPhotoUrl($uploader->getFileUrl());

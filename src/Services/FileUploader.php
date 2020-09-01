@@ -30,11 +30,15 @@ class FileUploader
      * FileUploader constructor.
      * @param string $uploadDir path relative to '/public' where the file must be uploaded
      * @param string $inputName the name of the input field in the form
+     * @param array $mimeType MIME type allowed
+     * @param int $maxSize max file size
      */
-    public function __construct(string $uploadDir, string $inputName)
+    public function __construct(string $uploadDir, string $inputName, array $mimeType, $maxSize = 10248576)
     {
         $this->uploadDir = rtrim($uploadDir, '/');
         $this->file = $_FILES[$inputName];
+        $this->setMaxSize($maxSize);
+        $this->setMimeTypeAllowed($mimeType);
     }
 
 
