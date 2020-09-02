@@ -7,15 +7,21 @@ namespace Models;
 class UserManager extends \Core\Manager
 {
 
+
+    /**
+     * Return a list of users having $role role
+     * @param string $role
+     * @return array
+     */
     public function findByRole(string $role){
-        $userWithRole = [];
+        $usersWithRole = [];
         $users = $this->findAll();
         foreach ($users as $user){
             if (array_search($role,$user->getRole()) !== FALSE){
-                $userWithRole[] = $user;
+                $usersWithRole[] = $user;
             }
         }
-        return $userWithRole;
+        return $usersWithRole;
     }
 
 }
