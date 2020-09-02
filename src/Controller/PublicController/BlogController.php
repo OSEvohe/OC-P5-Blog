@@ -38,6 +38,7 @@ class BlogController extends Controller
     public function executeShowPost()
     {
         $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
+        var_dump($post);
         if ($this->isFormSubmit('comment_newSubmit')) {
             $this->templateVars['errors'] = $this->processNewCommentForm();
         }
