@@ -105,7 +105,7 @@ abstract class Manager
     public function update(Entity $entity)
     {
         $fields = array_keys($entity->entityToArray());
-        $setClause = $this->addSetClauseToQuery($entity, $fields);
+        $setClause = $this->addSetClauseToQuery($fields);
 
         $query = $this->db->prepare("UPDATE " . $this->tableName . $setClause . ' WHERE id = :id');
         $entity->setDateModified(new DateTime());
@@ -126,7 +126,7 @@ abstract class Manager
     public function create(Entity $entity)
     {
         $fields = array_keys($entity->entityToArray());
-        $insertClause = $this->addInsertClauseToQuery($entity, $fields);
+        $insertClause = $this->addInsertClauseToQuery($fields);
 
         $query = $this->db->prepare('INSERT INTO ' . $this->tableName . $insertClause);
         $entity->setDateCreated(new DateTime());
@@ -143,11 +143,10 @@ abstract class Manager
     }
 
     /**
-     * @param Entity $entity
      * @param $vars
      * @return string
      */
-    protected function addInsertClauseToQuery(Entity $entity, $vars)
+    protected function addInsertClauseToQuery($vars)
     {
         $fields = [];
         $values = [];
@@ -203,6 +202,7 @@ abstract class Manager
      */
     protected function addOrderToQuery(array $order)
     {
+        $params = [];
         foreach ($order as $field => $sort) {
             if (in_array($sort, ['ASC', 'DESC'])) {
                 $params[] = $field . " " . $sort;
@@ -235,7 +235,7 @@ abstract class Manager
      * @param array $set
      * @return string
      */
-    protected function addSetClauseToQuery(Entity $entity, array $set)
+    protected function addSetClauseToQuery(array $set)
     {
         $setClause = [];
         foreach ($set as $field) {

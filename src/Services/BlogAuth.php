@@ -11,24 +11,27 @@ session_start();
 
 class BlogAuth
 {
-    private $controller;
+    /** @var string **/
     private $secret_key;
+    /** @var array **/
     private $token;
-    /* @var User */
+    /** @var User **/
     private $user;
-    /* @var bool */
+    /** @var bool **/
     private $isConnected = false;
 
     const TOKEN_EXPIRE_TIME = 1800;
+
 
     public function __construct()
     {
         $this->secret_key = yaml_parse_file(ROOT_DIR . '/config/auth-config.yml')['secret_key'];
         $this->user = new User();
-        if ($this->isUserConnected()){
+        if ($this->isUserConnected()) {
             $this->isConnected = true;
         }
     }
+
 
 
     public function connectUser($login, $password)
@@ -64,13 +67,14 @@ class BlogAuth
 
     private function verifyToken(int $userId, array $data, $time)
     {
-        if ( isset($this->token['token']) && $this->token['token'] == hash('sha256', $this->secret_key . (string)$userId . implode(',', $data) . $time)) {
-               return $this->checkTokenExpireTime($userId, $data, $time);
-            }
+        if (isset($this->token['token']) && $this->token['token'] == hash('sha256', $this->secret_key . (string)$userId . implode(',', $data) . $time)) {
+            return $this->checkTokenExpireTime($userId, $data, $time);
+        }
         return false;
     }
 
-    private function checkTokenExpireTime($userId, $data, $time){
+    private function checkTokenExpireTime($userId, $data, $time)
+    {
         if (($time + self::TOKEN_EXPIRE_TIME) < time()) {
             return false;
         } elseif (($time + self::TOKEN_EXPIRE_TIME / 2) < time()) {
@@ -138,7 +142,8 @@ class BlogAuth
      * @param $password
      * @return array an array of errors
      */
-    public function checkPasswordErrors(string $password) : array{
+    public function checkPasswordErrors(string $password): array
+    {
         $errors = [];
         if (strlen($password) < 8) {
             $errors[] = "Mot de passe trop court, 8 caractères au minimum";
