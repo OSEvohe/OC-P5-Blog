@@ -16,7 +16,7 @@ class BlogController extends Controller
 {
     use SocialGenerator;
 
-    const PostsPerPage = 5;
+    const POSTS_PER_PAGE = 6;
 
 
     /**
@@ -43,7 +43,7 @@ class BlogController extends Controller
             $this->templateVars['errors'] = $this->processNewCommentForm();
         }
 
-        $this->templateVars['allowComment'] = (string)(($this->user->getUser()->hasRole(User::ROLE_MEMBER) || $this->user->getUser()->hasRole(User::ROLE_ADMIN)));
+        $this->templateVars['allowComment'] = (string)($this->user->getUser()->hasRole(User::ROLE_MEMBER) || $this->user->getUser()->hasRole(User::ROLE_ADMIN));
 
         $this->templateVars['post'] = $post;
         $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $post->getUserId()]);
@@ -77,16 +77,16 @@ class BlogController extends Controller
      */
     private function createPagination(): array
     {
-        $pagination['count_row'] = self::PostsPerPage;
+        $pagination['count_row'] = self::POSTS_PER_PAGE;
 
         if (isset($this->params['page']) && $this->params['page']) {
-            $offset = ((int)$this->params['page'] - 1) * self::PostsPerPage;
+            $offset = ((int)$this->params['page'] - 1) * self::POSTS_PER_PAGE;
             $this->templateVars['pageCurrent'] = $this->params['page'];
             $pagination['offset'] = $offset;
         }
 
         $nb_post = count((new PostManager())->findAll());
-        $this->templateVars['pagesCount'] = (int)($nb_post / self::PostsPerPage) + 1;
+        $this->templateVars['pagesCount'] = (int)($nb_post / self::POSTS_PER_PAGE) + 1;
         return $pagination;
     }
 }
