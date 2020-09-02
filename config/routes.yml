@@ -19,6 +19,13 @@ blog_single_post:
   action: showPost
   params: [id]
 
+blog_pagination:
+  uri: ^/blog/page/([0-9]{0,4})$
+  zone: Public
+  controller: BlogController
+  action: show
+  params: [page]
+
 blog:
   uri: ^/blog$
   zone: Public
