@@ -4,16 +4,26 @@
 namespace Controller\AdminController;
 
 use Core\Controller;
+use Entity\Profile;
 use Entity\SocialNetwork;
 use Models\ProfileManager;
 use Models\SocialNetworkManager;
+use Services\FileUploader;
 
 
 class ProfilController extends Controller
 {
+
+    const FORM_CV_INPUT = 'Cv';
+    const FORM_PHOTO_INPUT = 'Photo';
+
+
     public function executeShow()
     {
         $profile = (new ProfileManager())->findAll()[0];
+
+        $this->processPhotoForm($profile);
+        $this->processCVForm($profile);
 
         if ($this->isFormSubmit('profile_nameSubmit') || $this->isFormSubmit('profile_teasingSubmit')) {
             $profile->hydrate($_POST);
@@ -24,7 +34,7 @@ class ProfilController extends Controller
             }
         }
 
-        $this->templateVars['errors'] = $profile->getConstraintsErrors();
+        $this->addFormErrors($profile->getConstraintsErrors());
         $this->templateVars['profile'] = $profile;
         $this->render('@admin/profil.html.twig');
     }
@@ -78,5 +88,58 @@ class ProfilController extends Controller
 
         $this->templateVars['network'] = $network;
         $this->render('@admin/social_delete.html.twig');
+    }
+
+
+    /**
+     * Process the Photo/Logo upload form then save its url in database
+     * @param Profile $profile An already hydrated Profile
+     */
+    private function processPhotoForm(Profile $profile): void
+    {
+        if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
+        }
+    }
+
+
+    /**
+     * Process the CV upload form then save its url in database
+     * @param Profile $profile An already hydrated Profile
+     */
+    private function processCVForm(Profile $profile): void
+    {
+        if ($this->isFormSubmit('profile_cvSubmit') && $this->uploadProfileFile($profile, self::FORM_CV_INPUT, FileUploader::MIME_TYPE_PDF, 10248576) && $profile->isValid()) {
+            (new ProfileManager())->update($profile);
+            $this->redirect('/admin/profile');
+        }
+
+
+    }
+
+
+    /**
+     * Upload the CV or Photo File
+     * @param Profile $profile
+     * @param string $isCvOrPdf
+     * @param string $inputName
+     * @param array $mimeType
+     * @param int $maxSize
+     * @return bool
+     */
+    private function uploadProfileFile(Profile $profile, string $isCvOrPdf, array $mimeType, int $maxSize): bool
+    {
+        if (in_array($isCvOrPdf, [self::FORM_CV_INPUT, self::FORM_PHOTO_INPUT])) {
+            $uploader = new FileUploader('/uploads', $isCvOrPdf, $mimeType, $maxSize);
+
+            if ($uploader->upload()) {
+                $method = 'set' . $isCvOrPdf . 'Url';
+                $profile->$method($uploader->getFileUrl());
+                return true;
+            }
+            $this->addFormErrors(['ProfileUpload' => $uploader->getErrors()]);
+        }
+        return false;
     }
 }
