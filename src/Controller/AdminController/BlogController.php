@@ -17,13 +17,13 @@ class BlogController extends Controller
 
     public function executeShow()
     {
-        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC'], [], true );
+        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC'], []);
         $this->render('@admin/posts_list.html.twig');
     }
 
     public function executeNewPost()
     {
-        $post = new Post(['userId' => 1]); // TODO : Get from logged user
+        $post = new Post(['userId' => $this->user->getUser()->getId()]);
 
         if ($this->isFormSubmit('post_newSubmit')) {
             $post->hydrate($_POST);
