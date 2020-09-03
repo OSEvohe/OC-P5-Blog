@@ -30,13 +30,6 @@ class HomeController extends Controller
     }
 
 
-    public function executeError404()
-    {
-        $this->getSocialNetworks();
-        $this->render('@public/error404.html.twig');
-    }
-
-
     public function executeConfirmContact()
     {
         if (!empty($_SESSION['contact-sent'])) {
@@ -70,5 +63,14 @@ class HomeController extends Controller
             'content' => $mailer->getBody()
         ];
         $mailer->setBodyHTML($this->twig->render('@public/contactMail.html.twig', $vars));
+    }
+
+    /**
+     * Display Page Not Found
+     */
+    public function executeError404()
+    {
+        $this->getSocialNetworks();
+        $this->render('@public/error404.html.twig');
     }
 }

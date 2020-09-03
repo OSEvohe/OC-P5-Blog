@@ -129,6 +129,12 @@ abstract class Controller
         exit();
     }
 
+    public function redirect404(){
+
+        header("Location: /404");
+        exit();
+    }
+
 
     /*
      * Test if a form is submitted using a button named $submitName

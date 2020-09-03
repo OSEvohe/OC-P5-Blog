@@ -37,20 +37,24 @@ class BlogController extends Controller
      */
     public function executeShowPost()
     {
+        $this->getSocialNetworks();
+
         $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
+
+        if (empty($post)){
+            $this->redirect404();
+        }
 
         if ($this->isFormSubmit('comment_newSubmit')) {
             $this->templateVars['errors'] = $this->processNewCommentForm();
         }
 
         $this->templateVars['allowComment'] = (string)($this->user->getUser()->hasRole(User::ROLE_MEMBER) || $this->user->getUser()->hasRole(User::ROLE_ADMIN));
-
         $this->templateVars['post'] = $post;
         $this->templateVars['author'] = (new UserManager())->findOneBy(['id' => $post->getUserId()]);
         $this->templateVars['comments'] = (new CommentManager())->getCommentsWithAuthorNameAndPostTitle(['postId' => $this->params['id'], 'visible' => 1], ['dateCreated' => 'DESC']);
         $this->templateVars['lastPosts'] = (new PostManager())->findAll(['dateCreated' => 'DESC'], ['count_row' => 5]);
 
-        $this->getSocialNetworks();
         $this->render('@public/single-post.html.twig');
     }
 
