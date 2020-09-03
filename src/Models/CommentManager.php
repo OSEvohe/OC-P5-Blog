@@ -9,6 +9,14 @@ use PDO;
 class CommentManager extends \Core\Manager
 {
 
+    /**
+     * Return the comments along with its author name and title of the corresponding post.
+     * <br>See finbBy method for $where, $order and $limit example
+     * @param array $where
+     * @param array $order
+     * @param array $limit
+     * @return array
+     */
     public function getCommentsWithAuthorNameAndPostTitle(array $where = [], array $order = [], array $limit = [])
     {
         $orderClause = '';
