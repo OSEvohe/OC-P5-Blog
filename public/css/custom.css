@@ -33,3 +33,17 @@
 a.text-dark:hover{
     color: #f4511e!important;
 }
+
+.profile-photo{
+    display: block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 75px;
+    border: solid #333 2px;
+    margin: auto;
+}
+
+.add-text .lead {
+    font-size:1em;
+}
