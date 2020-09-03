@@ -18,7 +18,7 @@
                         <h2>{{ post.title }}</h2>
                         <div class="small text-muted pt-2 pl-3">Le {{ post.dateCreated.format('d/m/Y') }}
                             {% if post.dateModified != post.dateCreated %}
-                                <span class="small"> - modifié le {{ post.dateModified.format('d/m/Y') }} </span>
+                                <span class="small"> - modifié le {{ post.dateModified.format('d/m/Y à H:i') }} </span>
                             {% endif %}
                         </div>
                         <div class="pl-3 small"><span>Par {{ author.displayName }}</span></div>
@@ -29,7 +29,7 @@
                     <div class="post-text">
                         {{ post.content }}
                     </div>
-                    <div class="comments pt-5">
+                    <div class="comments pt-5" id="comments">
                         <div class="row">
                             <div class="col-12">
                                 <div class="comments-count">

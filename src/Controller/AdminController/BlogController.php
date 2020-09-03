@@ -14,9 +14,12 @@ use Models\UserManager;
 class BlogController extends Controller
 {
 
+    /**
+     * Show the page displaying all posts
+     */
     public function executeShow()
     {
-        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC'], []);
+        $this->templateVars['posts'] = (new PostManager())->getPostsWithCommentsCountAndAuthorName(['dateCreated' => 'DESC']);
         $this->render('@admin/posts_list.html.twig');
     }
 
@@ -79,9 +82,9 @@ class BlogController extends Controller
     {
         $manager = new CommentManager();
         if ($this->params['postId'] == 'all') {
-            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle();
+            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle([], ['dateCreated' => 'DESC']);
         } else {
-            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle(['postId' => $this->params['postId']]);
+            $this->templateVars['comments'] = $manager->getCommentsWithAuthorNameAndPostTitle(['postId' => $this->params['postId']], ['dateCreated' => 'DESC']);
         }
 
         $this->render('@admin/comments_list.html.twig');

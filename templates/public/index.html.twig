@@ -9,7 +9,6 @@
                     <h2 class="hs-title-1"><span>{{ profile.lastName }} {{ profile.firstName }}</span></h2>
                     <h2 class="hs-title-2"><span>Développeur</span></h2>
                     <h2 class="hs-title-3"><span>PHP/Symfony</span></h2>
-                    <div class="profile-photo"><img src="{{ profile.photoUrl }}" /></div>
                 </div>
             </div>
         </div>
@@ -27,7 +26,10 @@
                     <div class="col-lg-4 col-md-5 offset-lg-8 offset-md-7">
                         <div class="add-text text-white">
                             <div class="at-style"></div>
-                            <p class="lead pr-2">{{ profile.teasing }}</p>
+                            <p class="lead pr-2">
+                                <span class="profile-photo"><img src="{{ profile.photoUrl }}"/></span>
+                                {{ profile.teasing }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -43,7 +45,8 @@
             </div>
             <div class="row pb-5">
                 <div class="col-12 text-center">
-                    <div class="site-btn text-center"><a href="{{ profile.cvUrl }}" class="text-white">Voir Mon CV</a></div>
+                    <div class="site-btn text-center"><a href="{{ profile.cvUrl }}" class="text-white">Voir Mon CV</a>
+                    </div>
                 </div>
             </div>
             <div class="row">
