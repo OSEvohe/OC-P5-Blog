@@ -11,11 +11,11 @@
     <!-- Hero section end -->
 
     <section class="spad">
-        <div class="container">
+        <div class="container post-detail">
             <div class="row">
                 <div class="col-sm-12 col-md-7">
                     <div class="post-meta pb-5">
-                        <h2>{{ post.title }}</h2>
+                        <h1>{{ post.title }}</h1>
                         <div class="small text-muted pt-2 pl-3">Le {{ post.dateCreated.format('d/m/Y') }}
                             {% if post.dateModified != post.dateCreated %}
                                 <span class="small"> - modifié le {{ post.dateModified.format('d/m/Y à H:i') }} </span>
@@ -27,7 +27,7 @@
                         <p>{{ post.lead }}</p>
                     </div>
                     <div class="post-text">
-                        {{ post.content }}
+                        {{ post.content|html_purifier }}
                     </div>
                     <div class="comments pt-5" id="comments">
                         <div class="row">

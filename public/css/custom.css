@@ -47,3 +47,14 @@ a.text-dark:hover{
 .add-text .lead {
     font-size:1em;
 }
+
+.post-detail h2, .post-detail h3, .post-detail h4 {
+    margin: 15px 0;
+}
+.post-detail h1 {
+    font-size: 50px;
+}
+
+.post-detail ul, .post-detail ol {
+    padding-left: 2em;
+}
