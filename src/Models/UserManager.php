@@ -12,11 +12,11 @@ class UserManager extends \Core\Manager
 
     /**
      * Return a list of users having $role role
-     * $role may be a string or an array
-     * @param array|string $role
+     * $role an array of role (see USER entity constants
+     * @param array $role
      * @return array
      */
-    public function findByRole($role)
+    public function findByRole(array $role)
     {
         $usersWithRole = [];
         $users = $this->findAll();
@@ -31,6 +31,11 @@ class UserManager extends \Core\Manager
         return $usersWithRole;
     }
 
+
+    /**
+     * Delete an user, original admin account (id #1) cannot be deleted
+     * @param Entity $user
+     */
     public function delete(Entity $user)
     {
         /* Cannot delete Admin #1 account */

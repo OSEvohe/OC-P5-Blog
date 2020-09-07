@@ -56,7 +56,7 @@ class BlogController extends Controller
 
         $this->templateVars['errors'] =$post->getConstraintsErrors();
         $this->templateVars['post'] = $post->entityToArray();
-        $this->templateVars['authors'] = (new UserManager())->findByRole(User::ROLE_ADMIN);
+        $this->templateVars['authors'] = (new UserManager())->findByRole([User::ROLE_ADMIN]);
         $this->render('@admin/post_edit.html.twig');
     }
 
