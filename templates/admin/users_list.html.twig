@@ -1,0 +1,59 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-user mr-1"></i>
+                Liste des utilisateurs
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Identifiant</th>
+                            <th>Pseudo</th>
+                            <th>Rôle</th>
+                            <th>Crée le</th>
+                            <th>Modifié le</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Identifiant</th>
+                            <th>Pseudo</th>
+                            <th>Rôle</th>
+                            <th>Crée le</th>
+                            <th>Modifié le</th>
+                            <th>Actions</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.login }}</td>
+                                <td>{{ user.displayName }}</td>
+                                <td>{% for role in user.role %}{{ role }} {% endfor %}</td>
+                                <td>{{ user.dateCreated.format('Y-m-d H:i:s') }}</td>
+                                <td>{% if user.dateModified != user.dateCreated %}{{ user.dateModified.format('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                                <td>
+                                    <a href="/admin/user/edit/{{ user.id }}"><i class="fa fa-edit"></i> </a>
+                                    <a href="/admin/user/delete/{{ user.id }}"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Modification d'un utilisateur{% endblock %}
+
+{% block content %}
+    {% include '@admin/block_formError.html.twig' %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user"></i>
+                    Modifier l'utilisateur #{{ user.id }}
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <label for="login" class="col-form-label d-block">E-mail (Identifiant)</label>
+                            <input type="email" name="login" id="login" style="width: 200px" value="{{ user.login }}"/>
+                        </div>
+                        <div>
+                            <label for="name" class="col-form-label d-block">Pseudo</label>
+                            <input type="text" minlength="4" maxlength="20" name="displayName" style="width: 200px;"
+                                   id="displayName"
+                                   value="{{ user.displayName }}"/>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn-primary" name="user_editSubmit">Modifier</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div>
+                            <label for="password" class="col-form-label d-block">Changer le mot de passe</label>
+                            <input type="password" name="password" id="password" style="width: 200px"/>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn-primary" name="user_editPasswordSubmit">Modifier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

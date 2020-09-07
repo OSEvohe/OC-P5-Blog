@@ -47,7 +47,7 @@
             </div>
             <div class="user-panel">
                 {% if userInfo %}
-                    Bonjour {{ userInfo.displayName }} -
+                    Bonjour <a href="/myaccount">{{ userInfo.displayName }}</a> -
                     <a href="/logout">Deconnexion</a>
                 {% else %}
                     <a href="/register">S'enregistrer</a> /
