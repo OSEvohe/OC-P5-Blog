@@ -9,6 +9,7 @@ use Exceptions\BlogControllerLoaderError;
 use Exceptions\BlogTemplateLoadError;
 use Exceptions\BlogTemplateRenderError;
 use Services\BlogAuth;
+use Services\HTMLPurifierExtension;
 use Twig\Environment;
 use Twig\Error\Error;
 use Twig\Loader\FilesystemLoader;
@@ -108,6 +109,7 @@ abstract class Controller
 
         $this->twig->addGlobal('locale', $this->config['locale']);
         $this->twig->addGlobal('charset', $this->config['charset']);
+        $this->twig->addExtension(new HTMLPurifierExtension());
     }
 
 

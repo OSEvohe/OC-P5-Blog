@@ -35,7 +35,7 @@ class Post extends Entity
                 'msg' => 'Titre invalide, 4 à 60 caractère autorisés'
             ]],
             'content' => [[
-                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.{10,}$/u'],
+                'filter' => FILTER_VALIDATE_REGEXP, 'options' => ['regexp' => '/^.{10,}$/um'],
                 'msg' => 'Texte du contenu trop court, 10 caractères minimum'
             ]],
             'lead' => [[
