@@ -40,7 +40,7 @@ class AccountController extends Controller
             $this->redirect('/');
         }
         if ($this->isFormSubmit('registerSubmit')) {
-            if ($this->processRegisterForm()){
+            if ($this->processRegisterForm()) {
                 $this->redirect('/');
             }
         }
@@ -48,6 +48,28 @@ class AccountController extends Controller
         $this->getSocialNetworks();
         $this->templateVars['user'] = $this->user->getUser();
         $this->render('@public/register.html.twig');
+    }
+
+    public function executeUserAccount()
+    {
+        if (!$this->user->isConnected()) {
+            $this->redirect('/');
+        }
+
+        if ($this->isFormSubmit('changePasswordSubmit')) {
+            if ($this->processChangePasswordForm()) {
+                $_SESSION['passwordChanged'] = 'Ok';
+                $this->redirect('/myaccount');
+            }
+        }
+
+        if (isset($_SESSION['passwordChanged'])){
+            $this->templateVars['passwordChanged'] = 1;
+            unset($_SESSION['passwordChanged']);
+        }
+        $this->getSocialNetworks();
+        $this->templateVars['user'] = $this->user->getUser();
+        $this->render('@public/myaccount.html.twig');
     }
 
     private function processRegisterForm()
@@ -100,4 +122,19 @@ class AccountController extends Controller
         return false;
     }
 
+    private function processChangePasswordForm()
+    {
+        if (!$this->user->isPasswordValid($_POST['oldPassword'])){
+            $this->addFormErrors(['changepassword' => ['Erreur dans le mot de passe actuel']]);
+            return false;
+        }
+
+        if ($this->user->getUser()->isValid() && $this->checkPassword($_POST['password'], $_POST['passwordConfirm'])) {
+            $this->user->getUser()->setPasswordHash($this->user->hashPassword($_POST['password']));
+            (new UserManager())->update($this->user->getUser());
+            return true;
+        }
+
+        return false;
+    }
 }
