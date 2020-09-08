@@ -30,18 +30,12 @@ class UserController extends \Core\Controller
 
         if ($this->isFormSubmit('user_editPasswordSubmit')) {
             $this->processPasswordChange($user, $_POST['password']);
-        } else {
-            if ($this->isFormSubmit('user_editSubmit')) {
-                $user->hydrate($_POST);
-
-                if ($user->isValid() && !$this->isDisplayNameDuplicate($user)) {
-                    (new UserManager())->update($user);
-                    $this->redirect('/admin/users');
-                }
-            }
         }
 
-        $this->addFormErrors($user->getConstraintsErrors());
+        if ($this->isFormSubmit('user_editSubmit')) {
+            $this->processEditUser($user);
+        }
+
         $this->templateVars['user'] = $user->entityToArray();
         $this->render('@admin/user_edit.html.twig');
     }
@@ -107,6 +101,21 @@ class UserController extends \Core\Controller
         $this->addFormErrors(['displayName' => ['Ce pseudo existe déjà']]);
         return true;
 
+    }
+
+    /**
+     * @param User $user
+     */
+    private function processEditUser(User $user): void
+    {
+        $user->hydrate($_POST);
+
+        if ($user->isValid() && !$this->isDisplayNameDuplicate($user)) {
+            (new UserManager())->update($user);
+            $this->redirect('/admin/users');
+        } else {
+            $this->addFormErrors($user->getConstraintsErrors());
+        }
     }
 
 }
