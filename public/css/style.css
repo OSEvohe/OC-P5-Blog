@@ -1539,6 +1539,7 @@ ol {
 	}
 	.footer-section {
 		text-align: center;
+		padding: 60px 15px 50px;
 	}
 	.footer-social a {
 		color: #474747;
@@ -1583,9 +1584,7 @@ ol {
 	.recipe-view {
 		margin-bottom: 20px;
 	}
-	.footer-section {
-		padding: 60px 15px 50px;
-	}
+
 	.contact-form-warp {
 		margin-bottom: 50px;
 	}
