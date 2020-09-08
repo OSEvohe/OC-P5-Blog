@@ -56,14 +56,12 @@ class AccountController extends Controller
             $this->redirect('/');
         }
 
-        if ($this->isFormSubmit('changePasswordSubmit')) {
-            if ($this->processChangePasswordForm()) {
-                $_SESSION['passwordChanged'] = 'Ok';
-                $this->redirect('/myaccount');
-            }
+        if ($this->isFormSubmit('changePasswordSubmit') && $this->processChangePasswordForm()) {
+            $_SESSION['passwordChanged'] = 'Ok';
+            $this->redirect('/myaccount');
         }
 
-        if (isset($_SESSION['passwordChanged'])){
+        if (isset($_SESSION['passwordChanged'])) {
             $this->templateVars['passwordChanged'] = 1;
             unset($_SESSION['passwordChanged']);
         }
