@@ -22,8 +22,8 @@
 }
 
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
-[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
-  font-family: Flaticon;
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {
+    font-family: Flaticon, fantasy;
   font-style: normal;
 }
 
