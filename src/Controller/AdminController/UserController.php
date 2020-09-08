@@ -11,6 +11,9 @@ use Models\UserManager;
 
 class UserController extends \Core\Controller
 {
+    const ADMIN_USERS_PAGE = '/admin/users';
+
+
     /**
      * Show the page displaying all registered users
      */
@@ -50,12 +53,12 @@ class UserController extends \Core\Controller
 
         /* Admin cannot be deleted */
         if ($user->getId() == '1' || $this->isFormSubmit('user_deleteCancel')) {
-            $this->redirect('/admin/users');
+            $this->redirect(self::ADMIN_USERS_PAGE);
         }
 
         if ($this->isFormSubmit('user_deleteSubmit')) {
             (new UserManager())->delete($user);
-            $this->redirect('/admin/users');
+            $this->redirect(self::ADMIN_USERS_PAGE);
         }
 
         $this->templateVars['user'] = $user;
@@ -78,7 +81,7 @@ class UserController extends \Core\Controller
             $user->setPasswordHash($this->user->hashPassword($password));
             if ($user->isValid()) {
                 (new UserManager())->update($user);
-                $this->redirect('/admin/users');
+                $this->redirect(self::ADMIN_USERS_PAGE);
             }
         }
     }
@@ -112,7 +115,7 @@ class UserController extends \Core\Controller
 
         if ($user->isValid() && !$this->isDisplayNameDuplicate($user)) {
             (new UserManager())->update($user);
-            $this->redirect('/admin/users');
+            $this->redirect(self::ADMIN_USERS_PAGE);
         } else {
             $this->addFormErrors($user->getConstraintsErrors());
         }
