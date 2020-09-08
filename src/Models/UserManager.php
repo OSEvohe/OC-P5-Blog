@@ -12,20 +12,15 @@ class UserManager extends \Core\Manager
 
     /**
      * Return a list of users having $role role
-     * $role an array of role (see USER entity constants
-     * @param array $role
+     * @param string $role
      * @return array
      */
-    public function findByRole(array $role)
+    public function findByRole(string $role)
     {
         $usersWithRole = [];
-        $users = $this->findAll();
-        foreach ($users as $user) {
-            foreach ($user->getRole() as $userRole) {
-                if (in_array($userRole, $role)) {
-                    $usersWithRole[] = $user;
-                    break;
-                }
+        foreach ($this->findAll() as $user) {
+            if ($user->hasRole($role)) {
+                $usersWithRole[] = $user;
             }
         }
         return $usersWithRole;
