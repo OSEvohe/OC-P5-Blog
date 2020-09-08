@@ -4,6 +4,8 @@
 namespace Models;
 
 
+use Core\Entity;
+
 class UserManager extends \Core\Manager
 {
 
@@ -13,15 +15,29 @@ class UserManager extends \Core\Manager
      * @param string $role
      * @return array
      */
-    public function findByRole(string $role){
+    public function findByRole(string $role)
+    {
         $usersWithRole = [];
-        $users = $this->findAll();
-        foreach ($users as $user){
-            if (array_search($role,$user->getRole()) !== FALSE){
+        foreach ($this->findAll() as $user) {
+            if ($user->hasRole($role)) {
                 $usersWithRole[] = $user;
             }
         }
         return $usersWithRole;
+    }
+
+
+    /**
+     * Delete an user, original admin account (id #1) cannot be deleted
+     * @param Entity $user
+     */
+    public function delete(Entity $user)
+    {
+        /* Cannot delete Admin #1 account */
+        if ($user->getId() != 1) {
+            parent::delete($user);
+        }
+
     }
 
 }

@@ -54,6 +54,13 @@ register:
   action: register
   params: []
 
+myaccount:
+  uri: ^/myaccount$
+  zone: Public
+  controller: AccountController
+  action: userAccount
+  params: []
+
 admin:
   uri: ^/admin/$
   zone: Admin
@@ -137,3 +144,24 @@ social:
   controller: ProfilController
   action: showSocial
   params: []
+
+users_management:
+  uri: ^/admin/users$
+  zone: Admin
+  controller: UserController
+  action: showUsers
+  params: []
+
+user_delete:
+  uri: ^/admin/user/delete/([0-9]+)$
+  zone: Admin
+  controller: UserController
+  action: deleteUser
+  params: [id]
+
+user_edit:
+  uri: ^/admin/user/edit/([0-9]+)$
+  zone: Admin
+  controller: UserController
+  action: editUser
+  params: [id]

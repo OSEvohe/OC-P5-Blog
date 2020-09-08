@@ -1,0 +1,40 @@
+{% extends '@public/layout.html.twig' %}
+
+{% block title %}Mon compte | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <!-- Hero section -->
+    <section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
+        <div class="container">
+            <h2>Mon compte</h2>
+        </div>
+    </section>
+    <!-- Hero section end -->
+
+    <section class="login-section spad">
+        <div class="container">
+            <form class="contact-form" method="post">
+                <div class="row pb-5">
+                    <div class="col-sm-12 col-md-6 m-auto">
+                        <div>Mon identifiant : {{ user.login }}</div>
+                        <div>Mon pseudo : {{  user.displayName }}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 m-auto">
+
+                        {% include '@admin/block_formError.html.twig' %}
+                        {% if passwordChanged == 1 %}<div><span class="text-success">Mot de pas modifié !</span></div>{% endif %}
+                        <label for="password" >Changer le mot de passe</label>
+                        <div><input type="password" name="oldPassword" placeholder="Mot de passe" id="password"></div>
+                        <div><input type="password" name="password" placeholder="Nouveau mot de passe" id="password"></div>
+                        <div><input type="password" name="passwordConfirm" placeholder="Confirmer le nouveau mot de passe"></div>
+                        <div class="text-center">
+                            <button class="site-btn" name="changePasswordSubmit">Changer le mot de passe</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

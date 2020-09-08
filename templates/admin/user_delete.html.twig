@@ -1,0 +1,68 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block title %}Supprimer un utilisateur{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user mr-1"></i>
+                    Supprimer l'utilisateur' #{{ user.id }}
+                </div>
+                <div class="card-body">
+                    <div>
+                        <strong>Identifiant de l'utilisateur</strong>
+                        <p>{{ user.login }}</p>
+                    </div>
+                    <div>
+                        <strong>Pseudo</strong>
+                        <p>{{ user.displayName }}</p>
+                    </div>
+                    <div>
+                        <strong>Rôle(s)</strong>
+                        <p>{% for role in user.role %}{{ role }} {% endfor %}</p>
+                    </div>
+                    {% if posts_owned %}
+                        <div>
+                            <strong>Les posts suivants seront supprimés :</strong>
+                            <ul>
+                                {% for post in posts_owned %}
+                                    <li>#{{ post.id }} - {{ post.title }} <a href="/blog/{{ post.id }}" target="_blank">(Post #{{ post.id }})</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if comments_owned %}
+                    <div>
+                        <strong>Commentaires supprimés :</strong>
+                        <ul>
+                        {% for comment in comments_owned %}
+                            <li>#{{ comment.id }} - {{ comment.content }} <a href="/blog/{{ comment.postId }}" target="_blank">(Post #{{ comment.postId }})</a></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <hr/>
+                        Crée le {{ user.dateCreated.format('d-m-Y à H:i:s') }}
+                        {% if user.dateCreated != user.dateModified %}
+                            - Modifié le {{ user.dateModified.format('d-m-Y à H:i:s') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Voulez vous supprimer l'utilisateur {{ user.login}}(#{{ user.id }}) ?</strong></p>
+                    <div>
+                        <form method="post">
+                            <button type="submit" name="user_deleteCancel">Annuler</button>
+                            <button type="submit" name="user_deleteSubmit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
