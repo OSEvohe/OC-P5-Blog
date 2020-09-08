@@ -13,6 +13,8 @@ use Models\UserManager;
 
 class BlogController extends Controller
 {
+    const ADMIN_BLOG = '/admin/blog';
+    const ADMIN_COMMENTS_ALL = '/admin/comments/all';
 
     /**
      * Show the page displaying all posts
@@ -32,7 +34,7 @@ class BlogController extends Controller
 
             if ($post->isValid()) {
                 (new PostManager())->create($post);
-                $this->redirect('/admin/blog');
+                $this->redirect(self::ADMIN_BLOG);
             }
         }
 
@@ -50,7 +52,7 @@ class BlogController extends Controller
 
             if ($post->isValid()) {
                 (new PostManager())->update($post);
-                $this->redirect('/admin/blog');
+                $this->redirect(self::ADMIN_BLOG);
             }
         }
 
@@ -65,12 +67,12 @@ class BlogController extends Controller
         $post = (new PostManager())->findOneBy(['id' => $this->params['id']]);
 
         if ($this->isFormSubmit('post_deleteCancel')) {
-            $this->redirect('/admin/blog');
+            $this->redirect(self::ADMIN_BLOG);
         }
 
         if ($this->isFormSubmit('post_deleteSubmit')) {
             (new PostManager())->delete($post);
-            $this->redirect('/admin/blog');
+            $this->redirect(self::ADMIN_BLOG);
         }
 
         $this->templateVars['post'] = $post;
@@ -98,7 +100,7 @@ class BlogController extends Controller
             $comment->hydrate($_POST);
             if ($comment->isValid()) {
                 (new CommentManager())->update($comment);
-                $this->redirect('/admin/comments/all');
+                $this->redirect(self::ADMIN_COMMENTS_ALL);
             }
         }
 
@@ -111,12 +113,12 @@ class BlogController extends Controller
         $comment = $this->setTemplateVarsForSingleComment();
 
         if ($this->isFormSubmit('comment_deleteCancel')) {
-            $this->redirect('/admin/comments/all');
+            $this->redirect(self::ADMIN_COMMENTS_ALL);
         }
 
         if ($this->isFormSubmit('comment_deleteSubmit')) {
             (new CommentManager())->delete($comment);
-            $this->redirect('/admin/comments/all');
+            $this->redirect(self::ADMIN_COMMENTS_ALL);
         }
 
         $this->render('@admin/comment_delete.html.twig');

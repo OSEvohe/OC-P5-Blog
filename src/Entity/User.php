@@ -114,10 +114,11 @@ class User extends Entity
      */
     public function getRole(): array
     {
-        $role = unserialize($this->role);
-        if (empty($role))
-            $role[] = self::ROLE_GUEST;
-        return $role;
+        $unserializedRole = unserialize($this->role);
+        if (empty($unserializedRole)) {
+            $unserializedRole[] = self::ROLE_GUEST;
+        }
+        return $unserializedRole;
     }
 
     /**

@@ -59,13 +59,13 @@ abstract class Manager
     {
         $orderClause = $limitClause = '';
         $whereClause = $this->addWhereToQuery($where);
-        if (!empty($order)) $orderClause = $this->addOrderToQuery($order);
-        if (!empty($limit)) $limitClause = $this->addLimitToQuery($limit);
+        if (!empty($order)){ $orderClause = $this->addOrderToQuery($order); }
+        if (!empty($limit)){ $limitClause = $this->addLimitToQuery($limit); }
 
         $query = $this->db->prepare("SELECT * FROM " . $this->tableName . $whereClause . $orderClause . $limitClause);
 
-        if ($whereClause) $this->bindArrayOfValues($query, $where);
-        if ($limitClause) $this->bindArrayOfValues($query, $limit);
+        if ($whereClause) { $this->bindArrayOfValues($query, $where); }
+        if ($limitClause) { $this->bindArrayOfValues($query, $limit); }
 
         $query->execute();
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\Entity\\' . ucfirst($this->tableName));
@@ -239,8 +239,9 @@ abstract class Manager
     {
         $setClause = [];
         foreach ($set as $field) {
-            if ($field != 'id')
+            if ($field != 'id') {
                 $setClause[] = $this->tableName . '.' . $field . '=:' . $field;
+            }
         }
         return " SET " . implode(',', $setClause);
     }

@@ -16,6 +16,8 @@ class ProfilController extends Controller
 
     const FORM_CV_INPUT = 'Cv';
     const FORM_PHOTO_INPUT = 'Photo';
+    const ADMIN_PROFILE = '/admin/profile';
+    const ADMIN_SOCIAL = '/admin/social';
 
 
     public function executeShow()
@@ -30,7 +32,7 @@ class ProfilController extends Controller
 
             if ($profile->isValid()) {
                 (new ProfileManager())->update($profile);
-                $this->redirect('/admin/profile');
+                $this->redirect(self::ADMIN_PROFILE);
             }
         }
 
@@ -47,7 +49,7 @@ class ProfilController extends Controller
 
             if ($network->isValid()) {
                 (new SocialNetworkManager())->create($network);
-                $this->redirect('/admin/social');
+                $this->redirect(self::ADMIN_SOCIAL);
             }
             $this->templateVars['errors'] = $network->getConstraintsErrors();
         }
@@ -64,7 +66,7 @@ class ProfilController extends Controller
 
             if ($network->isValid()) {
                 (new SocialNetworkManager())->update($network);
-                $this->redirect('/admin/social');
+                $this->redirect(self::ADMIN_SOCIAL);
             }
         }
 
@@ -78,12 +80,12 @@ class ProfilController extends Controller
         $network = (new SocialNetworkManager())->findOneBy(['id' => $this->params['id']]);
 
         if ($this->isFormSubmit('social_deleteCancel')) {
-            $this->redirect('/admin/social');
+            $this->redirect(self::ADMIN_SOCIAL);
         }
 
         if ($this->isFormSubmit('social_deleteSubmit')) {
             (new SocialNetworkManager())->delete($network);
-            $this->redirect('/admin/social');
+            $this->redirect(self::ADMIN_SOCIAL);
         }
 
         $this->templateVars['network'] = $network;
@@ -99,7 +101,7 @@ class ProfilController extends Controller
     {
         if ($this->isFormSubmit('profile_photoSubmit') && $this->uploadProfileFile($profile, self::FORM_PHOTO_INPUT, FileUploader::MIME_TYPE_IMAGE, 384000) && $profile->isValid()) {
             (new ProfileManager())->update($profile);
-            $this->redirect('/admin/profile');
+            $this->redirect(self::ADMIN_PROFILE);
         }
     }
 
@@ -112,7 +114,7 @@ class ProfilController extends Controller
     {
         if ($this->isFormSubmit('profile_cvSubmit') && $this->uploadProfileFile($profile, self::FORM_CV_INPUT, FileUploader::MIME_TYPE_PDF, 10248576) && $profile->isValid()) {
             (new ProfileManager())->update($profile);
-            $this->redirect('/admin/profile');
+            $this->redirect(self::ADMIN_PROFILE);
         }
 
 
