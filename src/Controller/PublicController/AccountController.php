@@ -39,10 +39,8 @@ class AccountController extends Controller
         if ($this->user->isConnected()) {
             $this->redirect('/');
         }
-        if ($this->isFormSubmit('registerSubmit')) {
-            if ($this->processRegisterForm()) {
-                $this->redirect('/');
-            }
+        if ($this->isFormSubmit('registerSubmit') && $this->processRegisterForm()) {
+            $this->redirect('/');
         }
 
         $this->getSocialNetworks();
@@ -110,7 +108,7 @@ class AccountController extends Controller
     {
         if ((new UserManager())->findOneBy(['login' => $user->getLogin()])) {
             $this->addFormErrors(['login' => ['Cet identifiant existe déjà']]);
-        } elseif (((new UserManager())->findOneBy(['displayName' => $user->getDisplayName()]))) {
+        } elseif ((new UserManager())->findOneBy(['displayName' => $user->getDisplayName()])) {
             $this->addFormErrors(['displayName' => ['Ce pseudo existe déjà']]);
         } else {
             (new UserManager())->create($user);
@@ -122,7 +120,7 @@ class AccountController extends Controller
 
     private function processChangePasswordForm()
     {
-        if (!$this->user->isPasswordValid($_POST['oldPassword'])){
+        if (!$this->user->isPasswordValid($_POST['oldPassword'])) {
             $this->addFormErrors(['changepassword' => ['Erreur dans le mot de passe actuel']]);
             return false;
         }

@@ -60,17 +60,15 @@ trait ConstraintableEntity
     public function checkConstraints($varName)
     {
         $method = 'get' . ucfirst($varName);
-        $constraints = $this->getConstraints($varName);
-        $constraintsErrors = [];
+        $varConstraints = $this->getConstraints($varName);
+        $errors = [];
 
-        foreach ($constraints as $constraint)
-            if (is_callable([$this, $method])) {
-                if ((!filter_var($this->$method(), $constraint['filter'], $constraint) && $this->$method() != null) || (empty($constraint['nullable']) && $this->$method() === '')) {
-                    $constraintsErrors[] = $constraint['msg'];
-                }
+        foreach ($varConstraints as $constraint) {
+            if (is_callable([$this, $method]) && ((!filter_var($this->$method(), $constraint['filter'], $constraint) && $this->$method() != null) || (empty($constraint['nullable']) && $this->$method() === ''))) {
+                $errors[] = $constraint['msg'];
             }
-
-        return $constraintsErrors;
+        }
+        return $errors;
     }
 
 
