@@ -26,11 +26,10 @@ Code Climate
 2. Upload the downloaded content to the root of your server or use a virtual host
 3. In the project root directory run : `composer install`
 4. Import the `OCP5BLOG.sql` file into your database
-5. Import the `OCP5BLOG_Dataset` file into your database
-6. Copy `config/config-example.yml` to `config/config.yml`, edit it to fit your needs
-7. Copy `config/auth-config-example.yml` to `config/auth-config.yml`, enter a secret key (see below) 
-8. Copy `config/db-config-example.yml` to `config/db-config`, edit it with your Mysql credentials
-9. Congratulation the Blog is working
+5. Copy `config/config-example.yml` to `config/config.yml`, edit it to fit your needs
+6. Copy `config/auth-config-example.yml` to `config/auth-config.yml`, enter a secret key (see below) 
+7. Copy `config/db-config-example.yml` to `config/db-config`, edit it with your Mysql credentials
+8. Congratulation the Blog is working
 
 ## Secure your blog
 ### Admin password
