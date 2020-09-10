@@ -14,7 +14,7 @@ First PHP blog developed from scratch for OpenClassrooms project.
 Code Climate  
 [![Maintainability](https://api.codeclimate.com/v1/badges/567d2e65a226a923bc6f/maintainability)](https://codeclimate.com/github/OSEvohe/OC-P5-Blog/maintainability)
 
-##Requirement
+## Requirement
 * Apache 2.4+ with mod_rewrite enabled
 * Mysql
 * Php 7.3+
