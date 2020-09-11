@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : lun. 07 sep. 2020 à 23:46
--- Version du serveur :  8.0.20-0ubuntu0.19.10.1
--- Version de PHP : 7.3.11-0ubuntu0.19.10.6
+-- Hôte : localhost:3306
+-- Généré le : ven. 11 sep. 2020 à 09:04
+-- Version du serveur :  8.0.21-0ubuntu0.20.04.4
+-- Version de PHP : 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `OCP5BLOG`
+-- Base de données : `OCBLOG`
 --
 
 -- --------------------------------------------------------
@@ -29,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `comment` (
   `id` int NOT NULL,
-  `content` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT '0',
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime DEFAULT NULL,
@@ -45,9 +46,9 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `post` (
   `id` int NOT NULL,
-  `title` varchar(60) COLLATE utf8mb4_bin NOT NULL,
-  `lead` varchar(200) COLLATE utf8mb4_bin NOT NULL,
-  `content` text COLLATE utf8mb4_bin NOT NULL,
+  `title` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `lead` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime NOT NULL,
   `userId` int NOT NULL
@@ -61,11 +62,11 @@ CREATE TABLE `post` (
 
 CREATE TABLE `profile` (
   `id` int NOT NULL,
-  `lastName` varchar(40) COLLATE utf8mb4_bin NOT NULL,
-  `firstName` varchar(20) COLLATE utf8mb4_bin NOT NULL,
+  `lastName` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `firstName` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `photoUrl` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `cvUrl` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `teasing` varchar(130) COLLATE utf8mb4_bin NOT NULL,
+  `teasing` varchar(130) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -75,7 +76,7 @@ CREATE TABLE `profile` (
 --
 
 INSERT INTO `profile` (`id`, `lastName`, `firstName`, `photoUrl`, `cvUrl`, `teasing`, `dateCreated`, `dateModified`) VALUES
-(1, 'Ollagnier', 'Sébastien', 'https://p5-oc-blog.o-pa.fr/uploads/photo_trombi_200x200.png', 'https://p5-oc-blog.o-pa.fr/uploads/P1_02_CV.pdf', 'Responsable Informatique durant 10 ans je me forme actuellement en tant que Développeur PhP/Symfony chez OpenClassrooms', '2020-08-11 10:11:44', '2020-09-02 18:52:18');
+(1, 'Ollagnier', 'Sébastien', NULL, NULL, 'Responsable Informatique durant 10 ans je me forme actuellement en tant que Développeur PhP/Symfony chez OpenClassrooms', '2020-08-11 10:11:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -85,9 +86,9 @@ INSERT INTO `profile` (`id`, `lastName`, `firstName`, `photoUrl`, `cvUrl`, `teas
 
 CREATE TABLE `socialNetwork` (
   `id` int NOT NULL,
-  `name` varchar(30) COLLATE utf8mb4_bin NOT NULL,
-  `iconClass` varchar(30) COLLATE utf8mb4_bin NOT NULL,
-  `profileUrl` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `iconClass` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `profileUrl` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -110,10 +111,10 @@ INSERT INTO `socialNetwork` (`id`, `name`, `iconClass`, `profileUrl`, `dateCreat
 
 CREATE TABLE `user` (
   `id` int NOT NULL,
-  `login` varchar(50) COLLATE utf8mb4_bin NOT NULL,
-  `passwordHash` varchar(64) COLLATE utf8mb4_bin NOT NULL,
-  `displayName` varchar(20) COLLATE utf8mb4_bin NOT NULL,
-  `role` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  `login` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `passwordHash` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `displayName` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `role` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime DEFAULT NULL,
   `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -125,7 +126,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `login`, `passwordHash`, `displayName`, `role`, `dateCreated`, `dateModified`, `token`, `tokenTime`) VALUES
-(1, 'sebastien@o-pa.fr', '$2y$10$z8PhouWVroRwJdOuEq/4S.L0YLhIMw2a238sje8lM60tCxhGE3vXO', 'Sollagnier', 'a:1:{i:0;s:5:\"admin\";}', '2020-08-07 10:14:12', NULL, NULL, NULL);
+(1, 'admin@my.blog', '$2y$10$ErK23/88XtnsGHyNqzsRzug01h0jvR1HSpkqaQg9Uz6NzeMPF/Gua', 'Admin', 'a:1:{i:0;s:5:\"admin\";}', '2020-08-07 10:14:12', NULL, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -185,13 +186,13 @@ ALTER TABLE `post`
 -- AUTO_INCREMENT pour la table `socialNetwork`
 --
 ALTER TABLE `socialNetwork`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
