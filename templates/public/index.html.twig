@@ -27,7 +27,7 @@
                         <div class="add-text text-white">
                             <div class="at-style"></div>
                             <p class="lead pr-2">
-                                <span class="profile-photo"><img src="{{ profile.photoUrl }}"/></span>
+                               {% if profile.photoUrl %} <span class="profile-photo"><img src="{{ profile.photoUrl }}"/></span>{% endif %}
                                 {{ profile.teasing }}
                             </p>
                         </div>
