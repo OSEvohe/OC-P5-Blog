@@ -118,8 +118,9 @@ class UserController extends \Core\Controller
 
             /* Renew token if admin user edit his own account */
             if ($this->user->getUser()->getId() == $user->getId()) {
-                $this->user->renewToken($user->getId(), $this->user->userData());
+                $this->user->renewToken();
             }
+
             $this->redirect(self::ADMIN_USERS_PAGE);
         } else {
             $this->addFormErrors($user->getConstraintsErrors());
