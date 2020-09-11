@@ -3,7 +3,6 @@
 
 namespace Services;
 
-use Core\Controller;
 use Entity\User;
 use Models\UserManager;
 
@@ -68,24 +67,25 @@ class BlogAuth
     private function verifyToken(int $userId, array $data, $time)
     {
         if (isset($this->token['token']) && $this->token['token'] == hash('sha256', $this->secret_key . (string)$userId . implode(',', $data) . $time)) {
-            return $this->checkTokenExpireTime($userId, $data, $time);
+            return $this->checkTokenExpireTime($time);
         }
         return false;
     }
 
-    private function checkTokenExpireTime($userId, $data, $time)
+    private function checkTokenExpireTime($time)
     {
         if (($time + self::TOKEN_EXPIRE_TIME) < time()) {
             return false;
         } elseif (($time + self::TOKEN_EXPIRE_TIME / 2) < time()) {
-            $this->renewToken($userId, $data);
+            $this->renewToken();
         }
         return true;
     }
 
-    public function renewToken(int $userId, array $data): void
+    public function renewToken(): void
     {
-        $this->createToken($userId, $data);
+        $this->reloadUser();
+        $this->createToken($this->user->getId(), $this->userData());
         $this->saveToken();
         $this->sendToken();
     }
@@ -169,5 +169,10 @@ class BlogAuth
     public function isConnected(): bool
     {
         return $this->isConnected;
+    }
+
+    private function reloadUser(): void
+    {
+        $this->user = ((new UserManager())->findOneBy(['id' => $this->user->getId()]));
     }
 }
