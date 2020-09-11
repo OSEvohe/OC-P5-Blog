@@ -83,7 +83,7 @@ class BlogAuth
         return true;
     }
 
-    private function renewToken(int $userId, array $data): void
+    public function renewToken(int $userId, array $data): void
     {
         $this->createToken($userId, $data);
         $this->saveToken();
@@ -112,7 +112,7 @@ class BlogAuth
     }
 
 
-    private function userData()
+    public function userData()
     {
         return ['login' => $this->user->getLogin(), 'displayName' => $this->user->getDisplayName()];
     }

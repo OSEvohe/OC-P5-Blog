@@ -115,6 +115,11 @@ class UserController extends \Core\Controller
 
         if ($user->isValid() && !$this->isDisplayNameDuplicate($user)) {
             (new UserManager())->update($user);
+
+            /* Renew token if admin user edit his own account */
+            if ($this->user->getUser()->getId() == $user->getId()) {
+                $this->user->renewToken($user->getId(), $this->user->userData());
+            }
             $this->redirect(self::ADMIN_USERS_PAGE);
         } else {
             $this->addFormErrors($user->getConstraintsErrors());
