@@ -27,7 +27,8 @@
                         <div class="add-text text-white">
                             <div class="at-style"></div>
                             <p class="lead pr-2">
-                               {% if profile.photoUrl %} <span class="profile-photo"><img src="{{ profile.photoUrl }}"/></span>{% endif %}
+                                {% if profile.photoUrl %} <span class="profile-photo"><img
+                                            src="{{ profile.photoUrl }}"/></span>{% endif %}
                                 {{ profile.teasing }}
                             </p>
                         </div>
@@ -43,12 +44,15 @@
             <div class="section-title">
                 <h2>Mes Compétences</h2>
             </div>
-            <div class="row pb-5">
-                <div class="col-12 text-center">
-                    <div class="site-btn text-center"><a href="{{ profile.cvUrl }}" class="text-white">Voir Mon CV</a>
+            {% if profile.cvUrl %}
+                <div class="row pb-5">
+                    <div class="col-12 text-center">
+                        <div class="site-btn text-center"><a href="{{ profile.cvUrl }}" class="text-white">Voir Mon
+                                CV</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="recipe">
